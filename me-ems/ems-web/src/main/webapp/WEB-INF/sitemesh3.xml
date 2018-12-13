@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+
+    <mapping path="/*" decorator="/WEB-INF/page/common/webFrame.jsp"/>
+    <mapping path="/index" exclude="true"/>
+    <mapping path="/accessDenied" exclude="true"/>
+    <mapping path="/resources/*" exclude="true"/>
+    <mapping path="/login" exclude="true"/>
+    <mapping path="/logout" exclude="true"/>
+    <mapping path="/404" exclude="true"/>
+    <mapping path="/error" exclude="true"/>
+
+</sitemesh>

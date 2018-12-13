@@ -1,2 +1,10 @@
 /me-ems/.idea
 /me-ems/me-ems.iml
+/me-ems/ems-common/target
+/me-ems/ems-common/ems-common.iml
+/me-ems/ems-core/target
+/me-ems/ems-core/ems-core.iml
+/me-ems/ems-security/target
+/me-ems/ems-security/ems-security.iml
+/me-ems/ems-web/target
+/me-ems/ems-web/ems-web.iml

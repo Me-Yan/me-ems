@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+
+    <bean id="authenticationProvider" class="com.me.inner.provider.AuthenticationProvider">
+        <property name="userDetailsService" ref="userDetailService"/>
+        <property name="passwordEncoder" ref="passwordEncoder"/>
+    </bean>
+
+    <bean id="userDetailService" class="com.me.inner.service.UserDetailService"></bean>
+
+    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+        <constructor-arg name="strength" value="11" />
+    </bean>
+
+    <bean id="successHandler" class="com.me.inner.handle.AuthenticationSuccessHandler">
+        <property name="defaultTargetUrl" value="/home"/>
+    </bean>
+
+    <bean id="failHandler" class="com.me.inner.handle.AuthenticationFailHandler">
+        <property name="defaultFailureUrl" value="/login?error"/>
+    </bean>
+
+    <bean id="accessDeniedHandler"
+          class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
+        <property name="errorPage" value="/accessDenied" />
+    </bean>
+
+    <bean id="securityMetadataSource" class="com.me.inner.core.CustomSecurityMetadataSource"></bean>
+
+    <bean id="accessSecurityManager" class="com.me.inner.manager.AccessSecurityManager"></bean>
+
+</beans>
