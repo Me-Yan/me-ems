@@ -21,7 +21,6 @@ public class BaseUserDetails implements Serializable, UserDetails {
     private String createBy;
     private Date createDate;
     private List<GrantedAuthority> authorities;
-    private UserInfoSecDTO userInfo;
 
     public Integer getUserId() {
         return userId;
@@ -100,13 +99,5 @@ public class BaseUserDetails implements Serializable, UserDetails {
 
     public void setAuthorities(List<GrantedAuthority> authorities) {
         this.authorities = authorities;
-    }
-
-    public UserInfoSecDTO getUserInfo() {
-        return userInfo;
-    }
-
-    public void setUserInfo(UserInfoSecDTO userInfo) {
-        this.userInfo = userInfo;
     }
 }

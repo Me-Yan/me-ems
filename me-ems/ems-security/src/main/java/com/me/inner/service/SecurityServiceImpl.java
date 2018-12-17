@@ -28,9 +28,6 @@ public class SecurityServiceImpl implements SecurityService {
 
         BaseUserDetails user = securityMapper.getUserByUsername(username);
         if (null != user) {
-            UserInfoSecDTO userInfo = securityMapper.getUserInfoByUsername(username);
-            user.setUserInfo(userInfo);
-
             ResourceSecDTO homeResource = securityMapper.getHomePageByUsername(username);
             if (null != homeResource) {
                 user.setHomePage(homeResource.getResourcePath());

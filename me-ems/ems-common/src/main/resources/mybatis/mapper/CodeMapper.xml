@@ -5,51 +5,51 @@
 <mapper namespace="com.me.inner.mapper.CodeMapper">
 
     <select id="listType" resultType="java.lang.String">
-        SELECT DISTINCT type_x FROM ${tablePrefix}code WHERE active_c != 'I'
+        SELECT DISTINCT type_c FROM ${tablePrefix}code WHERE active_c != 'I'
     </select>
 
     <select id="listCodeByType" resultType="com.me.inner.dto.CodeDTO">
         SELECT
             codeId_n AS codeId,
-            type_x AS type,
+            type_c AS type,
             name_x AS name,
             value_x AS value,
             desc_x AS description,
             active_c AS active,
-            crtBy_m AS createBy,
-            crtOn_dt AS createDate,
-            DATE_FORMAT(crtOn_dt, '%Y-%m-%d %H:%i') AS createDateStr
+            create_m AS createBy,
+            create_dt AS createDate,
+            DATE_FORMAT(create_dt, '%Y-%m-%d %H:%i') AS createDateStr
         FROM ${tablePrefix}code
         WHERE active_c != 'I'
         <if test="type!=null and type!=''">
-            AND type_x = #{type}
+            AND type_c = #{type}
         </if>
-        ORDER BY type_x ASC, codeId_n ASC
+        ORDER BY type_c ASC, codeId_n ASC
     </select>
     
     <select id="getCodeByTypeAndName" resultType="com.me.inner.dto.CodeDTO">
         SELECT
             codeId_n AS codeId,
-            type_x AS type,
+            type_c AS type,
             name_x AS name,
             value_x AS value,
             desc_x AS description,
             active_c AS active,
-            crtBy_m AS createBy,
-            crtOn_dt AS createDate
-        FROM ${tablePrefix}code WHERE type_x = #{type} AND name_x = #{name} AND active_c != 'I'
+            create_m AS createBy,
+            create_dt AS createDate
+        FROM ${tablePrefix}code WHERE type_c = #{type} AND name_x = #{name} AND active_c != 'I'
     </select>
 
     <select id="saveCode" parameterType="com.me.inner.dto.CodeDTO">
         INSERT INTO ${tablePrefix}code
         (
-            type_x,
+            type_c,
             name_x,
             value_x,
             desc_x,
             active_c,
-            crtBy_m,
-            crtOn_dt
+            create_m,
+            create_dt
         )
         VALUES
         (
@@ -65,7 +65,7 @@
 
     <update id="updateCode" parameterType="com.me.inner.dto.CodeDTO">
         UPDATE ${tablePrefix}code SET
-            type_x = #{type, jdbcType=VARCHAR},
+            type_c = #{type, jdbcType=VARCHAR},
             name_x = #{name, jdbcType=VARCHAR},
             value_x = #{value, jdbcType=VARCHAR},
             desc_x = #{description, jdbcType=VARCHAR}

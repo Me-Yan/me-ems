@@ -9,29 +9,9 @@
             userId_n AS userId,
             username_m AS username,
             password_x AS password,
-            crtOn_dt AS createDate,
-            crtBy_m AS createBy
+            create_dt AS createDate,
+            create_m AS createBy
         FROM ${tablePrefix}user WHERE username_m = #{username} AND enabled_c = 'Y'
-    </select>
-
-    <select id="getUserInfoByUsername" parameterType="java.lang.String" resultType="com.me.inner.dto.UserInfoSecDTO">
-        SELECT
-            info.infoId_n AS infoId,
-            info.userId_n AS userId,
-            info.name_m AS name,
-            info.sex_c AS sex,
-            info.age_n AS age,
-            info.fromPlace_m AS fromPlace,
-            info.birth_d AS birthDay,
-            info.school_m AS school,
-            info.phone_x AS phone,
-            info.email_x AS email,
-            info.weight_n AS weight,
-            info.height_n AS height,
-            info.intro_x AS introduction
-        FROM ${tablePrefix}userinfo info
-        LEFT JOIN ${tablePrefix}user user ON info.userId_n = user.userId_n
-        WHERE user.enabled_c = 'Y' AND user.username_m = #{username}
     </select>
     
     <select id="listRole2Resource" resultType="com.me.inner.dto.Role2ResSecDTO">
@@ -52,8 +32,8 @@
             res.resType_x AS resourceType,
             res.resPath_x AS resourcePath,
             res.resDesc_x AS resourceDescription,
-            res.crtOn_dt AS createDate,
-            res.crtBy_m AS createBy
+            res.create_dt AS createDate,
+            res.create_m AS createBy
         FROM ${tablePrefix}user u
         LEFT JOIN ${tablePrefix}user2role ue ON u.userId_n = ue.userId_n
         LEFT JOIN ${tablePrefix}role2res us ON ue.roleId_n = us.roleId_n
@@ -65,8 +45,8 @@
         SELECT
             role.roleId_n AS roleId,
             role.roleName_m AS roleName,
-            role.crtBy_m AS createBy,
-            role.crtOn_dt AS createDate
+            role.create_m AS createBy,
+            role.create_dt AS createDate
         FROM ${tablePrefix}user u
         LEFT JOIN ${tablePrefix}user2role ur ON u.userId_n = ur.userId_n
         LEFT JOIN ${tablePrefix}role role ON ur.roleId_n = role.roleId_n
@@ -79,8 +59,8 @@
             res.resType_x AS resourceType,
             res.resPath_x AS resourcePath,
             res.resDesc_x AS resourceDescription,
-            res.crtOn_dt AS createDate,
-            res.crtBy_m AS createBy
+            res.create_dt AS createDate,
+            res.create_m AS createBy
         FROM ${tablePrefix}user u
         LEFT JOIN ${tablePrefix}user2role ue ON u.userId_n = ue.userId_n
         LEFT JOIN ${tablePrefix}role2res us ON ue.roleId_n = us.roleId_n
@@ -93,8 +73,8 @@
         (
             username_m,
             ip_x,
-            status_x,
-            crtOn_dt
+            status_c,
+            create_dt
         )
         VALUES
         (
