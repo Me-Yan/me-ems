@@ -9,8 +9,8 @@
     border: none!important;
 }
 .table thead {
-    background-color: #33B899;
-    color: #FFFFFF;
+    background-color: #347DD4;
+    color: #FFFFFF;;
 }
 .table tbody tr:nth-of-type(even) {
     background-color: #C4DCF8;
@@ -21,8 +21,8 @@
 .pagination>.active>span,
 .pagination>.active>span:focus,
 .pagination>.active>span:hover {
-    background-color: #33B899;
-    border-color: #33B899;
+    background-color: #347DD4;
+    border-color: #347DD4;
 }
 .table-responsive {
     border: none!important;
