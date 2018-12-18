@@ -24,7 +24,7 @@
     <div class="container-login100">
         <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
             <form id="loginForm" action="checklogin" class="form-horizontal login100-form" method="post">
-                <span class="login100-form-title p-b-49">养殖管理系统</span>
+                <span class="login100-form-title p-b-49">教务管理系统</span>
 
                 <div class="wrap-input100 m-b-23">
                     <input id="username" value="Admin" class="input100" type="text" name="username" placeholder="请输入用户名" maxlength="20" autocomplete="off"/>

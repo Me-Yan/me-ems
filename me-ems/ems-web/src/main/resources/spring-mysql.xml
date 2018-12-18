@@ -50,7 +50,7 @@
         <property name="plugins">
             <array>
                 <bean class="com.me.inner.interceptor.TablePrefixInterceptor">
-                    <property name="systemTablePrefix" value="cf_"/>
+                    <property name="systemTablePrefix" value="ems_"/>
                     <property name="dialect" ref="dialectMysql"/>
                 </bean>
             </array>

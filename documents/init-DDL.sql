@@ -86,9 +86,9 @@ CREATE TABLE ems_teacher2subject (
 	id_n			INT 		AUTO_INCREMENT		NOT NULL,
 	teacherId_n		INT			NOT NULL,
 	subjectId_n		INT			NOT NULL,
-	create_dt		DATETIME	NOT	NULL,
 	start_dt		DATETIME	NOT NULL,
 	end_dt			DATETIME	NOT NULL,
+	create_dt		DATETIME	NOT	NULL,
 	create_m		VARCHAR(4)	NOT NULL,
 	PRIMARY KEY(id_n)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
