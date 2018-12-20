@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created by Me on 2018/12/18.
+ * 系统管理员功能界面
  */
 @Controller
 @RequestMapping("super")

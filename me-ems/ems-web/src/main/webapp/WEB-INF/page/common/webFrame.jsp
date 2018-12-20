@@ -17,7 +17,10 @@
 </head>
 <body>
 
-    <sitemesh:write property="body"/>
+    <jsp:include page="header.jsp"/>
+    <div style="max-width: 1200px;margin: 0 auto;">
+        <sitemesh:write property="body"/>
+    </div>
 
 </body>
 </html>
