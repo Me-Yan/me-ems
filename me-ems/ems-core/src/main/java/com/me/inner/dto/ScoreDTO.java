@@ -10,17 +10,17 @@ public class ScoreDTO implements Serializable {
 
     private static final long serialVersionUID = -7459689563900532906L;
 
-    private Integer scoreId;
-    private Float result;
-    private Float usual;
-    private Float test;
-    private String status;
-    private Integer studentId;
-    private Integer subjectId;
-    private Date createDate;
-    private String createBy;
-    private Date updateDate;
-    private String updateBy;
+    private Integer scoreId;    // 成绩id
+    private Float result;   //  总成绩
+    private Float usual;    //  平时成绩
+    private Float test;     //  考试成绩
+    private String status;  //  状态：作废  有效
+    private Integer studentId;  // 学生id
+    private Integer subjectId;  //  课程id
+    private Date createDate;    //  创建时间
+    private String createBy;    //  创建人
+    private Date updateDate;    //  修改时间
+    private String updateBy;    //  修改人
 
     public Integer getScoreId() {
         return scoreId;

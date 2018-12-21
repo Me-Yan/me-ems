@@ -10,12 +10,12 @@ public class Profession2SubjectDTO implements Serializable {
 
     private static final long serialVersionUID = 8278492128316228938L;
 
-    private Integer id;
-    private Integer professionId;
-    private Integer subjectId;
-    private String active;
-    private Date createDate;
-    private String createBy;
+    private Integer id; // id
+    private Integer professionId;   // 专业id
+    private Integer subjectId;  //  课程id
+    private String active;  //  状态：存在  废除
+    private Date createDate;    // 创建时间
+    private String createBy;    //  创建人
 
     public Integer getId() {
         return id;

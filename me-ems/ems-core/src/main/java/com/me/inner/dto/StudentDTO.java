@@ -10,18 +10,18 @@ public class StudentDTO implements Serializable {
 
     private static final long serialVersionUID = 7773745530356770310L;
 
-    private Integer studentId;
-    private String number;
-    private String name;
-    private Integer clazzId;
-    private String from;
-    private Integer age;
-    private Integer sex;
-    private Date birthDate;
-    private Date createDate;
-    private String createBy;
-    private Date updateDate;
-    private String updateBy;
+    private Integer studentId;  // 学生id
+    private String number;  //  学号
+    private String name;    //  姓名
+    private Integer clazzId;    // 班级id
+    private String from;    //  出生地
+    private Integer age;    //  年龄
+    private Integer sex;    //  性别
+    private Date birthDate; // 出生日期
+    private Date createDate;    //  创建时间
+    private String createBy;    //  创建人
+    private Date updateDate;    //  修改时间
+    private String updateBy;    //  修改人
 
     public Integer getStudentId() {
         return studentId;

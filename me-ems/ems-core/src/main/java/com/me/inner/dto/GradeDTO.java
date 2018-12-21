@@ -10,10 +10,10 @@ public class GradeDTO implements Serializable {
 
     private static final long serialVersionUID = -1033441713052134128L;
 
-    private Integer gradeId;
-    private String gradeName;
-    private Date createDate;
-    private String createBy;
+    private Integer gradeId;    // 年级id
+    private String gradeName;   //  年级
+    private Date createDate;    //  创建时间
+    private String createBy;    // 创建人
 
     public Integer getGradeId() {
         return gradeId;

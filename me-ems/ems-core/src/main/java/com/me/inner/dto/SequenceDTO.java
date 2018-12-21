@@ -10,11 +10,11 @@ public class SequenceDTO implements Serializable {
 
     private static final long serialVersionUID = 6264807129327399629L;
 
-    private String type;    // 老师或者学生
-    private String lastNumber;
-    private String nextNumber;
-    private Integer nextSequence;
-    private Date actionDate;
+    private String type;    // 老师 学生  辅导员 系统管理员
+    private String lastNumber;  //  上一次编号
+    private String nextNumber;  //  下一次的编号
+    private Integer nextSequence;   // 下一次的序列号
+    private Date actionDate;    // 操作时间
 
     public String getType() {
         return type;

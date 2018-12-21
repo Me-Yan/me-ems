@@ -10,17 +10,17 @@ public class TeacherDTO implements Serializable {
 
     private static final long serialVersionUID = 8421370853539812067L;
 
-    private Integer teacherId;
-    private String number;
-    private String name;
-    private Integer facultyId;
-    private Integer age;
-    private Integer sex;
-    private Date birthDate;
-    private Date createDate;
-    private String createBy;
-    private Date updateDate;
-    private String updateBy;
+    private Integer teacherId;  //  老师id
+    private String number;  //  教师号
+    private String name;    //  姓名
+    private Integer facultyId;  // 系id
+    private Integer age;    //  年龄
+    private Integer sex;    //  性别
+    private Date birthDate; //  出生日期
+    private Date createDate;    //  创建时间
+    private String createBy;    //  创建人
+    private Date updateDate;    //  修改时间
+    private String updateBy;    //  修改人
 
     public Integer getTeacherId() {
         return teacherId;

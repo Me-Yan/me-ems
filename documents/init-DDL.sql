@@ -91,8 +91,8 @@ CREATE TABLE ems_curriculum (
 	teacherId_n		INT				NOT NULL,
 	semester_n		INT				NOT NULL,
 	status_c		VARCHAR(10)		NOT NULL,
-	create_m		VARCHAR(4)		NOT NULL,
 	create_dt		DATETIME		NOT NULL,
+	create_m		VARCHAR(4)		NOT NULL,
 	PRIMARY KEY(curriculumId_n)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

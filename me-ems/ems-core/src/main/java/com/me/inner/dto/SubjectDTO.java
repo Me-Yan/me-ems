@@ -10,12 +10,12 @@ public class SubjectDTO implements Serializable {
 
     private static final long serialVersionUID = 923540925687450877L;
 
-    private Integer subjectId;
-    private String name;
-    private String type;
-    private String active;
-    private Date createDate;
-    private String createBy;
+    private Integer subjectId;  //  课程id
+    private String name;    //  课程名
+    private String type;    //  课程类型： 选修  必修
+    private String active;  //  状态：作废  有效
+    private Date createDate;    // 创建时间
+    private String createBy;    //  创建人
 
     public Integer getSubjectId() {
         return subjectId;
