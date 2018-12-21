@@ -27,6 +27,7 @@ DROP TABLE IF EXISTS ems_subject;
 CREATE TABLE ems_subject (
 	subjectId_n		INT 		AUTO_INCREMENT		NOT NULL,
 	name_m			VARCHAR(20)	NOT NULL,
+	semester_n		INT			NOT NULL,
 	type_c			CHAR(1)		NOT NULL,
 	active_c 		CHAR(1)		NOT NULL,
 	create_dt		DATETIME	NOT	NULL,
@@ -81,16 +82,18 @@ CREATE TABLE ems_teacher (
 	PRIMARY KEY(teacherId_n)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS ems_teacher2subject;
-CREATE TABLE ems_teacher2subject (
-	id_n			INT 		AUTO_INCREMENT		NOT NULL,
-	teacherId_n		INT			NOT NULL,
-	subjectId_n		INT			NOT NULL,
-	start_dt		DATETIME	NOT NULL,
-	end_dt			DATETIME	NOT NULL,
-	create_dt		DATETIME	NOT	NULL,
-	create_m		VARCHAR(4)	NOT NULL,
-	PRIMARY KEY(id_n)
+DROP TABLE IF EXISTS ems_curriculum;
+CREATE TABLE ems_curriculum (
+	curriculumId_n	INT				AUTO_INCREMENT		NOT NULL,
+	subjectId_n		INT 			NOT NULL,
+	classId_n		INT				NOT NULL,
+	professionId_n	INT				NOT NULL,
+	teacherId_n		INT				NOT NULL,
+	semester_n		INT				NOT NULL,
+	status_c		VARCHAR(10)		NOT NULL,
+	create_m		VARCHAR(4)		NOT NULL,
+	create_dt		DATETIME		NOT NULL,
+	PRIMARY KEY(curriculumId_n)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS ems_student;
@@ -108,17 +111,6 @@ CREATE TABLE ems_student (
 	update_dt		DATETIME	NULL,
 	update_m		VARCHAR(4)	NULL,
 	PRIMARY KEY(studentId_n)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS ems_student2optional;
-CREATE TABLE ems_student2optional (
-	id_n			INT			AUTO_INCREMENT		NOT NULL,
-	studentId_n		INT			NOT NULL,
-	subjectId_n		INT			NOT NULL,
-	active_c		CHAR(1)		NOT NULL,
-	create_dt		DATETIME	NOT	NULL,
-	create_m		VARCHAR(4)	NOT NULL,
-	PRIMARY KEY(id_n)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS ems_score;
@@ -145,7 +137,6 @@ CREATE TABLE ems_sequence (
 	nextSeq_n		INT			NOT NULL,
 	action_dt		DATETIME	NOT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 
 DROP TABLE IF EXISTS ems_code;
