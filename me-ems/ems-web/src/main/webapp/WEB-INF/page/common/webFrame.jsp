@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page import="com.me.inner.constant.Constants" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -17,7 +19,10 @@
 </head>
 <body>
 
-    <jsp:include page="header.jsp"/>
+    <sec:authorize access="hasRole('<%=Constants.Role.SUPER_ADMIN%>')">
+        <jsp:include page="superAdminHeader.jsp"/>
+    </sec:authorize>
+
     <div style="max-width: 1200px;margin: 0 auto;">
         <sitemesh:write property="body"/>
     </div>
