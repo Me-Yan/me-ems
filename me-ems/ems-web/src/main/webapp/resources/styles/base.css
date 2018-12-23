@@ -1,3 +1,37 @@
+/* header*/
+.web-header {
+    width: 100%;
+    background-color: #333355;
+}
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+    font-size: 20px;
+    color: #ffffff;
+}
+.system-name {
+    float: left;
+    text-align: left;
+}
+.user-action {
+    float: right;
+    text-align: right;
+}
+.user-action a {
+    color: #ffffff;
+}
+
+@media (max-width: 1199px) {
+    .system-name {
+        padding-left: 10px;
+    }
+    .user-action {
+        padding-right:10px;
+    }
+}
+
+/* page content */
 .page-content .page-header {
     width: 100%;
     text-align: center;

@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.me.inner.constant.Constants" %>
 <html>
 <head>
@@ -18,12 +19,13 @@
     <sitemesh:write property="head"/>
 </head>
 <body>
+    <c:set var="roleName" value="<%=Constants.Role.SUPER_ADMIN%>"/>
 
-    <sec:authorize access="hasRole('<%=Constants.Role.SUPER_ADMIN%>')">
-        <jsp:include page="superAdminHeader.jsp"/>
-    </sec:authorize>
-
+    <jsp:include page="header.jsp"/>
     <div style="max-width: 1200px;margin: 0 auto;">
+        <sec:authorize access="hasRole('${roleName}')">
+            <jsp:include page="superAdminMenu.jsp"/>
+        </sec:authorize>
         <sitemesh:write property="body"/>
     </div>
 
