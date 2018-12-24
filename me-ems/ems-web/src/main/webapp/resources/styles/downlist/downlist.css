@@ -1,9 +1,7 @@
-.downlist-content {
-    margin: 0px 50px;
-}
-
-.venus-menu {
-    margin: 30px 0 10px 0;
+@media (max-width: 1199px) {
+    .downlist-content {
+        margin: 0px 10px;
+    }
 }
 
 .venus-menu {
@@ -46,10 +44,6 @@
 
 .venus-menu > li > a i {
     color: #bababa;
-}
-
-.venus-menu > li:hover > a i, .venus-menu li.active a i {
-    color: #fff;
 }
 
 .venus-menu ul, .venus-menu ul li ul {
@@ -269,5 +263,6 @@
 }
 
 .venus-menu {
-    margin: 30px 0 10px 0;
+    margin: 20px 0 10px 0;
+    background-color: #fef;
 }

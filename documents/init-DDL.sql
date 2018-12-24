@@ -69,7 +69,7 @@ CREATE TABLE ems_class (
 DROP TABLE IF EXISTS ems_teacher;
 CREATE TABLE ems_teacher (
 	teacherId_n 	INT 		AUTO_INCREMENT		NOT NULL,
-	number_x		VARCHAR(10)	NOT NULL,
+	number_x		VARCHAR(20)	NOT NULL,
 	name_m			VARCHAR(4)	NOT NULL,
 	facultyId_n		INT			NOT NULL,
 	age_n			INT 		NOT NULL,
@@ -99,7 +99,7 @@ CREATE TABLE ems_curriculum (
 DROP TABLE IF EXISTS ems_student;
 CREATE TABLE ems_student (
 	studentId_n		INT			AUTO_INCREMENT		NOT NULL,
-	number_x		VARCHAR(10)	NOT NULL,
+	number_x		VARCHAR(20)	NOT NULL,
 	name_m			VARCHAR(5)	NOT NULL,
 	classId_n		INT			NOT NULL,
 	from_x			VARCHAR(10)	NOT NULL,
@@ -132,8 +132,8 @@ CREATE TABLE ems_score (
 DROP TABLE IF EXISTS ems_sequence;
 CREATE TABLE ems_sequence (
 	type_c			VARCHAR(10)	NOT NULL,
-	lastNumber_x	VARCHAR(10)	NOT NULL,
-	nextNumber_x	VARCHAR(10)	NOT NULL,
+	lastNumber_x	VARCHAR(20)	NULL,
+	nextNumber_x	VARCHAR(20)	NOT NULL,
 	nextSeq_n		INT			NOT NULL,
 	action_dt		DATETIME	NOT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;

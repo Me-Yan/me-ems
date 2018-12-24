@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.me.inner.mapper.UserMapper">
+
+    <select id="getStudentByNumber" parameterType="java.lang.String" resultType="com.me.inner.dto.StudentDTO">
+        SELECT
+            studentId_n AS studentId,
+            number_x AS number,
+            name_m AS name,
+            classId_n AS clazzId,
+            from_x AS from,
+            age_n AS age,
+            sex_n AS sex,
+            birth_dt AS birthDate,
+            create_dt AS createDate,
+            create_m AS createBy,
+            update_dt AS updateDate,
+            update_m AS updateBy
+        FROM ems_student
+        WHERE number_x = #{number, jdbcType=VARCHAR}
+    </select>
+    
+    <select id="getTeacherByNumber" parameterType="java.lang.String" resultType="com.me.inner.dto.TeacherDTO">
+        SELECT
+            t.teacherId_n AS teacherId,
+            t.number_x AS number,
+            t.name_m AS name,
+            t.facultyId_n AS facultyId,
+            t.age_n AS age,
+            t.sex_n AS sex,
+            t.birth_dt AS birthDate,
+            t.create_dt AS createDate,
+            t.create_m AS createBy,
+            t.update_dt AS updateDate,
+            t.update_m AS updateBy,
+            f.name_m AS facultyName
+        FROM ems_teacher t
+        LEFT JOIN ems_faculty f ON t.facultyId_n = f.facultyId_n
+        WHERE t.number_x = #{number, jdbcType=VARCHAR}
+    </select>
+    
+    <select id="checkPassword" resultType="int">
+        SELECT COUNT(1) FROM ems_user WHERE username_m = #{number, jdbcType=VARCHAR} AND password_x = #{password, jdbcType=VARCHAR}
+    </select>
+    
+</mapper>

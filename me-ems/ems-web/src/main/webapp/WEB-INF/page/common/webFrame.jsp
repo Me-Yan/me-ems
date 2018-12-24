@@ -19,11 +19,15 @@
     <sitemesh:write property="head"/>
 </head>
 <body>
-    <c:set var="roleName" value="<%=Constants.Role.SUPER_ADMIN%>"/>
+    <c:set var="studentRole" value="<%=Constants.Role.STUDENT%>"/>
+    <c:set var="teacherRole" value="<%=Constants.Role.TEACHER%>"/>
+    <c:set var="adminRole" value="<%=Constants.Role.ADMIN%>"/>
+    <c:set var="superAdminRole" value="<%=Constants.Role.SUPER_ADMIN%>"/>
 
-    <jsp:include page="header.jsp"/>
+
+    <%@ include file="header.jsp" %>
     <div style="max-width: 1200px;margin: 0 auto;">
-        <sec:authorize access="hasRole('${roleName}')">
+        <sec:authorize access="hasRole('${superAdminRole}')">
             <jsp:include page="superAdminMenu.jsp"/>
         </sec:authorize>
         <sitemesh:write property="body"/>

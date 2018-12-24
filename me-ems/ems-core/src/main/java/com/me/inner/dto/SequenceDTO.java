@@ -16,6 +16,16 @@ public class SequenceDTO implements Serializable {
     private Integer nextSequence;   // 下一次的序列号
     private Date actionDate;    // 操作时间
 
+    public SequenceDTO(){}
+
+    public SequenceDTO(String type, String lastNumber, String nextNumber, Integer nextSequence, Date actionDate) {
+        this.type = type;
+        this.lastNumber = lastNumber;
+        this.nextNumber = nextNumber;
+        this.nextSequence = nextSequence;
+        this.actionDate = actionDate;
+    }
+
     public String getType() {
         return type;
     }

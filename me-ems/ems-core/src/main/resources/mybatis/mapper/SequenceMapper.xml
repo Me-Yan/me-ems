@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.me.inner.mapper.SequenceMapper">
+
+    <insert id="saveSequence" parameterType="com.me.inner.dto.SequenceDTO">
+        INSERT INTO ems_sequence
+        (
+            type_c,
+            lastNumber_x,
+            nextNumber_x,
+            nextSeq_n,
+            action_dt
+        )
+        VALUES
+        (
+            #{type, jdbcType=VARCHAR},
+            #{lastNumber, jdbcType=VARCHAR},
+            #{nextNumber, jdbcType=VARCHAR},
+            #{nextSequence, jdbcType=INTEGER},
+            #{actionDate, jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <select id="getNextSequenceObj" parameterType="java.lang.String" resultType="com.me.inner.dto.SequenceDTO">
+        SELECT
+            type_c AS type,
+            lastNumber_x AS lastNumber,
+            nextNumber_x AS nextNumber,
+            nextSeq_n AS nextSequence,
+            action_dt AS actionDate
+        FROM ems_sequence
+        WHERE type_c = #{type, jdbcType=VARCHAR}
+    </select>
+    
+    <update id="updateSequence" parameterType="com.me.inner.dto.SequenceDTO">
+        UPDATE ems_sequence SET
+            lastNumber_x = #{lastNumber, jdbcType=VARCHAR},
+            nextNumber_x = #{nextNumber, jdbcType=VARCHAR},
+            nextSeq_n = #{nextSequence, jdbcType=INTEGER},
+            action_dt = #{actionDate, jdbcType=TIMESTAMP}
+        WHERE type_c = #{type, jdbcType=VARCHAR}
+    </update>
+
+</mapper>
