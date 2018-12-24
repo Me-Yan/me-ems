@@ -37,13 +37,22 @@ public class UserServiceImpl implements UserService {
         logger.debug("Execute Method checkPassword...");
 
         String number = SecurityUtil.getUserInfo().getUsername();
-        password = CommonUtil.encodePassword(password);
 
-        int count = userMapper.checkPassword(number, password);
-        if (count>0) {
+        String presentPassword = userMapper.getPasswordByNumber(number);
+
+        if (CommonUtil.matches(password, presentPassword)) {
             return true;
         }
 
         return false;
+    }
+
+    public void updatePasswordByNumber(String password) {
+        logger.debug("Execute Method updatePasswordByNumber...");
+
+        String number = SecurityUtil.getUserInfo().getUsername();
+        String encodedPassword = CommonUtil.encodePassword(password);
+
+        userMapper.updatePasswordByNumber(encodedPassword, number);
     }
 }

@@ -41,8 +41,12 @@
         WHERE t.number_x = #{number, jdbcType=VARCHAR}
     </select>
     
-    <select id="checkPassword" resultType="int">
-        SELECT COUNT(1) FROM ems_user WHERE username_m = #{number, jdbcType=VARCHAR} AND password_x = #{password, jdbcType=VARCHAR}
+    <select id="getPasswordByNumber" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT password_x FROM ems_user WHERE username_m = #{number, jdbcType=VARCHAR}
     </select>
+
+    <update id="updatePasswordByNumber">
+        UPDATE ems_user SET password_x = #{password} WHERE username_m = #{number, jdbcType=VARCHAR}
+    </update>
     
 </mapper>

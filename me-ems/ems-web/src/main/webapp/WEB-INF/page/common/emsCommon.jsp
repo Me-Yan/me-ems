@@ -13,4 +13,6 @@
 <script src="${pageContext.request.contextPath}/resources/plugins/datetime-picker/flatpickr.min.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/plugins/datetime-picker/flatpickr.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/plugins/datetime-picker/flatpickr-blue.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/plugins/loading/loading.css">
+<script src="${pageContext.request.contextPath}/resources/plugins/loading/loading.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles/base.css" />

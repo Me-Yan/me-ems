@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles/downlist/downlist.css">
-<script src="${pageContext.request.contextPath}/resources/scripts/downlist/maps.js"></script>
 <script src="${pageContext.request.contextPath}/resources/scripts/downlist/google.js"></script>
 <script>
     $(function () {

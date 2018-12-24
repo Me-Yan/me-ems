@@ -13,5 +13,7 @@ public interface UserMapper {
 
     TeacherDTO getTeacherByNumber(String number);
 
-    int checkPassword(@Param("number") String number, @Param("password") String password);
+    String getPasswordByNumber(String number);
+
+    void updatePasswordByNumber(@Param("password") String password, @Param("number") String number);
 }

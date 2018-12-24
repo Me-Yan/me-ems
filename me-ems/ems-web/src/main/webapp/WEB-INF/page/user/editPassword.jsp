@@ -13,7 +13,7 @@
 <body>
 
 <form id="passwordForm">
-    <div class="page-title" current-page="newBooking">
+    <div class="page-title">
         <span>修改密码</span>
     </div>
 
@@ -27,7 +27,7 @@
                             <div class="display-table">
                                 <div class="display-cell colon-cell">:</div>
                                 <div class="display-cell">
-                                    <input type="text" name="oldPassword" class="form-control field-input" id="oldPassword" />
+                                    <input type="password" name="oldPassword" class="form-control field-input" id="oldPassword" />
                                     <span class="text-error hide" name="oldPasswordMessage"></span>
                                 </div>
                             </div>
@@ -39,7 +39,7 @@
                             <div class="display-table">
                                 <div class="display-cell colon-cell">:</div>
                                 <div class="display-cell">
-                                    <input type="text" name="newPassword" class="form-control field-input" id="newPassword" />
+                                    <input type="password" name="newPassword" class="form-control field-input" id="newPassword" />
                                     <span class="text-error hide" name="newPasswordMessage"></span>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                             <div class="display-table">
                                 <div class="display-cell colon-cell">:</div>
                                 <div class="display-cell">
-                                    <input type="text" name="confirmPassword" class="form-control field-input" id="confirmPassword" />
+                                    <input type="password" name="confirmPassword" class="form-control field-input" id="confirmPassword" />
                                     <span class="text-error hide" name="confirmPasswordMessage"></span>
                                 </div>
                             </div>
@@ -63,13 +63,73 @@
     </div>
 
     <div class="action-btn-group">
-        <button type="button" class="btn btn-primary" onclick="backForm()">提交</button>
+        <button type="button" class="btn btn-primary" id="btnSubmit">提交</button>
     </div>
 </form>
+
+<div class="modal fade" id="passwordModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">提示</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">确认修改密码？</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnConfirm">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="outcomeModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">提示</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">密码修改成功，请重新<a href="${pageContext.request.contextPath}/login">登录</a>。</p>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     $(function () {
         initValidation();
+    });
+
+    $("#btnSubmit").on("click", function () {
+        var validation = $("#passwordForm").data("formValidation");
+        validation.validate();
+        if (validation.isValid()) {
+            $("#passwordModal").modal("show");
+        }
+    });
+
+    $("#btnConfirm").on("click", function () {
+        $("#passwordModal").modal("hide");
+        $("#btnSubmit").attr("disabled", "disabled");
+        $("body").loading("请稍等...");
+        $.ajax({
+            url: "${pageContext.request.contextPath}/user/confirmPassword",
+            type: "POST",
+            data: $("#passwordForm").serialize(),
+            success: function (result) {
+                if (result.success) {
+                    $("body").loading("hide");
+                    $("#outcomeModal").modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                        show: true
+                    });
+                }
+            }
+        })
     });
 
     function initValidation() {
@@ -102,16 +162,52 @@
             },
             fields: {
                 oldPassword:{
-                    message: '请选择是否追加',
+                    message: '请填写旧密码。',
                     validators: {
                         notEmpty: {
-                            message: '请选择是否追加'
+                            message: '请填写旧密码'
                         },
                         remote: {
                             type: 'POST',
                             url: '${pageContext.request.contextPath}/user/checkPassword',
-                            message: 'Site Name already exists.'
-                            //delay :  1000
+                            message: '密码填写错误.',
+                            delay: 500
+                        }
+                    }
+                },
+                newPassword:{
+                    message: '请填写新密码。',
+                    validators: {
+                        notEmpty: {
+                            message: '请填写新密码'
+                        },
+                        stringLength: {
+                            min: 6,
+                            max: 16,
+                            message: '密码至少需要6个字符且不超过16个字符。'
+                        }
+                    }
+                },
+                confirmPassword:{
+                    message: '请确认密码。',
+                    validators: {
+                        callback: {
+                            callback: function (value, validator, $field) {
+                                var newPassword = $("#newPassword").val();
+                                if (value) {
+                                    if (value === newPassword) {
+                                        return true;
+                                    }
+                                    return {
+                                        valid: false,
+                                        message: '两次输入密码不一致'
+                                    };
+                                }
+                                return {
+                                    valid: false,
+                                    message: '请确认密码。'
+                                };
+                            }
                         }
                     }
                 }

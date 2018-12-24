@@ -16,4 +16,10 @@ public class CommonUtil {
 
         return new BCryptPasswordEncoder(11).encode(originPassword);
     }
+
+    public static boolean matches(String rawPassword, String encodedPassword) {
+        logger.debug("Execute Method matches...");
+
+        return new BCryptPasswordEncoder(11).matches(rawPassword, encodedPassword);
+    }
 }

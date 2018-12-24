@@ -13,4 +13,6 @@ public interface UserService {
     TeacherDTO getTeacherByNumber(String number);
 
     Boolean checkPassword(String password);
+
+    void updatePasswordByNumber(String password);
 }
