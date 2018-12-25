@@ -9,21 +9,49 @@
 <html>
 <head>
     <title>学院列表</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles/custom-table.css">
+    <style>
+        .icon-search {
+            cursor: pointer;
+        }
+        .icon-search:active {
+            background-color: #D8D8D8;
+        }
+    </style>
 </head>
 <body>
 
-    <div class="page-title">
-        <span>修改密码</span>
-    </div>
     <div class="page-content">
         <div class="page-content-section">
+            <div class="page-section-title"><span>学院列表</span></div>
+            <div class="line-dashed"></div>
             <div class="page-section-body">
                 <div class="row">
-                    <div class="col-xs-12 form-group-field">
+                    <div class="col-xs-6 col-sm-4 col-md-4 col-xs-offset-6 col-sm-offset-8 col-md-offset-8" style="margin-bottom: 10px;">
+                        <div class="input-group">
+                            <input name="facultyName" id="facultyName" maxlength="50" class="form-control field-input" />
+                            <div class="input-group-addon icon-search"><i class="fa fa-search"></i></div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
                         <div class="table-responsive">
                             <table id="facultyTable" class="table table-hover table-striped table-condensed"></table>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="outcomeModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center">密码修改成功，请重新<a href="${pageContext.request.contextPath}/login">登录</a>。</p>
                 </div>
             </div>
         </div>
@@ -34,71 +62,55 @@
             initTable();
         });
 
+        $(".icon-search").on("click", function () {
+            $("#facultyTable").bootstrapTable("refresh");
+        });
+
+        function queryParams(params) {
+            return {
+                facultyName: $("#facultyName").val(),
+                curPage: params.offset/params.limit,
+                limit: params.limit
+            };
+        }
+
         function initTable() {
             $("#facultyTable").bootstrapTable({
                 url: '${pageContext.request.contextPath}/faculty/listFacultyData',
                 method: 'POST',
                 cache: false,
                 contentType: "application/x-www-form-urlencoded",
-                queryParams: function (params) {
-                    return {
-
-                    };
-                },
+                queryParams: queryParams,
                 pagination: true,
+                pageSize: 10,
                 sidePagination: 'server',
-                uniqueId: 'classifyId',
+                uniqueId: 'facultyId',
                 columns: [
                     {
                         field: 'serialNo',
                         title: '#',
                         align: 'center',
-                        valign: 'middle'
+                        valign: 'middle',
+                        width:'10%'
                     },
                     {
-                        field: 'classifyName',
-                        title: '名称',
+                        field: 'name',
+                        title: '学院名称',
                         align: 'center',
-                        valign: 'middle'
-                    },
-                    {
-                        field: 'classifyClass',
-                        title: '样式',
-                        align: 'center',
-                        valign: 'middle'
-                    },
-                    {
-                        field: 'sequence',
-                        title: '序列号',
-                        align: 'center',
-                        valign: 'middle'
-                    },
-                    {
-                        field: 'createDateStr',
-                        title: '添加时间',
-                        align: 'center',
-                        valign: 'middle'
+                        valign: 'middle',
+                        width:'70%'
                     },
                     {
                         field: '',
                         title: '操作',
                         align: 'center',
                         valign: 'middle',
+                        width:'20%',
                         formatter: function (value, row, index) {
-                            var  content = '<div class="btn-group"><button type="button" class="btn btn-primary" onclick="amendClassify(\''+row.classifyId+'\', \''+row.classifyName+'\', \''+row.classifyClass+'\', \''+row.sequence+'\')">修改</button>';
-
-                            if ("<%=Constant.Classify_Status.VARIABLE%>" === row.status) {
-                                if (row.closedCategory>0) {
-                                    content += '<button type="button" class="btn btn-success" onclick="activeClassify(\''+row.classifyId+'\')">开放</button>';
-                                }
-                                if (row.activeCategory>0) {
-                                    content += '<button type="button" class="btn btn-danger" onclick="closeClassify(\''+row.classifyId+'\')">关闭</button>';
-                                }
-                            }
-
-                            content += '</div>';
-
-                            return content;
+                            return '<div class="btn-group">' +
+                                    '<button type="button" class="btn btn-primary">修改</button>' +
+                                    '<button type="button" class="btn btn-danger">删除</button>' +
+                                    '</div>';
                         }
                     }
                 ]

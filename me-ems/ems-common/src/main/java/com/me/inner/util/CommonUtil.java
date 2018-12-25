@@ -46,7 +46,7 @@ public class CommonUtil {
             limit = Integer.valueOf(limitStr);
         }
 
-        begin = (curPage*limit) + 1;
+        begin = curPage*limit;
 
         pagination.setCurPage(curPage);
         pagination.setLimit(limit);

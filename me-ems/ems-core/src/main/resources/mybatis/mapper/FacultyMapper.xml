@@ -4,20 +4,30 @@
 
 <mapper namespace="com.me.inner.mapper.FacultyMapper">
 
-    <select id="listFacultyData" parameterType="java.lang.String" resultType="com.me.inner.dto.FacultyDTO">
-        SELECT
-            facultyId_n AS facultyId,
-            name_m AS name,
-            active_c AS active,
-            create_dt AS createDate,
-            create_m AS createBy,
-            update_dt AS updateDate,
-            update_m AS updateBy
-        FROM ems_faculty
+    <select id="countFaculty" resultType="int">
+        SELECT COUNT(1) FROM ems_faculty
         WHERE active_c = 'A'
         <if test="facultyName!=null and facultyName!=''">
-            AND name_m = #{facultyName, jdbcType=VARCHAR}
+            AND name_m LIKE CONCAT('%', #{facultyName, jdbcType=VARCHAR}, '%')
         </if>
+    </select>
+
+    <select id="listFacultyData" resultType="com.me.inner.dto.FacultyDTO">
+        SELECT
+            @rownum:=@rownum+1 AS serialNo,
+            f.facultyId_n AS facultyId,
+            f.name_m AS name,
+            f.active_c AS active,
+            f.create_dt AS createDate,
+            f.create_m AS createBy,
+            f.update_dt AS updateDate,
+            f.update_m AS updateBy
+        FROM ems_faculty f, (SELECT @rownum:=0) serial
+        WHERE active_c = 'A'
+        <if test="facultyName!=null and facultyName!=''">
+            AND name_m LIKE CONCAT('%', #{facultyName, jdbcType=VARCHAR}, '%')
+        </if>
+        LIMIT #{pagination.begin}, #{pagination.limit}
     </select>
 
 </mapper>

@@ -1,6 +1,8 @@
 package com.me.inner.mapper;
 
 import com.me.inner.dto.FacultyDTO;
+import com.me.inner.dto.PaginationDTO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -9,5 +11,7 @@ import java.util.List;
  */
 public interface FacultyMapper {
 
-    List<FacultyDTO> listFacultyData(String facultyName);
+    int countFaculty(@Param("facultyName") String facultyName);
+
+    List<FacultyDTO> listFacultyData(@Param("facultyName") String facultyName, @Param("pagination") PaginationDTO pagination);
 }

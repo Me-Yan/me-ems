@@ -11,11 +11,11 @@ public class PaginationDTO implements Serializable {
     private static final long serialVersionUID = 3829496979122277519L;
 
     private Integer totalPage;
-    private Integer count;
+    private Integer total;
     private Integer curPage;
     private Integer begin;
     private Integer limit;
-    private List dataList;
+    private List rows;
 
     public Integer getTotalPage() {
         return totalPage;
@@ -25,12 +25,12 @@ public class PaginationDTO implements Serializable {
         this.totalPage = totalPage;
     }
 
-    public Integer getCount() {
-        return count;
+    public Integer getTotal() {
+        return total;
     }
 
-    public void setCount(Integer count) {
-        this.count = count;
+    public void setTotal(Integer total) {
+        this.total = total;
     }
 
     public Integer getCurPage() {
@@ -57,11 +57,11 @@ public class PaginationDTO implements Serializable {
         this.limit = limit;
     }
 
-    public List getDataList() {
-        return dataList;
+    public List getRows() {
+        return rows;
     }
 
-    public void setDataList(List dataList) {
-        this.dataList = dataList;
+    public void setRows(List rows) {
+        this.rows = rows;
     }
 }

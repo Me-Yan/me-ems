@@ -1,6 +1,7 @@
 package com.me.inner.service;
 
 import com.me.inner.dto.FacultyDTO;
+import com.me.inner.dto.PaginationDTO;
 
 import java.util.List;
 
@@ -9,5 +10,5 @@ import java.util.List;
  */
 public interface FacultyService {
 
-    List<FacultyDTO> listFacultyData(String facultyName);
+    PaginationDTO listFacultyData(String facultyName, PaginationDTO pagination);
 }

@@ -28,7 +28,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("user")
-public class UserController {
+public class UserController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(UserController.class);
 

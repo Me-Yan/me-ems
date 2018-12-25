@@ -1,6 +1,8 @@
 package com.me.inner.service;
 
+import com.google.common.collect.Lists;
 import com.me.inner.dto.FacultyDTO;
+import com.me.inner.dto.PaginationDTO;
 import com.me.inner.mapper.FacultyMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +22,19 @@ public class FacultyServiceImpl implements FacultyService {
     @Autowired
     private FacultyMapper facultyMapper;
 
-    public List<FacultyDTO> listFacultyData(String facultyName) {
+    public PaginationDTO listFacultyData(String facultyName, PaginationDTO pagination) {
         logger.debug("Execute Method listFacultyData...");
 
-        return facultyMapper.listFacultyData(facultyName);
+        int total = facultyMapper.countFaculty(facultyName);
+
+        List<FacultyDTO> facultyList = Lists.newArrayList();
+        if (total>0) {
+            facultyList = facultyMapper.listFacultyData(facultyName, pagination);
+        }
+
+        pagination.setTotal(total);
+        pagination.setRows(facultyList);
+
+        return pagination;
     }
 }

@@ -32,6 +32,9 @@
 }
 
 /* page content */
+.page-content {
+    clear: both;
+}
 .page-content .page-header {
     width: 100%;
     text-align: center;

@@ -13,8 +13,8 @@
         <li>
             <a href="javascript:void(0);">学院管理</a>
             <ul>
-                <li><a href="">学院列表</a></li>
-                <li><a href="#">添加学院</a></li>
+                <li><a href="${pageContext.request.contextPath}/faculty/listFaculty">学院列表</a></li>
+                <li><a href="${pageContext.request.contextPath}/faculty/new">添加学院</a></li>
             </ul>
         </li>
         <li>

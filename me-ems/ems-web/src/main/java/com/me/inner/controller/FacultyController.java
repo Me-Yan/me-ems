@@ -1,7 +1,9 @@
 package com.me.inner.controller;
 
 import com.me.inner.dto.FacultyDTO;
+import com.me.inner.dto.PaginationDTO;
 import com.me.inner.service.FacultyService;
+import com.me.inner.util.CommonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -18,7 +21,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("faculty")
-public class FacultyController {
+public class FacultyController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(FacultyController.class);
 
@@ -34,9 +37,12 @@ public class FacultyController {
 
     @RequestMapping("listFacultyData")
     @ResponseBody
-    public List<FacultyDTO> listFacultyData(@RequestParam(name = "facultyName", required = false) String facultyName) {
+    public PaginationDTO listFacultyData(@RequestParam(name = "facultyName", required = false) String facultyName,
+                                         HttpServletRequest request) {
         logger.debug("Execute Method listFacultyData...");
 
-        return facultyService.listFacultyData(facultyName);
+        PaginationDTO pagination = CommonUtil.packagePagination(request);
+
+        return facultyService.listFacultyData(facultyName, pagination);
     }
 }

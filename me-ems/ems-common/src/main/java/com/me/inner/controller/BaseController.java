@@ -26,11 +26,4 @@ public class BaseController {
 
         return new ModelAndView("redirect:/error");
     }
-
-    public PaginationDTO getBootstrapTablePage(HttpServletRequest request) {
-        logger.debug("Execute Method getBootstrapTablePage...");
-
-        String curPage = request.getParameter(CommonConstant.Pagination.CURRENT_PAGE);
-        String limit = request.getParameter(CommonConstant.Pagination.LIMIT);
-    }
 }
