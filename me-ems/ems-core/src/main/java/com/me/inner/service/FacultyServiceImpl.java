@@ -1,14 +1,18 @@
 package com.me.inner.service;
 
 import com.google.common.collect.Lists;
+import com.me.inner.constant.CommonConstant;
 import com.me.inner.dto.FacultyDTO;
 import com.me.inner.dto.PaginationDTO;
-import com.me.inner.mapper.FacultyMapper;
+import com.me.inner.mapper.*;
+import com.me.inner.util.SecurityUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,6 +25,20 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Autowired
     private FacultyMapper facultyMapper;
+    @Autowired
+    private ScoreMapper scoreMapper;
+    @Autowired
+    private StudentMapper studentMapper;
+    @Autowired
+    private CurriculumMapper curriculumMapper;
+    @Autowired
+    private TeacherMapper teacherMapper;
+    @Autowired
+    private Profession2SubjectMapper profession2SubjectMapper;
+    @Autowired
+    private ClazzMapper clazzMapper;
+    @Autowired
+    private ProfessionMapper professionMapper;
 
     public PaginationDTO listFacultyData(String facultyName, PaginationDTO pagination) {
         logger.debug("Execute Method listFacultyData...");
@@ -36,5 +54,44 @@ public class FacultyServiceImpl implements FacultyService {
         pagination.setRows(facultyList);
 
         return pagination;
+    }
+
+    public boolean addFaculty(FacultyDTO faculty) {
+        logger.debug("Execute Method addFaculty...");
+
+        int count = facultyMapper.countFacultyByName(StringUtils.trim(faculty.getName()));
+        if (count>0) {
+            return false;
+        }
+
+        faculty.setActive(CommonConstant.IN_ACTIVE.ACTIVE);
+        faculty.setCreateDate(new Date());
+        faculty.setCreateBy(SecurityUtil.getUserInfo().getUsername());
+
+        facultyMapper.saveFaculty(faculty);
+
+        return true;
+    }
+
+    public void deleteFaculty(Integer facultyId) {
+        logger.debug("Execute Method deleteFaculty...");
+
+        // 删除学生的成绩
+        scoreMapper.deleteScoreByFacultyId(facultyId);
+        // 删除对应学院的学生
+        studentMapper.deleteStudentByFacultyId(facultyId);
+        // 删除相应学院的课表
+        curriculumMapper.deleteCurriculumByFacultyId(facultyId);
+        // 删除相应学院的老师
+        teacherMapper.deleteTeacherByFacultyId(facultyId);
+        // 删除专业对应的课程
+        profession2SubjectMapper.deleteByFacultyId(facultyId);
+        // 删除相应的班级
+        clazzMapper.deleteClazzByFacultyId(facultyId);
+        // 删除相应的专业
+        professionMapper.deleteProfessionByFacultyId(facultyId);
+        // 删除该学院
+        facultyMapper.deleteFacultyById(facultyId);
+
     }
 }

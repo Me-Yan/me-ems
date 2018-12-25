@@ -38,11 +38,11 @@ public class CommonUtil {
         Integer begin = 0;
 
         String curPageStr = request.getParameter(CommonConstant.Pagination.CURRENT_PAGE);
-        if (StringUtils.isBlank(curPageStr)) {
+        if (StringUtils.isNotBlank(curPageStr)) {
             curPage = Integer.valueOf(curPageStr);
         }
         String limitStr = request.getParameter(CommonConstant.Pagination.LIMIT);
-        if (StringUtils.isBlank(limitStr)) {
+        if (StringUtils.isNotBlank(limitStr)) {
             limit = Integer.valueOf(limitStr);
         }
 

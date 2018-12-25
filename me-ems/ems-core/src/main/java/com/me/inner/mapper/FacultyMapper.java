@@ -14,4 +14,10 @@ public interface FacultyMapper {
     int countFaculty(@Param("facultyName") String facultyName);
 
     List<FacultyDTO> listFacultyData(@Param("facultyName") String facultyName, @Param("pagination") PaginationDTO pagination);
+
+    int countFacultyByName(String name);
+
+    void saveFaculty(FacultyDTO faculty);
+
+    void deleteFacultyById(Integer facultyId);
 }

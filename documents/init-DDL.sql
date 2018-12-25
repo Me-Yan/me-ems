@@ -4,9 +4,9 @@ CREATE TABLE ems_faculty (
 	name_m			VARCHAR(20)	NOT NULL,
 	active_c		CHAR(1)		NOT NULL,
 	create_dt		DATETIME	NOT	NULL,
-	create_m		VARCHAR(4)	NOT NULL,
+	create_m		VARCHAR(20)	NOT NULL,
 	update_dt		DATETIME	NULL,
-	update_m		VARCHAR(4)	NULL,
+	update_m		VARCHAR(20)	NULL,
 	PRIMARY KEY(facultyId_n)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -17,9 +17,9 @@ CREATE TABLE ems_profession (
 	name_m			VARCHAR(20)	NOT NULL,
 	active_c		CHAR(1)		NOT NULL,
 	create_dt		DATETIME	NOT	NULL,
-	create_m		VARCHAR(4)	NOT NULL,
+	create_m		VARCHAR(20)	NOT NULL,
 	update_dt		DATETIME	NULL,
-	update_m		VARCHAR(4)	NULL,
+	update_m		VARCHAR(20)	NULL,
 	PRIMARY KEY(professionId_n)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -31,7 +31,7 @@ CREATE TABLE ems_subject (
 	type_c			CHAR(1)		NOT NULL,
 	active_c 		CHAR(1)		NOT NULL,
 	create_dt		DATETIME	NOT	NULL,
-	create_m		VARCHAR(4)	NOT NULL,
+	create_m		VARCHAR(20)	NOT NULL,
 	PRIMARY KEY(subjectId_n)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -42,7 +42,7 @@ CREATE TABLE ems_profession2subject (
 	subjectId_n		INT			NOT NULL,
 	active_c		CHAR(1)		NOT	NULL,
 	create_dt		DATETIME	NOT	NULL,
-	create_m		VARCHAR(4)	NOT NULL,
+	create_m		VARCHAR(20)	NOT NULL,
 	PRIMARY KEY(id_n)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -51,7 +51,7 @@ CREATE TABLE ems_grade (
 	gradeId_n		INT 		AUTO_INCREMENT		NOT NULL,
 	grade_m			VARCHAR(4)	NOT NULL,
 	create_dt		DATETIME	NOT	NULL,
-	create_m		VARCHAR(4)	NOT NULL,
+	create_m		VARCHAR(20)	NOT NULL,
 	PRIMARY KEY(gradeId_n)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -62,7 +62,7 @@ CREATE TABLE ems_class (
 	gradeId_n		INT 		NOT NULL,
 	professionId_n	INT 		NOT NULL,
 	create_dt		DATETIME	NOT	NULL,
-	create_m		VARCHAR(4)	NOT NULL,
+	create_m		VARCHAR(20)	NOT NULL,
 	PRIMARY KEY(classId_n)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -76,9 +76,9 @@ CREATE TABLE ems_teacher (
 	sex_n			INT 		NOT NULL,
 	birth_dt		DATETIME	NOT NULL,
 	create_dt		DATETIME	NOT	NULL,
-	create_m		VARCHAR(4)	NOT NULL,
+	create_m		VARCHAR(20)	NOT NULL,
 	update_dt		DATETIME	NULL,
-	update_m		VARCHAR(4)	NULL,
+	update_m		VARCHAR(20)	NULL,
 	PRIMARY KEY(teacherId_n)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -92,7 +92,7 @@ CREATE TABLE ems_curriculum (
 	semester_n		INT				NOT NULL,
 	status_c		VARCHAR(10)		NOT NULL,
 	create_dt		DATETIME		NOT NULL,
-	create_m		VARCHAR(4)		NOT NULL,
+	create_m		VARCHAR(20)		NOT NULL,
 	PRIMARY KEY(curriculumId_n)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -101,15 +101,16 @@ CREATE TABLE ems_student (
 	studentId_n		INT			AUTO_INCREMENT		NOT NULL,
 	number_x		VARCHAR(20)	NOT NULL,
 	name_m			VARCHAR(5)	NOT NULL,
+	professionId_n	INT			NOT NULL,
 	classId_n		INT			NOT NULL,
 	from_x			VARCHAR(10)	NOT NULL,
 	age_n			INT 		NOT NULL,
 	sex_n			INT			NOT NULL,
 	birth_dt		DATETIME	NOT NULL,
 	create_dt		DATETIME	NOT	NULL,
-	create_m		VARCHAR(4)	NOT NULL,
+	create_m		VARCHAR(20)	NOT NULL,
 	update_dt		DATETIME	NULL,
-	update_m		VARCHAR(4)	NULL,
+	update_m		VARCHAR(20)	NULL,
 	PRIMARY KEY(studentId_n)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -123,9 +124,9 @@ CREATE TABLE ems_score (
 	studentId_n		INT			NOT NULL,
 	subjectId_n		INT			NOT NULL,
 	create_dt		DATETIME	NOT	NULL,
-	create_m		VARCHAR(4)	NOT NULL,
+	create_m		VARCHAR(20)	NOT NULL,
 	update_dt		DATETIME	NULL,
-	update_m		VARCHAR(4)	NULL,
+	update_m		VARCHAR(20)	NULL,
 	PRIMARY KEY(scoreId_n)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

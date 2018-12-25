@@ -14,7 +14,6 @@
 
     <select id="listFacultyData" resultType="com.me.inner.dto.FacultyDTO">
         SELECT
-            @rownum:=@rownum+1 AS serialNo,
             f.facultyId_n AS facultyId,
             f.name_m AS name,
             f.active_c AS active,
@@ -22,12 +21,37 @@
             f.create_m AS createBy,
             f.update_dt AS updateDate,
             f.update_m AS updateBy
-        FROM ems_faculty f, (SELECT @rownum:=0) serial
+        FROM ems_faculty f
         WHERE active_c = 'A'
         <if test="facultyName!=null and facultyName!=''">
             AND name_m LIKE CONCAT('%', #{facultyName, jdbcType=VARCHAR}, '%')
         </if>
         LIMIT #{pagination.begin}, #{pagination.limit}
     </select>
+
+    <select id="countFacultyByName" parameterType="java.lang.String" resultType="int">
+        SELECT COUNT(1) FROM ems_faculty WHERE name_m = #{name, jdbcType=VARCHAR}
+    </select>
+
+    <insert id="saveFaculty" parameterType="com.me.inner.dto.FacultyDTO">
+        INSERT INTO ems_faculty
+        (
+            name_m,
+            active_c,
+            create_dt,
+            create_m
+        )
+        VALUES
+        (
+            #{name, jdbcType=VARCHAR},
+            #{active, jdbcType=CHAR},
+            #{createDate, jdbcType=TIMESTAMP},
+            #{createBy, jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <delete id="deleteFacultyById" parameterType="java.lang.Integer">
+        DELETE FROM ems_faculty WHERE facultyId_n = #{facultyId, jdbcType=INTEGER}
+    </delete>
 
 </mapper>

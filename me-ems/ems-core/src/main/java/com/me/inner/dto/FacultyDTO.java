@@ -18,17 +18,6 @@ public class FacultyDTO implements Serializable {
     private Date updateDate;    //  修改时间
     private String updateBy;    //  修改人
 
-    // operation or view
-    private Integer serialNo;
-
-    public Integer getSerialNo() {
-        return serialNo;
-    }
-
-    public void setSerialNo(Integer serialNo) {
-        this.serialNo = serialNo;
-    }
-
     public Integer getFacultyId() {
         return facultyId;
     }

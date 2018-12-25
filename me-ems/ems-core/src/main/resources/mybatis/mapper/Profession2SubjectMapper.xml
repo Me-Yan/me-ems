@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.me.inner.mapper.Profession2SubjectMapper">
+
+    <delete id="deleteByFacultyId" parameterType="java.lang.Integer">
+        DELETE FROM ems_profession2subject ps1
+        LEFT JOIN ems_profession p1 ON ps1.professionId_n = p1.professionId_n
+        LEFT JOIN ems_faculty f1 ON p1.facultyId_n = f1.facultyId_n
+        WHERE f1.facultyId_n = #{facultyId, jdbcType=INTEGER}
+    </delete>
+
+</mapper>

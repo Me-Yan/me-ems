@@ -13,12 +13,10 @@
 <body>
 
 <form id="passwordForm">
-    <div class="page-title">
-        <span>修改密码</span>
-    </div>
-
     <div class="page-content">
         <div class="page-content-section">
+            <div class="page-section-title"><span>修改密码</span></div>
+            <div class="line-dashed"></div>
             <div class="page-section-body">
                 <div class="row">
                     <div class="col-xs-12 form-group-field">

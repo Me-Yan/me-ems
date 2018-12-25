@@ -11,4 +11,8 @@ import java.util.List;
 public interface FacultyService {
 
     PaginationDTO listFacultyData(String facultyName, PaginationDTO pagination);
+
+    boolean addFaculty(FacultyDTO faculty);
+
+    void deleteFaculty(Integer facultyId);
 }
