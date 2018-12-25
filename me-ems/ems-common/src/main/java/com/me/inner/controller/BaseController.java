@@ -1,5 +1,7 @@
 package com.me.inner.controller;
 
+import com.me.inner.constant.CommonConstant;
+import com.me.inner.dto.PaginationDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -16,12 +18,19 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/")
 public class BaseController {
 
-    Logger logger = LoggerFactory.getLogger(BaseController.class);
+    private Logger logger = LoggerFactory.getLogger(BaseController.class);
 
     @ExceptionHandler
     public ModelAndView exceptionHandler(HttpServletRequest request, Exception ex) {
         logger.error("exception:", ex);
 
         return new ModelAndView("redirect:/error");
+    }
+
+    public PaginationDTO getBootstrapTablePage(HttpServletRequest request) {
+        logger.debug("Execute Method getBootstrapTablePage...");
+
+        String curPage = request.getParameter(CommonConstant.Pagination.CURRENT_PAGE);
+        String limit = request.getParameter(CommonConstant.Pagination.LIMIT);
     }
 }

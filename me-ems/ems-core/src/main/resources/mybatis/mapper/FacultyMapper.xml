@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.me.inner.mapper.FacultyMapper">
+
+    <select id="listFacultyData" parameterType="java.lang.String" resultType="com.me.inner.dto.FacultyDTO">
+        SELECT
+            facultyId_n AS facultyId,
+            name_m AS name,
+            active_c AS active,
+            create_dt AS createDate,
+            create_m AS createBy,
+            update_dt AS updateDate,
+            update_m AS updateBy
+        FROM ems_faculty
+        WHERE active_c = 'A'
+        <if test="facultyName!=null and facultyName!=''">
+            AND name_m = #{facultyName, jdbcType=VARCHAR}
+        </if>
+    </select>
+
+</mapper>
