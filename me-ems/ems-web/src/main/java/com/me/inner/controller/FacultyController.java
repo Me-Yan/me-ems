@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Me on 2018/12/25.
@@ -73,6 +71,7 @@ public class FacultyController extends BaseController {
             facultyService.deleteFaculty(facultyId);
             return new ResponseData(true);
         } catch (Exception e) {
+            logger.error("删除学院时，发生异常.", e);
             return new ResponseData(false);
         }
     }

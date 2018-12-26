@@ -180,7 +180,7 @@ DROP TABLE IF EXISTS ems_resource;
 CREATE TABLE ems_resource (
 	resId_n 		INT AUTO_INCREMENT 				NOT NULL,
 	resType_x 		VARCHAR(20) 					NOT NULL,
-	resPath_x 		VARCHAR(20) 					NOT NULL,
+	resPath_x 		VARCHAR(50) 					NOT NULL,
 	resDesc_x 		VARCHAR(50) 					NULL,
 	enabled_c 		CHAR(1) 						NOT NULL DEFAULT 'Y',
 	create_dt 		DATETIME 						NOT NULL,

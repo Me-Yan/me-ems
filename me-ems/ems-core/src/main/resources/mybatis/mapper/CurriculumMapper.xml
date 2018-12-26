@@ -5,7 +5,7 @@
 <mapper namespace="com.me.inner.mapper.CurriculumMapper">
 
     <delete id="deleteCurriculumByFacultyId" parameterType="java.lang.Integer">
-        DELETE FROM ems_curriculum c1
+        DELETE c1 FROM ems_curriculum c1
         LEFT JOIN ems_profession p1 ON c1.professionId_n = p1.professionId_n
         LEFT JOIN ems_faculty f1 ON p1.facultyId_n = f1.facultyId_n
         WHERE f1.facultyId_n = #{facultyId, jdbcType=INTEGER}

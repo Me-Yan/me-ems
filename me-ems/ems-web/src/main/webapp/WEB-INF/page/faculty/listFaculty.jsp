@@ -98,6 +98,24 @@
         </div>
     </div>
 
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <p>删除该学院，同时会删除所有与该学院相关的所有信息，比如学生信息、老师信息、课程信息等，请谨慎操作，确定删除？</p>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-primary" id="btnDelete">提交</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <%-- 公用提示Modal --%>
     <div class="modal fade" id="outcomeModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -117,8 +135,36 @@
     </div>
 
     <script>
+        var deleteId;
+        var editId;
         $(function () {
             initTable();
+        });
+
+        function deleteModal(facultyId) {
+            deleteId = facultyId;
+            $("#deleteModal").modal("show");
+        }
+        $("#btnDelete").on("click", function () {
+            $("#deleteModal").modal("hide");
+            $("body").loading("请稍等。。。");
+            $.ajax({
+                url: "${pageContext.request.contextPath}/faculty/deleteFaculty",
+                type: "post",
+                data: {
+                    facultyId: deleteId
+                },
+                success: function (result) {
+                    $("body").loading("hide");
+                    if (result.success) {
+                        $("#tipContent").html("删除成功。");
+                        $("#facultyTable").bootstrapTable("refresh");
+                    } else {
+                        $("#tipContent").html("删除失败。");
+                    }
+                    $("#outcomeModal").modal("show");
+                }
+            });
         });
 
         $("#btnAdd").on("click", function () {
@@ -221,8 +267,8 @@
                         width:'20%',
                         formatter: function (value, row, index) {
                             return '<div class="btn-group">' +
-                                    '<button type="button" class="btn btn-primary">修改</button>' +
-                                    '<button type="button" class="btn btn-danger">删除</button>' +
+                                    '<button type="button" class="btn btn-primary" onclick="editModal('+row.facultyId+')">修改</button>' +
+                                    '<button type="button" class="btn btn-danger" onclick="deleteModal('+row.facultyId+')">删除</button>' +
                                     '</div>';
                         }
                     }
