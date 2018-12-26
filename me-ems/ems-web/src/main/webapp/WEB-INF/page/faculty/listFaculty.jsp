@@ -115,7 +115,7 @@
                                     <div class="display-table">
                                         <div class="display-cell colon-cell">:</div>
                                         <div class="display-cell">
-                                            <input type="text" name="editName" class="form-control field-input" id="editName" />
+                                            <input type="text" name="editName" class="form-control field-input" maxlength="20" id="editName" />
                                             <span class="text-error hide" name="editNameMessage"></span>
                                         </div>
                                     </div>
@@ -500,7 +500,7 @@
                     validating: null
                 },
                 fields: {
-                    name:{
+                    editName:{
                         message: '请填写学院名称。',
                         validators: {
                             notEmpty: {

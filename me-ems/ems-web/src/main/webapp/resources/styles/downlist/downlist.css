@@ -6,14 +6,14 @@
 
 .venus-menu {
     width: 100%;
-    margin: 0;
     padding: 0;
     position: relative;
     float: left;
     font-family: 'Open Sans', sans-serif;
     list-style: none;
-    background: #fff;
     box-shadow: 0 1px 3px #dedede;
+    margin: 20px 0 10px 0;
+    background-color: #ddd;
 }
 
 .venus-menu li {
@@ -260,9 +260,4 @@
     .venus-menu > li > ul > li > ul > li > ul > li > a {
         padding-left: 80px !important;
     }
-}
-
-.venus-menu {
-    margin: 20px 0 10px 0;
-    background-color: #fef;
 }
