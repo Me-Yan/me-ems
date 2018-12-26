@@ -2,7 +2,6 @@ DROP TABLE IF EXISTS ems_faculty;
 CREATE TABLE ems_faculty (
 	facultyId_n		INT			AUTO_INCREMENT		NOT NULL,
 	name_m			VARCHAR(20)	NOT NULL,
-	active_c		CHAR(1)		NOT NULL,
 	create_dt		DATETIME	NOT	NULL,
 	create_m		VARCHAR(20)	NOT NULL,
 	update_dt		DATETIME	NULL,

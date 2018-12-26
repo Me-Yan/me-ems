@@ -76,4 +76,26 @@ public class FacultyController extends BaseController {
         }
     }
 
+    @RequestMapping("getFaculty")
+    @ResponseBody
+    public FacultyDTO getFaculty(@RequestParam("facultyId") Integer facultyId) {
+        logger.debug("Execute Method getFaculty...");
+
+        return facultyService.getFaculty(facultyId);
+    }
+
+    @RequestMapping("updateFaculty")
+    @ResponseBody
+    public ResponseData updateFaculty(@ModelAttribute("facultyForm") FacultyDTO facultyForm) {
+        logger.debug("Execute Method updateFaculty...");
+
+        try {
+            boolean valida = facultyService.updateFaculty(facultyForm);
+            return new ResponseData(valida);
+        } catch (Exception e) {
+            logger.error("修改学院时，发生错误。", e);
+            return new ResponseData(false);
+        }
+    }
+
 }

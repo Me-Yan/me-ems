@@ -20,4 +20,8 @@ public interface FacultyMapper {
     void saveFaculty(FacultyDTO faculty);
 
     void deleteFacultyById(Integer facultyId);
+
+    FacultyDTO getFaculty(Integer facultyId);
+
+    void updateFaculty(FacultyDTO faculty);
 }

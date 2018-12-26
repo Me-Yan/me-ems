@@ -12,7 +12,6 @@ public class FacultyDTO implements Serializable {
 
     private Integer facultyId;  //  系idd
     private String name;        //  系名
-    private String active;      //  系的状态：存在，废除
     private Date createDate;    //  创建时间
     private String createBy;    //  创建人
     private Date updateDate;    //  修改时间
@@ -32,14 +31,6 @@ public class FacultyDTO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getActive() {
-        return active;
-    }
-
-    public void setActive(String active) {
-        this.active = active;
     }
 
     public Date getCreateDate() {

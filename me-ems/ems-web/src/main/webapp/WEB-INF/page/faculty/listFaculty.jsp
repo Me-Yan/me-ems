@@ -56,7 +56,7 @@
                 </div>
                 <div class="modal-body">
                     <br>
-                    <form:form modelAttribute="facultyForm" id="facultyForm" action="${pageContext.request.contextPath}/faculty/submit" method="post">
+                    <form id="facultyForm"method="post">
                         <div class="row">
                             <div class="col-xs-12 form-group-field">
                                 <label class="col-sm-3 col-md-3 col-md-offset-1 control-label text-left">学院名称 <span class="colon-label">:</span><span class="field-star">*</span></label>
@@ -71,7 +71,7 @@
                                 </div>
                             </div>
                         </div>
-                    </form:form>
+                    </form>
                 </div>
                 <div class="modal-footer" style="text-align: center;">
                     <button type="button" class="btn btn-primary" id="btnSubmit">提交</button>
@@ -92,6 +92,57 @@
                 </div>
                 <div class="modal-footer" style="text-align: center;">
                     <button type="button" class="btn btn-primary" id="btnConfirm">提交</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%-- 修改学院Modal --%>
+    <div class="modal fade" id="editFormModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">修改学院</h4>
+                </div>
+                <div class="modal-body">
+                    <br>
+                    <form:form id="editFacultyForm" method="post">
+                        <div class="row">
+                            <div class="col-xs-12 form-group-field">
+                                <label class="col-sm-3 col-md-3 col-md-offset-1 control-label text-left">学院名称 <span class="colon-label">:</span><span class="field-star">*</span></label>
+                                <div class="col-sm-8 col-md-6">
+                                    <div class="display-table">
+                                        <div class="display-cell colon-cell">:</div>
+                                        <div class="display-cell">
+                                            <input type="text" name="editName" class="form-control field-input" id="editName" />
+                                            <span class="text-error hide" name="editNameMessage"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form:form>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-primary" id="btnEditSubmit">提交</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%-- 确认修改提示Modal --%>
+    <div class="modal fade" id="confirmEditFormModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <p>确认修改该学院？</p>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-primary" id="btnEditConfirm">提交</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>
@@ -136,9 +187,66 @@
 
     <script>
         var deleteId;
-        var editId;
+        var updateId;
         $(function () {
             initTable();
+        });
+
+        function editModal(facultyId) {
+            updateId = facultyId;
+            $.ajax({
+               url: "${pageContext.request.contextPath}/faculty/getFaculty",
+                type: "post",
+                data: {
+                    facultyId: updateId
+                },
+                success: function (result) {
+                    if (result) {
+                        $("#editName").val(result.name);
+                    }
+                }
+            });
+            $("#editFormModal").modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
+        }
+
+        $("#btnEditSubmit").on("click", function () {
+            var validation = $("#editFacultyForm").data("formValidation");
+            validation.validate();
+            if (validation.isValid()) {
+                $("#editFormModal").modal("hide");
+                $("#confirmEditFormModal").modal({
+                    backdrop: 'static',
+                    keyboard: false,
+                    show: true
+                });
+            }
+        });
+
+        $("#btnEditConfirm").on("click", function () {
+            $("#confirmEditFormModal").modal("hide");
+            $("body").loading("请等待。。。");
+            $.ajax({
+                url: "${pageContext.request.contextPath}/faculty/updateFaculty",
+                type: "post",
+                data: {
+                    facultyId: updateId,
+                    name: $("#editName").val()
+                },
+                success: function (result) {
+                    $("body").loading("hide");
+                    if (result.success) {
+                        $("#tipContent").html("修改成功。");
+                        $("#facultyTable").bootstrapTable("refresh");
+                    } else {
+                        $("#tipContent").html("该学院已存在。");
+                    }
+                    $("#outcomeModal").modal("show");
+                }
+            });
         });
 
         function deleteModal(facultyId) {
@@ -212,6 +320,14 @@
         });
         $("#formModal").on("hidden.bs.modal", function () {
             $("#facultyForm").data("formValidation").destroy();
+        });
+
+        $("#editFormModal").on("show.bs.modal", function () {
+            document.getElementById("editFacultyForm").reset();
+            initEditValidation();
+        });
+        $("#editFormModal").on("hidden.bs.modal", function () {
+            $("#editFacultyForm").data("formValidation").destroy();
         });
 
         $(".icon-search").on("click", function () {
@@ -352,6 +468,85 @@
 
                 //remove checkbox feedback icon
                 $("#facultyForm").find("i.form-control-feedback").remove();
+            });
+        }
+
+        function initEditValidation() {
+            $("#editFacultyForm").formValidation({
+                excluded: [':disabled'],
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                err: {
+                    container: function($field, validator) {
+                        var messageName = $($field).attr("name")+"Message";
+                        var messageNode  = $('#editFacultyForm').find($("span[name='"+messageName+"']"));
+                        messageNode.addClass("has-error");
+                        messageNode.removeClass("hide");
+                        return messageNode;
+                    }
+                },
+                row: {
+                    valid: 'has-success',
+                    invalid: 'has-error',
+                    feedback: 'has-feedback'
+                },
+                icon: {
+                    valid: null,
+                    invalid: null,
+                    validating: null
+                },
+                fields: {
+                    name:{
+                        message: '请填写学院名称。',
+                        validators: {
+                            notEmpty: {
+                                message: '请填写学院名称'
+                            },
+                            stringLength: {
+                                max: 20,
+                                message: '不能超过20个字符。'
+                            }
+                        }
+                    }
+                }
+            }).on('err.field.fv', function(e, data) {
+                $("#editFacultyForm").find("i.form-control-feedback").remove();
+
+                if($(data.element).is('select')) {
+                    $(data.element).next().addClass("has-error");
+                    $(data.element).next().removeClass("has-success");
+                }
+                else if($(data.element).is('textarea')) {
+                    $(data.element).parent().addClass("has-error");
+                    $(data.element).parent().removeClass("has-success");
+                }
+                else {
+                    $(data.element).addClass("has-error");
+                    $(data.element).removeClass("has-success");
+                }
+            }).on('success.field.fv', function(e, data) {
+//            $("#btnUserSubmit").removeAttr("disabled");
+                if($(data.element).is('select')) {
+                    $(data.element).next().removeClass("has-error");
+                    $(data.element).next().addClass("has-success");
+                }
+                else if($(data.element).is('textarea')) {
+                    $(data.element).parent().removeClass("has-error");
+                    $(data.element).parent().addClass("has-success");
+                }
+                else {
+                    $(data.element).removeClass("has-error");
+                    $(data.element).addClass("has-success");
+                }
+                $("#editFacultyForm").find("."+data.field+"Message").css("display","none");
+                $("#editFacultyForm").find("."+data.field+"Message").addClass("hide");
+
+                //remove checkbox feedback icon
+                $("#editFacultyForm").find("i.form-control-feedback").remove();
             });
         }
     </script>

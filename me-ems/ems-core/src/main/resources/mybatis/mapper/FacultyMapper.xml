@@ -6,7 +6,7 @@
 
     <select id="countFaculty" resultType="int">
         SELECT COUNT(1) FROM ems_faculty
-        WHERE active_c = 'A'
+        WHERE 1=1
         <if test="facultyName!=null and facultyName!=''">
             AND name_m LIKE CONCAT('%', #{facultyName, jdbcType=VARCHAR}, '%')
         </if>
@@ -14,15 +14,14 @@
 
     <select id="listFacultyData" resultType="com.me.inner.dto.FacultyDTO">
         SELECT
-            f.facultyId_n AS facultyId,
-            f.name_m AS name,
-            f.active_c AS active,
-            f.create_dt AS createDate,
-            f.create_m AS createBy,
-            f.update_dt AS updateDate,
-            f.update_m AS updateBy
-        FROM ems_faculty f
-        WHERE active_c = 'A'
+            facultyId_n AS facultyId,
+            name_m AS name,
+            create_dt AS createDate,
+            create_m AS createBy,
+            update_dt AS updateDate,
+            update_m AS updateBy
+        FROM ems_faculty
+        WHERE 1=1
         <if test="facultyName!=null and facultyName!=''">
             AND name_m LIKE CONCAT('%', #{facultyName, jdbcType=VARCHAR}, '%')
         </if>
@@ -37,14 +36,12 @@
         INSERT INTO ems_faculty
         (
             name_m,
-            active_c,
             create_dt,
             create_m
         )
         VALUES
         (
             #{name, jdbcType=VARCHAR},
-            #{active, jdbcType=CHAR},
             #{createDate, jdbcType=TIMESTAMP},
             #{createBy, jdbcType=VARCHAR}
         )
@@ -53,5 +50,25 @@
     <delete id="deleteFacultyById" parameterType="java.lang.Integer">
         DELETE FROM ems_faculty WHERE facultyId_n = #{facultyId, jdbcType=INTEGER}
     </delete>
+
+    <select id="getFaculty" parameterType="java.lang.Integer" resultType="com.me.inner.dto.FacultyDTO">
+        SELECT
+            facultyId_n AS facultyId,
+            name_m AS name,
+            create_dt AS createDate,
+            create_m AS createBy,
+            update_dt AS updateDate,
+            update_m AS updateBy
+        FROM ems_faculty
+        WHERE facultyId_n = #{facultyId, jdbcType=INTEGER}
+    </select>
+
+    <update id="updateFaculty" parameterType="com.me.inner.dto.FacultyDTO">
+        UPDATE ems_faculty SET
+          name_m = #{name, jdbcType=VARCHAR},
+          update_dt = #{updateDate, jdbcType=TIMESTAMP},
+          update_m = #{updateBy, jdbcType=VARCHAR}
+        WHERE facultyId_n = #{facultyId, jdbcType=INTEGER}
+    </update>
 
 </mapper>

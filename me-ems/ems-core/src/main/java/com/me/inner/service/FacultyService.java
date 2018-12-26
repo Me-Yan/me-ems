@@ -15,4 +15,8 @@ public interface FacultyService {
     boolean addFaculty(FacultyDTO faculty);
 
     void deleteFaculty(Integer facultyId);
+
+    FacultyDTO getFaculty(Integer facultyId);
+
+    boolean updateFaculty(FacultyDTO faculty);
 }

@@ -64,7 +64,6 @@ public class FacultyServiceImpl implements FacultyService {
             return false;
         }
 
-        faculty.setActive(CommonConstant.IN_ACTIVE.ACTIVE);
         faculty.setCreateDate(new Date());
         faculty.setCreateBy(SecurityUtil.getUserInfo().getUsername());
 
@@ -93,5 +92,27 @@ public class FacultyServiceImpl implements FacultyService {
         // 删除该学院
         facultyMapper.deleteFacultyById(facultyId);
 
+    }
+
+    public FacultyDTO getFaculty(Integer facultyId) {
+        logger.debug("Execute Method getFaculty...");
+
+        return facultyMapper.getFaculty(facultyId);
+    }
+
+    public boolean updateFaculty(FacultyDTO faculty) {
+        logger.debug("Execute Method updateFaculty...");
+
+        int total = facultyMapper.countFacultyByName(StringUtils.trim(faculty.getName()));
+        if (total>0) {
+            return false;
+        }
+
+        faculty.setUpdateDate(new Date());
+        faculty.setUpdateBy(SecurityUtil.getUserInfo().getUsername());
+
+        facultyMapper.updateFaculty(faculty);
+
+        return true;
     }
 }
