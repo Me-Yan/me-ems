@@ -47,6 +47,8 @@
         </div>
     </div>
 
+    <jsp:include page="../commonModal.jsp"/>
+
     <%-- 新建学院Modal --%>
     <div class="modal fade" id="formModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -80,6 +82,7 @@
             </div>
         </div>
     </div>
+
     <%-- 确认添加提示Modal --%>
     <div class="modal fade" id="confirmFormModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -161,24 +164,6 @@
                 </div>
                 <div class="modal-footer" style="text-align: center;">
                     <button type="button" class="btn btn-primary" id="btnDelete">提交</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <%-- 公用提示Modal --%>
-    <div class="modal fade" id="outcomeModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">提示</h4>
-                </div>
-                <div class="modal-body text-center">
-                    <p id="tipContent"></p>
-                </div>
-                <div class="modal-footer" style="text-align: center;">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>
@@ -275,6 +260,15 @@
             });
         });
 
+        $("#editFormModal").on("show.bs.modal", function () {
+            document.getElementById("editFacultyForm").reset();
+            initEditValidation();
+        });
+        $("#editFormModal").on("hidden.bs.modal", function () {
+            $("#editFacultyForm").data("formValidation").destroy();
+        });
+
+        // 添加学院
         $("#btnAdd").on("click", function () {
             $("#formModal").modal({
                 backdrop: 'static',
@@ -320,14 +314,6 @@
         });
         $("#formModal").on("hidden.bs.modal", function () {
             $("#facultyForm").data("formValidation").destroy();
-        });
-
-        $("#editFormModal").on("show.bs.modal", function () {
-            document.getElementById("editFacultyForm").reset();
-            initEditValidation();
-        });
-        $("#editFormModal").on("hidden.bs.modal", function () {
-            $("#editFacultyForm").data("formValidation").destroy();
         });
 
         $(".icon-search").on("click", function () {

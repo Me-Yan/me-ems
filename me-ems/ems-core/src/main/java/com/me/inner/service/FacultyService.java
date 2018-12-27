@@ -19,4 +19,6 @@ public interface FacultyService {
     FacultyDTO getFaculty(Integer facultyId);
 
     boolean updateFaculty(FacultyDTO faculty);
+
+    List<FacultyDTO> listAllFaculty();
 }

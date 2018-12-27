@@ -4,6 +4,30 @@
 
 <mapper namespace="com.me.inner.mapper.ProfessionMapper">
 
+    <select id="countProfessionByFacultyId" resultType="int">
+        SELECT COUNT(1)
+        FROM ems_profession
+        <if test="facultyId!=null and facultyId!=''">
+            WHERE facultyId_n = #{facultyId, jdbcType=INTEGER}
+        </if>
+    </select>
+    
+    <select id="listProfessionByFacultyId" resultType="com.me.inner.dto.ProfessionDTO">
+        SELECT
+            professionId_n AS professionId,
+            facultyId_n AS facultyId,
+            name_m AS name,
+            create_dt AS createDate,
+            create_m AS createBy,
+            update_dt AS updateDate,
+            update_m AS updateBy
+        FROM ems_profession
+        <if test="facultyId!=null and facultyId!=''">
+            WHERE facultyId_n= #{facultyId, jdbcType=INTEGER}
+        </if>
+        LIMIT #{pagination.begin}, #{pagination.limit}
+    </select>
+
     <delete id="deleteProfessionByFacultyId" parameterType="java.lang.Integer">
         DELETE p1 FROM ems_profession p1
         LEFT JOIN ems_faculty f1 ON p1.facultyId_n = f1.facultyId_n

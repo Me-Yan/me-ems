@@ -14,11 +14,7 @@
             <a href="${pageContext.request.contextPath}/faculty/listFaculty">学院列表</a>
         </li>
         <li>
-            <a href="javascript:void(0);">专业管理</a>
-            <ul>
-                <li><a href="#">专业列表</a></li>
-                <li><a href="#">添加专业</a></li>
-            </ul>
+            <a href="${pageContext.request.contextPath}/profession/listProfession">专业列表</a>
         </li>
         <li>
             <a href="javascript:void(0);">教师管理</a>

@@ -4,6 +4,17 @@
 
 <mapper namespace="com.me.inner.mapper.FacultyMapper">
 
+    <select id="listAllFaculty" resultType="com.me.inner.dto.FacultyDTO">
+        SELECT
+            facultyId_n AS facultyId,
+            name_m AS name,
+            create_dt AS createDate,
+            create_m AS createBy,
+            update_dt AS updateDate,
+            update_m AS updateBy
+        FROM ems_faculty
+    </select>
+
     <select id="countFaculty" resultType="int">
         SELECT COUNT(1) FROM ems_faculty
         WHERE 1=1

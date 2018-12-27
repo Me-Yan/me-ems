@@ -24,4 +24,6 @@ public interface FacultyMapper {
     FacultyDTO getFaculty(Integer facultyId);
 
     void updateFaculty(FacultyDTO faculty);
+
+    List<FacultyDTO> listAllFaculty();
 }

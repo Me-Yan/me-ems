@@ -115,4 +115,10 @@ public class FacultyServiceImpl implements FacultyService {
 
         return true;
     }
+
+    public List<FacultyDTO> listAllFaculty() {
+        logger.debug("Execute Method listAllFaculty...");
+
+        return facultyMapper.listAllFaculty();
+    }
 }

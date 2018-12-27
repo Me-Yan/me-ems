@@ -16,3 +16,14 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/plugins/loading/loading.css">
 <script src="${pageContext.request.contextPath}/resources/plugins/loading/loading.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles/base.css" />
+<style>
+    .select2-container--default .select2-selection--single {
+        border-radius: 0px;
+        border: 1px solid #C9C9C9;
+        height: 34px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: #333;
+        line-height: 34px;
+    }
+</style>
