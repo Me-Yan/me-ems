@@ -6,13 +6,58 @@
 
     <select id="countProfessionByFacultyId" resultType="int">
         SELECT COUNT(1)
-        FROM ems_profession
+        FROM ems_profession p
+        LEFT JOIN ems_faculty f ON p.facultyId_n = f.facultyId_n
         <if test="facultyId!=null and facultyId!=''">
-            WHERE facultyId_n = #{facultyId, jdbcType=INTEGER}
+            WHERE f.facultyId_n = #{facultyId, jdbcType=INTEGER}
         </if>
     </select>
     
     <select id="listProfessionByFacultyId" resultType="com.me.inner.dto.ProfessionDTO">
+        SELECT
+            p.professionId_n AS professionId,
+            p.facultyId_n AS facultyId,
+            p.name_m AS name,
+            p.create_dt AS createDate,
+            p.create_m AS createBy,
+            p.update_dt AS updateDate,
+            p.update_m AS updateBy,
+            f.name_m AS facultyName
+        FROM ems_profession p
+        LEFT JOIN ems_faculty f ON p.facultyId_n = f.facultyId_n
+        <if test="facultyId!=null and facultyId!=''">
+            WHERE f.facultyId_n= #{facultyId, jdbcType=INTEGER}
+        </if>
+        LIMIT #{pagination.begin}, #{pagination.limit}
+    </select>
+
+    <delete id="deleteProfessionByFacultyId" parameterType="java.lang.Integer">
+        DELETE FROM ems_profession WHERE facultyId_n = #{facultyId, jdbcType=INTEGER}
+    </delete>
+
+    <select id="countProfessionByCondition" parameterType="com.me.inner.dto.ProfessionDTO" resultType="int">
+        SELECT COUNT(1) FROM ems_profession
+        WHERE facultyId_n = #{facultyId, jdbcType=INTEGER} AND name_m = #{name, jdbcType=VARCHAR}
+    </select>
+
+    <insert id="saveProfession" parameterType="com.me.inner.dto.ProfessionDTO">
+        INSERT INTO ems_profession
+        (
+            facultyId_n,
+            name_m,
+            create_dt,
+            create_m
+        )
+        VALUES
+        (
+            #{facultyId, jdbcType=INTEGER},
+            #{name, jdbcType=VARCHAR},
+            #{createDate, jdbcType=TIMESTAMP},
+            #{createBy, jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <select id="getProfessionById" parameterType="java.lang.Integer" resultType="com.me.inner.dto.ProfessionDTO">
         SELECT
             professionId_n AS professionId,
             facultyId_n AS facultyId,
@@ -22,16 +67,19 @@
             update_dt AS updateDate,
             update_m AS updateBy
         FROM ems_profession
-        <if test="facultyId!=null and facultyId!=''">
-            WHERE facultyId_n= #{facultyId, jdbcType=INTEGER}
-        </if>
-        LIMIT #{pagination.begin}, #{pagination.limit}
+        WHERE professionId_n = #{professionId, jdbcType=INTEGER}
     </select>
 
-    <delete id="deleteProfessionByFacultyId" parameterType="java.lang.Integer">
-        DELETE p1 FROM ems_profession p1
-        LEFT JOIN ems_faculty f1 ON p1.facultyId_n = f1.facultyId_n
-        WHERE f1.facultyId_n = #{facultyId, jdbcType=INTEGER}
+    <update id="updateProfession" parameterType="com.me.inner.dto.ProfessionDTO">
+        UPDATE ems_profession SET
+            name_m = #{name, jdbcType=VARCHAR},
+            update_dt = #{updateDate, jdbcType=TIMESTAMP},
+            update_m = #{updateBy, jdbcType=VARCHAR}
+        WHERE professionId_n = #{professionId, jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteProfessionById" parameterType="java.lang.Integer">
+        DELETE FROM ems_profession WHERE professionId_n = #{professionId, jdbcType=INTEGER}
     </delete>
 
 </mapper>

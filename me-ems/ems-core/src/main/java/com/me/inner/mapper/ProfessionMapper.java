@@ -16,4 +16,14 @@ public interface ProfessionMapper {
     List<ProfessionDTO> listProfessionByFacultyId(@Param("facultyId") Integer facultyId, @Param("pagination") PaginationDTO pagination);
 
     void deleteProfessionByFacultyId(Integer facultyId);
+
+    int countProfessionByCondition(ProfessionDTO profession);
+
+    void saveProfession(ProfessionDTO profession);
+
+    ProfessionDTO getProfessionById(Integer professionId);
+
+    void updateProfession(ProfessionDTO profession);
+
+    void deleteProfessionById(Integer professionId);
 }

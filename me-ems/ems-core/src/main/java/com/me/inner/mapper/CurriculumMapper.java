@@ -6,4 +6,6 @@ package com.me.inner.mapper;
 public interface CurriculumMapper {
 
     void deleteCurriculumByFacultyId(Integer facultyId);
+
+    void deleteCurriculumByProfessionId(Integer professionId);
 }

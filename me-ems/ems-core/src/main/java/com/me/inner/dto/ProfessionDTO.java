@@ -18,6 +18,17 @@ public class ProfessionDTO implements Serializable {
     private Date updateDate;    // 修改时间
     private String updateBy;    // 修改人
 
+    // operation or view
+    private String facultyName;
+
+    public String getFacultyName() {
+        return facultyName;
+    }
+
+    public void setFacultyName(String facultyName) {
+        this.facultyName = facultyName;
+    }
+
     public Integer getProfessionId() {
         return professionId;
     }

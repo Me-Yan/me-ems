@@ -11,4 +11,10 @@
         WHERE f1.facultyId_n = #{facultyId, jdbcType=INTEGER}
     </delete>
 
+    <delete id="deleteClazzByProfessionId" parameterType="java.lang.Integer">
+        DELETE c1 FROM ems_class c1
+        LEFT JOIN ems_profession p1 ON c1.professionId_n = p1.professionId_n
+        WHERE p1.professionId_n = #{professionId, jdbcType=INTEGER}
+    </delete>
+
 </mapper>

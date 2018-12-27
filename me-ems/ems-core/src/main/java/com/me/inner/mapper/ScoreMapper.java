@@ -6,4 +6,6 @@ package com.me.inner.mapper;
 public interface ScoreMapper {
 
     void deleteScoreByFacultyId(Integer facultyId);
+
+    void deleteScoreByProfessionId(Integer professionId);
 }

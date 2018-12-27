@@ -116,10 +116,178 @@
         </div>
     </div>
 
+    <%-- 修改专业Modal --%>
+    <div class="modal fade" id="editFormModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">修改专业</h4>
+                </div>
+                <div class="modal-body">
+                    <br>
+                    <form id="editProfessionForm" method="post">
+                        <div class="row">
+                            <div class="col-xs-12 form-group-field">
+                                <label class="col-sm-3 col-md-3 col-md-offset-1 control-label text-left">专业名称 <span class="colon-label">:</span><span class="field-star">*</span></label>
+                                <div class="col-sm-8 col-md-6">
+                                    <div class="display-table">
+                                        <div class="display-cell colon-cell">:</div>
+                                        <div class="display-cell">
+                                            <input type="text" name="editName" class="form-control field-input" maxlength="20" id="editName" />
+                                            <span class="text-error hide" name="editNameMessage"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-primary" id="btnEditSubmit">提交</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%-- 确认修改提示Modal --%>
+    <div class="modal fade" id="confirmEditFormModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <p>确认修改该专业？</p>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-primary" id="btnEditConfirm">提交</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%-- 删除专业 --%>
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <p>删除该专业，同时会删除所有与该专业相关的所有信息，比如学生信息、课程信息等，请谨慎操作，确定删除？</p>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-primary" id="btnDelete">提交</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        var deleteId;
+        var updateId;
+        var facultyId;
         $(function () {
             initSelect();
             initTable();
+        });
+
+        // 删除专业
+        function deleteModal(professionId) {
+            deleteId = professionId;
+            $("#deleteModal").modal("show");
+        }
+        $("#btnDelete").on("click", function () {
+            $("#deleteModal").modal("hide");
+            $("body").loading("请稍等。。。");
+            $.ajax({
+                url: "${pageContext.request.contextPath}/profession/deleteProfession",
+                type: "post",
+                data: {
+                    professionId: deleteId
+                },
+                success: function (result) {
+                    $("body").loading("hide");
+                    if (result.success) {
+                        $("#tipContent").html("删除成功。");
+                        $("#professionTable").bootstrapTable("refresh");
+                    } else {
+                        $("#tipContent").html("删除失败。");
+                    }
+                    $("#outcomeModal").modal("show");
+                }
+            });
+        });
+
+        // 修改专业
+        function editModal(professionId, facultyId) {
+            this.updateId = professionId;
+            this.facultyId = facultyId;
+            $.ajax({
+                url: "${pageContext.request.contextPath}/profession/getProfession",
+                type: "post",
+                data: {
+                    professionId: updateId
+                },
+                success: function (result) {
+                    if (result) {
+                        $("#editName").val(result.name);
+                    }
+                }
+            });
+            $("#editFormModal").modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
+        }
+
+        $("#btnEditSubmit").on("click", function () {
+            var validation = $("#editProfessionForm").data("formValidation");
+            validation.validate();
+            if (validation.isValid()) {
+                $("#editFormModal").modal("hide");
+                $("#confirmEditFormModal").modal({
+                    backdrop: 'static',
+                    keyboard: false,
+                    show: true
+                });
+            }
+        });
+
+        $("#btnEditConfirm").on("click", function () {
+            $("#confirmEditFormModal").modal("hide");
+            $("body").loading("请等待。。。");
+            $.ajax({
+                url: "${pageContext.request.contextPath}/profession/updateProfession",
+                type: "post",
+                data: {
+                    facultyId: facultyId,
+                    professionId: updateId,
+                    name: $("#editName").val()
+                },
+                success: function (result) {
+                    $("body").loading("hide");
+                    if (result.success) {
+                        $("#tipContent").html("修改成功。");
+                        $("#professionTable").bootstrapTable("refresh");
+                    } else {
+                        $("#tipContent").html("该学院已存在此专业。");
+                    }
+                    $("#outcomeModal").modal("show");
+                }
+            });
+        });
+
+        $("#editFormModal").on("show.bs.modal", function () {
+            document.getElementById("editProfessionForm").reset();
+            initEditValidation();
+        });
+        $("#editFormModal").on("hidden.bs.modal", function () {
+            $("#editProfessionForm").data("formValidation").destroy();
         });
 
         // 添加专业
@@ -154,7 +322,7 @@
                     $("body").loading("hide");
                     if (result.success) {
                         $("#tipContent").html("添加成功。");
-                        $("#facultyTable").bootstrapTable("refresh");
+                        $("#professionTable").bootstrapTable("refresh");
                     } else {
                         $("#tipContent").html("该学院中已存在此专业。");
                     }
@@ -163,6 +331,7 @@
             });
         });
         $("#formModal").on("show.bs.modal", function () {
+            $("#facultyId").val("").trigger("change");
             document.getElementById("professionForm").reset();
             initValidation();
         });
@@ -174,11 +343,15 @@
         function queryParams(params) {
             serialNo = params.offset;
             return {
-                facultyName: $("#facultyName").val(),
+                facultyId: $("#facultyName").val(),
                 curPage: params.offset/params.limit,
                 limit: params.limit
             };
         }
+
+        $("#facultyName").on("change", function () {
+            $("#professionTable").bootstrapTable("refresh");
+        });
 
         function initTable() {
             $("#professionTable").bootstrapTable({
@@ -205,11 +378,18 @@
                         }
                     },
                     {
-                        field: 'name',
-                        title: '专业名称',
+                        field: 'facultyName',
+                        title: '学院',
                         align: 'center',
                         valign: 'middle',
-                        width:'70%'
+                        width:'30%'
+                    },
+                    {
+                        field: 'name',
+                        title: '专业',
+                        align: 'center',
+                        valign: 'middle',
+                        width:'40%'
                     },
                     {
                         field: '',
@@ -219,12 +399,91 @@
                         width:'20%',
                         formatter: function (value, row, index) {
                             return '<div class="btn-group">' +
-                                    '<button type="button" class="btn btn-primary" onclick="editModal('+row.professionId+')">修改</button>' +
+                                    '<button type="button" class="btn btn-primary" onclick="editModal('+row.professionId+', '+row.facultyId+')">修改</button>' +
                                     '<button type="button" class="btn btn-danger" onclick="deleteModal('+row.professionId+')">删除</button>' +
                                     '</div>';
                         }
                     }
                 ]
+            });
+        }
+
+        function initEditValidation() {
+            $("#editProfessionForm").formValidation({
+                excluded: [':disabled'],
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                err: {
+                    container: function($field, validator) {
+                        var messageName = $($field).attr("name")+"Message";
+                        var messageNode  = $('#editProfessionForm').find($("span[name='"+messageName+"']"));
+                        messageNode.addClass("has-error");
+                        messageNode.removeClass("hide");
+                        return messageNode;
+                    }
+                },
+                row: {
+                    valid: 'has-success',
+                    invalid: 'has-error',
+                    feedback: 'has-feedback'
+                },
+                icon: {
+                    valid: null,
+                    invalid: null,
+                    validating: null
+                },
+                fields: {
+                    editName:{
+                        message: '请填写专业名称。',
+                        validators: {
+                            notEmpty: {
+                                message: '请填写专业名称。'
+                            },
+                            stringLength: {
+                                max: 20,
+                                message: '不能超过20个字符。'
+                            }
+                        }
+                    }
+                }
+            }).on('err.field.fv', function(e, data) {
+                $("#editProfessionForm").find("i.form-control-feedback").remove();
+
+                if($(data.element).is('select')) {
+                    $(data.element).next().addClass("has-error");
+                    $(data.element).next().removeClass("has-success");
+                }
+                else if($(data.element).is('textarea')) {
+                    $(data.element).parent().addClass("has-error");
+                    $(data.element).parent().removeClass("has-success");
+                }
+                else {
+                    $(data.element).addClass("has-error");
+                    $(data.element).removeClass("has-success");
+                }
+            }).on('success.field.fv', function(e, data) {
+//            $("#btnUserSubmit").removeAttr("disabled");
+                if($(data.element).is('select')) {
+                    $(data.element).next().removeClass("has-error");
+                    $(data.element).next().addClass("has-success");
+                }
+                else if($(data.element).is('textarea')) {
+                    $(data.element).parent().removeClass("has-error");
+                    $(data.element).parent().addClass("has-success");
+                }
+                else {
+                    $(data.element).removeClass("has-error");
+                    $(data.element).addClass("has-success");
+                }
+                $("#editProfessionForm").find("."+data.field+"Message").css("display","none");
+                $("#editProfessionForm").find("."+data.field+"Message").addClass("hide");
+
+                //remove checkbox feedback icon
+                $("#editProfessionForm").find("i.form-control-feedback").remove();
             });
         }
 

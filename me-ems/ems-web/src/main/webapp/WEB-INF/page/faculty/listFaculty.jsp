@@ -5,7 +5,6 @@
   Time: 8:20
   To change this template use File | Settings | File Templates.
 --%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -110,7 +109,7 @@
                 </div>
                 <div class="modal-body">
                     <br>
-                    <form:form id="editFacultyForm" method="post">
+                    <form id="editFacultyForm" method="post">
                         <div class="row">
                             <div class="col-xs-12 form-group-field">
                                 <label class="col-sm-3 col-md-3 col-md-offset-1 control-label text-left">学院名称 <span class="colon-label">:</span><span class="field-star">*</span></label>
@@ -125,7 +124,7 @@
                                 </div>
                             </div>
                         </div>
-                    </form:form>
+                    </form>
                 </div>
                 <div class="modal-footer" style="text-align: center;">
                     <button type="button" class="btn btn-primary" id="btnEditSubmit">提交</button>
@@ -152,6 +151,7 @@
         </div>
     </div>
 
+    <%-- 删除学院 --%>
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -175,6 +175,32 @@
         var updateId;
         $(function () {
             initTable();
+        });
+
+        function deleteModal(facultyId) {
+            deleteId = facultyId;
+            $("#deleteModal").modal("show");
+        }
+        $("#btnDelete").on("click", function () {
+            $("#deleteModal").modal("hide");
+            $("body").loading("请稍等。。。");
+            $.ajax({
+                url: "${pageContext.request.contextPath}/faculty/deleteFaculty",
+                type: "post",
+                data: {
+                    facultyId: deleteId
+                },
+                success: function (result) {
+                    $("body").loading("hide");
+                    if (result.success) {
+                        $("#tipContent").html("删除成功。");
+                        $("#facultyTable").bootstrapTable("refresh");
+                    } else {
+                        $("#tipContent").html("删除失败。");
+                    }
+                    $("#outcomeModal").modal("show");
+                }
+            });
         });
 
         function editModal(facultyId) {
@@ -228,32 +254,6 @@
                         $("#facultyTable").bootstrapTable("refresh");
                     } else {
                         $("#tipContent").html("该学院已存在。");
-                    }
-                    $("#outcomeModal").modal("show");
-                }
-            });
-        });
-
-        function deleteModal(facultyId) {
-            deleteId = facultyId;
-            $("#deleteModal").modal("show");
-        }
-        $("#btnDelete").on("click", function () {
-            $("#deleteModal").modal("hide");
-            $("body").loading("请稍等。。。");
-            $.ajax({
-                url: "${pageContext.request.contextPath}/faculty/deleteFaculty",
-                type: "post",
-                data: {
-                    facultyId: deleteId
-                },
-                success: function (result) {
-                    $("body").loading("hide");
-                    if (result.success) {
-                        $("#tipContent").html("删除成功。");
-                        $("#facultyTable").bootstrapTable("refresh");
-                    } else {
-                        $("#tipContent").html("删除失败。");
                     }
                     $("#outcomeModal").modal("show");
                 }

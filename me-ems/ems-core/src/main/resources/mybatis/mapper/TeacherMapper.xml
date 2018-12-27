@@ -5,9 +5,7 @@
 <mapper namespace="com.me.inner.mapper.TeacherMapper">
 
     <delete id="deleteTeacherByFacultyId" parameterType="java.lang.Integer">
-        DELETE t1 FROM ems_teacher t1
-        LEFT JOIN ems_faculty f1 ON t1.facultyId_n = f1.facultyId_n
-        WHERE f1.facultyId_n = #{facultyId, jdbcType=INTEGER}
+        DELETE FROM ems_teacher WHERE facultyId_n = #{facultyId, jdbcType=INTEGER}
     </delete>
 
 </mapper>

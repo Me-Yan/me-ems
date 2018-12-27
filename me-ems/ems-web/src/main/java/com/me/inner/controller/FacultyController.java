@@ -1,6 +1,5 @@
 package com.me.inner.controller;
 
-import com.google.common.collect.Maps;
 import com.me.inner.dto.FacultyDTO;
 import com.me.inner.dto.PaginationDTO;
 import com.me.inner.dto.ResponseData;
@@ -53,13 +52,9 @@ public class FacultyController extends BaseController {
     public ResponseData addFaculty(@ModelAttribute("facultyForm") FacultyDTO facultyForm) {
         logger.debug("Execute Method addFaculty...");
 
-        boolean outcome = facultyService.addFaculty(facultyForm);
+        boolean valid = facultyService.addFaculty(facultyForm);
 
-        if (outcome) {
-            return new ResponseData(true);
-        }
-
-        return new ResponseData(false);
+        return new ResponseData(valid);
     }
 
     @RequestMapping("deleteFaculty")
@@ -89,13 +84,9 @@ public class FacultyController extends BaseController {
     public ResponseData updateFaculty(@ModelAttribute("facultyForm") FacultyDTO facultyForm) {
         logger.debug("Execute Method updateFaculty...");
 
-        try {
-            boolean valida = facultyService.updateFaculty(facultyForm);
-            return new ResponseData(valida);
-        } catch (Exception e) {
-            logger.error("修改学院时，发生错误。", e);
-            return new ResponseData(false);
-        }
+        boolean valid = facultyService.updateFaculty(facultyForm);
+
+        return new ResponseData(valid);
     }
 
 }

@@ -6,4 +6,6 @@ package com.me.inner.mapper;
 public interface Profession2SubjectMapper {
 
     void deleteByFacultyId(Integer facultyId);
+
+    void deleteByProfessionId(Integer professionId);
 }

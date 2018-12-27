@@ -6,4 +6,6 @@ package com.me.inner.mapper;
 public interface StudentMapper {
 
     void deleteStudentByFacultyId(Integer facultyId);
+
+    void deleteStudentByProfessionId(Integer professionId);
 }

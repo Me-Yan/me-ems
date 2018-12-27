@@ -13,4 +13,12 @@ import java.util.List;
 public interface ProfessionService {
 
     PaginationDTO listProfessionByFacultyId(Integer facultyId, PaginationDTO pagination);
+
+    boolean addProfession(ProfessionDTO profession);
+
+    ProfessionDTO getProfessionById(Integer professionId);
+
+    boolean updateProfession(ProfessionDTO profession);
+
+    void deleteProfessionById(Integer professionId);
 }
