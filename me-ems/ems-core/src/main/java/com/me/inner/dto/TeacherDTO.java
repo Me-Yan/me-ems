@@ -24,6 +24,15 @@ public class TeacherDTO implements Serializable {
 
     // operation or view
     private String facultyName;
+    private String birthDateStr;
+
+    public String getBirthDateStr() {
+        return birthDateStr;
+    }
+
+    public void setBirthDateStr(String birthDateStr) {
+        this.birthDateStr = birthDateStr;
+    }
 
     public String getFacultyName() {
         return facultyName;

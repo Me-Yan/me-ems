@@ -8,4 +8,35 @@
         DELETE FROM ems_teacher WHERE facultyId_n = #{facultyId, jdbcType=INTEGER}
     </delete>
 
+    <select id="countTeacherByCondition" resultType="int">
+        SELECT COUNT(1) FROM ems_teacher
+        <if test="facultyId!=null and facultyId!=''">
+            WHERE facultyId_n = #{facultyId, jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="listTeacherByCondition" resultType="com.me.inner.dto.TeacherDTO">
+        SELECT
+            t.teacherId_n AS teacherId,
+            t.number_x AS number,
+            t.name_m AS name,
+            t.facultyId_n AS facultyId,
+            t.age_n AS age,
+            t.sex_n AS sex,
+            t.birth_dt AS birthDate,
+            t.create_dt AS createDate,
+            t.create_m AS createBy,
+            t.update_dt AS updateDate,
+            t.update_m AS updateBy,
+            f.name_m AS facultyName,
+            DATE_FORMAT(t.birth_dt, '%Y-%m-%d') AS birthDateStr
+        FROM ems_teacher t
+        LEFT JOIN ems_faculty f ON t.facultyId_n = f.facultyId_n
+        WHERE 1=1
+        <if test="facultyId!=null and facultyId!=''">
+            AND f.facultyId_n = #{facultyId, jdbcType=INTEGER}
+        </if>
+        LIMIT #{pagination.begin}, #{pagination.limit}
+    </select>
+
 </mapper>

@@ -17,11 +17,7 @@
             <a href="${pageContext.request.contextPath}/profession/listProfession">专业列表</a>
         </li>
         <li>
-            <a href="javascript:void(0);">教师管理</a>
-            <ul>
-                <li><a href="#">教师清单</a></li>
-                <li><a href="#">添加教师</a></li>
-            </ul>
+            <a href="${pageContext.request.contextPath}/teacher/listTeacher">教师管理</a>
         </li>
         <li>
             <a href="javascript:void(0);">班级管理</a>

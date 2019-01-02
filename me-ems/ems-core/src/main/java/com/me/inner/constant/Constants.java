@@ -11,4 +11,9 @@ public class Constants {
         String ADMIN = "ROLE_ADMIN";        //  辅导员 02
         String SUPER_ADMIN = "ROLE_SUPER_ADMIN";    // 系统管理员 03
     }
+
+    public interface Sex {
+        String FEMALE = "女";
+        String MALE = "男";
+    }
 }
