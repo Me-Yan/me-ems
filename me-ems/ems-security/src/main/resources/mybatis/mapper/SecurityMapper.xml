@@ -85,4 +85,50 @@
         )
     </insert>
 
+    <select id="getRoleByName" parameterType="java.lang.String" resultType="com.me.inner.dto.RoleSecDTO">
+        SELECT
+            roleId_n AS roleId,
+            roleName_m AS roleName,
+            enabled_c AS createBy,
+            create_dt AS createDate
+        FROM ems_role
+        WHERE roleName_m = #{roleName, jdbcType=VARCHAR} AND enabled_c = 'Y'
+    </select>
+
+    <insert id="saveUser" parameterType="com.me.inner.dto.UserSecDTO" keyColumn="userId_n" keyProperty="userId" useGeneratedKeys="true">
+        INSERT INTO ems_user
+        (
+            username_m,
+            password_x,
+            enabled_c,
+            create_dt,
+            create_m
+        )
+        VALUES
+        (
+            #{username, jdbcType=VARCHAR},
+            #{password, jdbcType=VARCHAR},
+            #{enabled, jdbcType=CHAR},
+            #{createDate, jdbcType=TIMESTAMP},
+            #{createBy, jdbcType=VARCHAR}
+        )
+    </insert>
+    
+    <insert id="saveUser2Role" parameterType="com.me.inner.dto.User2RoleSecDTO">
+        INSERT INTO ems_user2role
+        (
+            userId_n,
+            roleId_n,
+            create_dt,
+            create_m
+        )
+        VALUES
+        (
+            #{userId, jdbcType=INTEGER},
+            #{roleId, jdbcType=INTEGER},
+            #{createDate, jdbcType=TIMESTAMP},
+            #{createBy, jdbcType=VARCHAR}
+        )
+    </insert>
+
 </mapper>

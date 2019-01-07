@@ -38,5 +38,30 @@
         </if>
         LIMIT #{pagination.begin}, #{pagination.limit}
     </select>
+    
+    <insert id="saveTeacher" parameterType="com.me.inner.dto.TeacherDTO">
+        INSERT INTO ems_teacher
+        (
+            number_x,
+            name_m,
+            facultyId_n,
+            age_n,
+            sex_n,
+            birth_dt,
+            create_dt,
+            create_m
+        )
+        VALUES
+        (
+            #{number, jdbcType=VARCHAR},
+            #{name, jdbcType=VARCHAR},
+            #{facultyId, jdbcType=INTEGER},
+            #{age, jdbcType=INTEGER},
+            #{sex, jdbcType=INTEGER},
+            #{birthDate, jdbcType=TIMESTAMP},
+            #{createDate, jdbcType=TIMESTAMP},
+            #{createBy, jdbcType=VARCHAR}
+        )
+    </insert>
 
 </mapper>

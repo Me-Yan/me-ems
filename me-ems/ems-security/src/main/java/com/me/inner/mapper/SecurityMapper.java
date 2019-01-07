@@ -20,5 +20,11 @@ public interface SecurityMapper {
 
     List<Role2ResSecDTO> listRole2Resource();
 
+    RoleSecDTO getRoleByName(String roleName);
+
     void saveLoginHistory(LoginHistorySecDTO loginHistorySecDTO);
+
+    void saveUser(UserSecDTO user);
+
+    void saveUser2Role(User2RoleSecDTO user2Role);
 }

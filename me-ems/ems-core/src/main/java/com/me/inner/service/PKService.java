@@ -5,5 +5,5 @@ package com.me.inner.service;
  */
 public interface PKService {
 
-    String getNumber();
+    String getNumber(String roleName);
 }

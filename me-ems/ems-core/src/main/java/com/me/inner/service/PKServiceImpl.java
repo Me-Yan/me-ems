@@ -3,16 +3,13 @@ package com.me.inner.service;
 import com.me.inner.constant.Constants;
 import com.me.inner.dto.SequenceDTO;
 import com.me.inner.mapper.SequenceMapper;
-import com.me.inner.util.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by yanyanghong on 2018/12/24.
@@ -29,49 +26,21 @@ public class PKServiceImpl implements PKService {
      * the rule of generating number is year[yyyy]+type(00,01,02,03)+xxxxxx(000001+)
      * @return
      */
-    public String getNumber() {
+    public String getNumber(String roleName) {
         logger.debug("Execute Method generateNumber...");
 
-        List<String> authorityList = SecurityUtil.listUserAuthority();
-        if (!CollectionUtils.isEmpty(authorityList)) {
-            String roleName = null;
-            for (String authority : authorityList) {
-                if (Constants.Role.STUDENT.equals(authority)) {
-                    roleName = Constants.Role.STUDENT;
-                    break;
-                } else if (Constants.Role.TEACHER.equals(authority)) {
-                    roleName = Constants.Role.TEACHER;
-                    break;
-                } else if (Constants.Role.ADMIN.equals(authority)) {
-                    roleName = Constants.Role.ADMIN;
-                    break;
-                } else if (Constants.Role.SUPER_ADMIN.equals(authority)) {
-                    roleName = Constants.Role.SUPER_ADMIN;
-                    break;
-                }
-            }
-
-            return generateNumber(roleName);
-        }
-
-        return null;
-    }
-
-    private String generateNumber(String type) {
-        logger.debug("Execute Method genStudentNumber...");
-
         String typeCode = null;
-        if (Constants.Role.STUDENT.equals(type)) {
+        if (Constants.Role.STUDENT.equals(roleName)) {
             typeCode = "00";
-        } else if (Constants.Role.TEACHER.equals(type)) {
+        } else if (Constants.Role.TEACHER.equals(roleName)) {
             typeCode = "01";
-        } else if (Constants.Role.ADMIN.equals(type)) {
+        } else if (Constants.Role.ADMIN.equals(roleName)) {
             typeCode = "02";
-        } else if (Constants.Role.SUPER_ADMIN.equals(type)) {
+        } else if (Constants.Role.SUPER_ADMIN.equals(roleName)) {
             typeCode = "03";
         }
 
-        SequenceDTO sequenceObj = sequenceMapper.getNextSequenceObj(type);
+        SequenceDTO sequenceObj = sequenceMapper.getNextSequenceObj(roleName);
 
         String lastNumber = null;
         if (null == sequenceObj) {
@@ -81,7 +50,7 @@ public class PKServiceImpl implements PKService {
             lastNumber = year + typeCode + suffix;
 
             String nextNumber = year + typeCode + generateSuffix(index+1);
-            sequenceObj = new SequenceDTO(type, lastNumber, nextNumber, index+1, new Date());
+            sequenceObj = new SequenceDTO(roleName, lastNumber, nextNumber, index+1, new Date());
 
             sequenceMapper.saveSequence(sequenceObj);
         } else {

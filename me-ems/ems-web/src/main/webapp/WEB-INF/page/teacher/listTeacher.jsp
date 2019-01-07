@@ -204,7 +204,7 @@
                         $("#tipContent").html("添加成功。");
                         $("#teacherTable").bootstrapTable("refresh");
                     } else {
-                        $("#tipContent").html("该学院中已存在此专业。");
+                        $("#tipContent").html("添加失败，请重新添加。");
                     }
                     $("#outcomeModal").modal("show");
                 }

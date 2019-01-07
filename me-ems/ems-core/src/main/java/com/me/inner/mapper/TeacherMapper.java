@@ -16,4 +16,6 @@ public interface TeacherMapper {
     int countTeacherByCondition(@Param("facultyId") Integer facultyId);
 
     List<TeacherDTO> listTeacherByCondition(@Param("facultyId") Integer facultyId, @Param("pagination")PaginationDTO pagination);
+
+    boolean saveTeacher(TeacherDTO teacher);
 }

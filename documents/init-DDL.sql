@@ -130,7 +130,7 @@ CREATE TABLE ems_score (
 
 DROP TABLE IF EXISTS ems_sequence;
 CREATE TABLE ems_sequence (
-	type_c			VARCHAR(10)	NOT NULL,
+	type_c			VARCHAR(20)	NOT NULL,
 	lastNumber_x	VARCHAR(20)	NULL,
 	nextNumber_x	VARCHAR(20)	NOT NULL,
 	nextSeq_n		INT			NOT NULL,

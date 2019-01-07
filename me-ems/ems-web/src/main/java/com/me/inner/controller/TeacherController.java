@@ -2,10 +2,8 @@ package com.me.inner.controller;
 
 import com.google.common.collect.Maps;
 import com.me.inner.constant.Constants;
-import com.me.inner.dto.FacultyDTO;
-import com.me.inner.dto.PaginationDTO;
-import com.me.inner.dto.ResponseData;
-import com.me.inner.dto.TeacherDTO;
+import com.me.inner.dto.*;
+import com.me.inner.service.CodeService;
 import com.me.inner.service.FacultyService;
 import com.me.inner.service.TeacherService;
 import com.me.inner.util.CommonUtil;
@@ -37,6 +35,8 @@ public class TeacherController {
     private FacultyService facultyService;
     @Autowired
     private TeacherService teacherService;
+    @Autowired
+    private CodeService codeService;
 
     @RequestMapping("listTeacher")
     public ModelAndView listTeacher() {
@@ -51,6 +51,9 @@ public class TeacherController {
         sexMap.put(0, Constants.Sex.FEMALE);
         sexMap.put(1, Constants.Sex.MALE);
         model.put("sexMap", sexMap);
+
+        CodeDTO initPasswordCode = codeService.getCodeByTypeAndName(Constants.CodeType.INIT_PASSWORD, Constants.CodeName.TEACHER);
+        model.put("initPassword", initPasswordCode.getValue());
 
         return new ModelAndView("teacher/listTeacher", model);
     }
@@ -72,6 +75,8 @@ public class TeacherController {
     public ResponseData addTeacher(@ModelAttribute("teacherForm") TeacherDTO teacherForm) {
         logger.debug("Execute Method addTeacher...");
 
-        return null;
+        boolean valid = teacherService.saveTeacher(teacherForm);
+
+        return new ResponseData(valid);
     }
 }

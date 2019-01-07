@@ -30,3 +30,5 @@ VALUES(4, 4, 4, NOW(), 'System');
 
 INSERT INTO ems_user2role(id_n, userId_n, roleId_n, create_dt, create_m)
 VALUES(1, 1, 4, NOW(), 'System');
+
+INSERT INTO ems_code VALUES(1, 'INITPASSWORD', 'TEACHER', '123456', 'init teacher password', 'A', 'Admin', NOW());
