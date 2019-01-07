@@ -45,15 +45,314 @@
 
     <jsp:include page="../commonModal.jsp"/>
 
+    <%-- 添加老师Modal --%>
+    <div class="modal fade" id="formModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">添加老师</h4>
+                </div>
+                <div class="modal-body">
+                    <br>
+                    <form id="teacherForm" method="post">
+                        <div class="row">
+                            <div class="col-xs-12 form-group-field">
+                                <label class="col-sm-3 col-md-3 col-md-offset-1 control-label text-left">所属学院 <span class="colon-label">:</span><span class="field-star">*</span></label>
+                                <div class="col-sm-8 col-md-6">
+                                    <div class="display-table">
+                                        <div class="display-cell colon-cell">:</div>
+                                        <div class="display-cell">
+                                            <select name="facultyId" id="facultyId" class="form-control field-input">
+                                                <option value="">- 请选择学院 -</option>
+                                                <c:if test="${not empty facultyList}">
+                                                    <c:forEach items="${facultyList}" var="faculty">
+                                                        <option value="${faculty.facultyId}"><c:out value="${faculty.name}"/></option>
+                                                    </c:forEach>
+                                                </c:if>
+                                            </select>
+                                            <span class="text-error hide" name="facultyIdMessage"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 form-group-field">
+                                <label class="col-sm-3 col-md-3 col-md-offset-1 control-label text-left">姓名 <span class="colon-label">:</span><span class="field-star">*</span></label>
+                                <div class="col-sm-8 col-md-6">
+                                    <div class="display-table">
+                                        <div class="display-cell colon-cell">:</div>
+                                        <div class="display-cell">
+                                            <input type="text" name="name" class="form-control field-input" id="name" />
+                                            <span class="text-error hide" name="nameMessage"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 form-group-field">
+                                <label class="col-sm-3 col-md-3 col-md-offset-1 control-label text-left">年龄 <span class="colon-label">:</span><span class="field-star">*</span></label>
+                                <div class="col-sm-8 col-md-6">
+                                    <div class="display-table">
+                                        <div class="display-cell colon-cell">:</div>
+                                        <div class="display-cell">
+                                            <input type="text" name="age" class="form-control field-input" id="age" />
+                                            <span class="text-error hide" name="ageMessage"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 form-group-field">
+                                <label class="col-sm-3 col-md-3 col-md-offset-1 control-label text-left">性别 <span class="colon-label">:</span><span class="field-star">*</span></label>
+                                <div class="col-sm-8 col-md-6">
+                                    <div class="display-table">
+                                        <div class="display-cell colon-cell">:</div>
+                                        <div class="display-cell">
+                                            <select name="sex" id="sex" class="form-control field-input">
+                                                <option value="">- 请选择性别 -</option>
+                                                <c:if test="${not empty sexMap}">
+                                                    <c:forEach items="${sexMap}" var="sexObj">
+                                                        <option value="${sexObj.key}">${sexObj.value}</option>
+                                                    </c:forEach>
+                                                </c:if>
+                                            </select>
+                                            <span class="text-error hide" name="sexMessage"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 form-group-field">
+                                <label class="col-sm-3 col-md-3 col-md-offset-1 control-label text-left">出生日期 <span class="colon-label">:</span><span class="field-star">*</span></label>
+                                <div class="col-sm-8 col-md-6">
+                                    <div class="display-table">
+                                        <div class="display-cell colon-cell">:</div>
+                                        <div class="display-cell">
+                                            <input type="text" name="birthDateStr" class="form-control field-input flatpickr" data-enable-time="false" id="birthDateStr" placeholder="yyyy-dd-mm" />
+                                            <span class="text-error hide" name="birthDateStrMessage"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-primary" id="btnSubmit">提交</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%-- 确认添加提示Modal --%>
+    <div class="modal fade" id="confirmFormModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <p>确认添加该老师？</p>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-primary" id="btnConfirm">提交</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         $(function () {
             initSelect();
             initTable();
+            $('#birthDateStr').flatpickr({
+                maxDate: new Date(),
+                onChange: function (dateObj, dateStr, instance) {
+                    $("#teacherForm").data("formValidation").revalidateField("birthDateStr");
+                }
+            });
         });
 
+        // 添加老师
+        $("#btnAdd").on("click", function () {
+           $("#formModal").modal({
+               backdrop: 'static',
+               keyboard: false,
+               show: true
+           });
+        });
+        $("#btnSubmit").on("click", function () {
+            var validation = $("#teacherForm").data("formValidation");
+            validation.validate();
+            if (validation.isValid()) {
+                $("#formModal").modal("hide");
+                $("#confirmFormModal").modal({
+                    backdrop: 'static',
+                    keyboard: false,
+                    show: true
+                });
+            }
+        });
+        $("#btnConfirm").on("click", function () {
+            $("#confirmFormModal").modal("hide");
+            $("body").loading("请等待。。。");
+            $.ajax({
+                url: "${pageContext.request.contextPath}/teacher/addTeacher",
+                type: "post",
+                data: $("#teacherForm").serialize(),
+                success: function (result) {
+                    $("body").loading("hide");
+                    if (result.success) {
+                        $("#tipContent").html("添加成功。");
+                        $("#teacherTable").bootstrapTable("refresh");
+                    } else {
+                        $("#tipContent").html("该学院中已存在此专业。");
+                    }
+                    $("#outcomeModal").modal("show");
+                }
+            });
+        });
+        $("#formModal").on("show.bs.modal", function () {
+            $("#facultyId").val("").trigger("change");
+            $("#sex").val("").trigger("change");
+            document.getElementById("teacherForm").reset();
+            initValidation();
+        });
+        $("#formModal").on("hidden.bs.modal", function () {
+            $("#teacherForm").data("formValidation").destroy();
+        });
+
+        // 根据学院刷新列表
         $("#facultyName").on("change", function () {
             $("#teacherTable").bootstrapTable("refresh");
         });
+
+        function initValidation() {
+            $("#teacherForm").formValidation({
+                excluded: [':disabled'],
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                err: {
+                    container: function($field, validator) {
+                        var messageName = $($field).attr("name")+"Message";
+                        var messageNode  = $('#teacherForm').find($("span[name='"+messageName+"']"));
+                        messageNode.addClass("has-error");
+                        messageNode.removeClass("hide");
+                        return messageNode;
+                    }
+                },
+                row: {
+                    valid: 'has-success',
+                    invalid: 'has-error',
+                    feedback: 'has-feedback'
+                },
+                icon: {
+                    valid: null,
+                    invalid: null,
+                    validating: null
+                },
+                fields: {
+                    facultyId:{
+                        message: '请选择学院。',
+                        validators: {
+                            notEmpty: {
+                                message: '请选择学院。'
+                            }
+                        }
+                    },
+                    name:{
+                        message: '请填写姓名。',
+                        validators: {
+                            notEmpty: {
+                                message: '请填写姓名'
+                            },
+                            stringLength: {
+                                max: 4,
+                                message: '不能超过4个字符。'
+                            }
+                        }
+                    },
+                    age:{
+                        message: '请填写年龄。',
+                        validators: {
+                            notEmpty: {
+                                message: '请填写年龄。'
+                            },
+                            callback: {
+                                message: '请输入合理的年龄',
+                                callback: function (value) {
+                                    if (value && value.trim()) {
+                                        var age = parseInt(value);
+                                        if (age<150) {
+                                            return true;
+                                        } else {
+                                            return false;
+                                        }
+                                    }
+                                    return true;
+                                }
+                            }
+                        }
+                    },
+                    sex:{
+                        message: '请选择性别。',
+                        validators: {
+                            notEmpty: {
+                                message: '请选择性别。'
+                            }
+                        }
+                    },
+                    birthDateStr:{
+                        message: '请选择出生日期。',
+                        validators: {
+                            notEmpty: {
+                                message: '请选择出生日期。'
+                            },
+                            date: {
+                                format: 'YYYY-MM-DD',
+                                message: '请输入有效日期'
+                            }
+                        }
+                    }
+                }
+            }).on('err.field.fv', function(e, data) {
+                $("#teacherForm").find("i.form-control-feedback").remove();
+
+                if($(data.element).is('select')) {
+                    $(data.element).next().addClass("has-error");
+                    $(data.element).next().removeClass("has-success");
+                }
+                else if($(data.element).is('textarea')) {
+                    $(data.element).parent().addClass("has-error");
+                    $(data.element).parent().removeClass("has-success");
+                }
+                else {
+                    $(data.element).addClass("has-error");
+                    $(data.element).removeClass("has-success");
+                }
+            }).on('success.field.fv', function(e, data) {
+//            $("#btnUserSubmit").removeAttr("disabled");
+                if($(data.element).is('select')) {
+                    $(data.element).next().removeClass("has-error");
+                    $(data.element).next().addClass("has-success");
+                }
+                else if($(data.element).is('textarea')) {
+                    $(data.element).parent().removeClass("has-error");
+                    $(data.element).parent().addClass("has-success");
+                }
+                else {
+                    $(data.element).removeClass("has-error");
+                    $(data.element).addClass("has-success");
+                }
+                $("#teacherForm").find("."+data.field+"Message").css("display","none");
+                $("#teacherForm").find("."+data.field+"Message").addClass("hide");
+
+                //remove checkbox feedback icon
+                $("#teacherForm").find("i.form-control-feedback").remove();
+            });
+        }
 
         var serialNo = 1;
         function queryParams(params) {
@@ -156,10 +455,19 @@
         }
 
         function initSelect() {
-            $("select").select2({
+            $("#facultyName").select2({
                 width: '100%',
                 dropdownAutoWidth:false
 //                minimumResultsForSearch: -1
+            });
+            $("#facultyId").select2({
+                width: '100%',
+                dropdownAutoWidth:false
+            });
+            $("#sex").select2({
+                width: '100%',
+                dropdownAutoWidth:false,
+                minimumResultsForSearch: -1
             });
         }
     </script>

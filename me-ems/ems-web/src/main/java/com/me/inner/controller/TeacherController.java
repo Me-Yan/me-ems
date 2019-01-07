@@ -1,8 +1,10 @@
 package com.me.inner.controller;
 
 import com.google.common.collect.Maps;
+import com.me.inner.constant.Constants;
 import com.me.inner.dto.FacultyDTO;
 import com.me.inner.dto.PaginationDTO;
+import com.me.inner.dto.ResponseData;
 import com.me.inner.dto.TeacherDTO;
 import com.me.inner.service.FacultyService;
 import com.me.inner.service.TeacherService;
@@ -11,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,6 +47,11 @@ public class TeacherController {
         List<FacultyDTO> facultyList = facultyService.listAllFaculty();
         model.put("facultyList", facultyList);
 
+        Map<Integer, String> sexMap = Maps.newHashMap();
+        sexMap.put(0, Constants.Sex.FEMALE);
+        sexMap.put(1, Constants.Sex.MALE);
+        model.put("sexMap", sexMap);
+
         return new ModelAndView("teacher/listTeacher", model);
     }
 
@@ -57,5 +65,13 @@ public class TeacherController {
         teacherService.listTeacherByCondition(facultyId, pagination);
 
         return pagination;
+    }
+
+    @RequestMapping("addTeacher")
+    @ResponseBody
+    public ResponseData addTeacher(@ModelAttribute("teacherForm") TeacherDTO teacherForm) {
+        logger.debug("Execute Method addTeacher...");
+
+        return null;
     }
 }
