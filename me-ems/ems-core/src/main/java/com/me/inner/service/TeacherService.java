@@ -11,4 +11,8 @@ public interface TeacherService {
     PaginationDTO listTeacherByCondition(Integer facultyId, PaginationDTO pagination);
 
     boolean saveTeacher(TeacherDTO teacher);
+
+    TeacherDTO getTeacherById(Integer teacherId);
+
+    boolean updateTeacher(TeacherDTO teacher);
 }

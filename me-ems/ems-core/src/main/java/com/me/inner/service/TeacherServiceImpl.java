@@ -95,4 +95,26 @@ public class TeacherServiceImpl implements TeacherService {
             return false;
         }
     }
+
+    public TeacherDTO getTeacherById(Integer teacherId) {
+        logger.debug("Execute Method getTeacherById...");
+
+        return teacherMapper.getTeacherById(teacherId);
+    }
+
+    public boolean updateTeacher(TeacherDTO teacher) {
+
+        try {
+            teacher.setBirthDate(DateUtil.parseDate(teacher.getBirthDateStr(), CommonConstant.Pattern.YYYY_MM_DD));
+            teacher.setUpdateBy(SecurityUtil.getUserInfo().getUsername());
+            teacher.setUpdateDate(new Date());
+
+            teacherMapper.updateTeacher(teacher);
+
+            return true;
+        } catch (Exception e) {
+            logger.error("修改老师发生错误", e);
+            return false;
+        }
+    }
 }

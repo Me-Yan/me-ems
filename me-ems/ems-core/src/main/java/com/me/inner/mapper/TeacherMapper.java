@@ -18,4 +18,8 @@ public interface TeacherMapper {
     List<TeacherDTO> listTeacherByCondition(@Param("facultyId") Integer facultyId, @Param("pagination")PaginationDTO pagination);
 
     boolean saveTeacher(TeacherDTO teacher);
+
+    TeacherDTO getTeacherById(Integer teacherId);
+
+    void updateTeacher(TeacherDTO teacher);
 }

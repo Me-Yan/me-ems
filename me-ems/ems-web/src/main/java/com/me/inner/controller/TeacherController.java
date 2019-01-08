@@ -79,4 +79,22 @@ public class TeacherController {
 
         return new ResponseData(valid);
     }
+
+    @RequestMapping("getTeacher")
+    @ResponseBody
+    public TeacherDTO getTeacher(@RequestParam("teacherId") Integer teacherId) {
+        logger.debug("Execute Method getTeacher...");
+
+        return teacherService.getTeacherById(teacherId);
+    }
+
+    @RequestMapping("updateTeacher")
+    @ResponseBody
+    public ResponseData updateTeacher(@ModelAttribute("teacherForm") TeacherDTO teacherForm) {
+        logger.debug("Execute Method updateTeacher...");
+
+        boolean valid = teacherService.updateTeacher(teacherForm);
+
+        return new ResponseData(valid);
+    }
 }
