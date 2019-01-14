@@ -258,6 +258,7 @@
 
     <script>
         var editBirthDate;
+        var deleteId;
         $(function () {
             initSelect();
             initTable();
@@ -274,6 +275,34 @@
                 }
             });
         });
+
+        // 删除老师
+        function deleteModal(teacherId) {
+            deleteId = teacherId;
+            $("#deleteModal").modal("show");
+        }
+        $("#btnDelete").on("click", function () {
+            $("#deleteModal").modal("hide");
+            $("body").loading("请稍等。。。");
+            $.ajax({
+                url: "${pageContext.request.contextPath}/teacher/deleteTeacher",
+                type: "post",
+                data: {
+                    teacherId: deleteId
+                },
+                success: function (result) {
+                    $("body").loading("hide");
+                    if (result.success) {
+                        $("#tipContent").html("删除成功。");
+                        $("#teacherTable").bootstrapTable("refresh");
+                    } else {
+                        $("#tipContent").html("删除失败。");
+                    }
+                    $("#outcomeModal").modal("show");
+                }
+            });
+        });
+
         // 修改老师
         function editModal(teacherId) {
             $("#editTeacherId").val(teacherId);

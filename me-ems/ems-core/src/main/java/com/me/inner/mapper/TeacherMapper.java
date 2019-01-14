@@ -22,4 +22,6 @@ public interface TeacherMapper {
     TeacherDTO getTeacherById(Integer teacherId);
 
     void updateTeacher(TeacherDTO teacher);
+
+    void deleteTeacherById(Integer teacherId);
 }

@@ -95,4 +95,8 @@
         WHERE teacherId_n = #{teacherId, jdbcType=INTEGER}
     </update>
 
+    <update id="deleteTeacherById" parameterType="java.lang.Integer">
+        UPDATE ems_teacher SET active_c = 'I' WHERE teacherId_n = #{teacherId, jdbcType=INTEGER}
+    </update>
+
 </mapper>

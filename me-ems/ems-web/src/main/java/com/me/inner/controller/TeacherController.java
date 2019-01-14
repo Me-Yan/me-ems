@@ -97,4 +97,16 @@ public class TeacherController {
 
         return new ResponseData(valid);
     }
+
+    @RequestMapping("deleteTeacher")
+    @ResponseBody
+    public ResponseData deleteTeacher(@RequestParam("teacherId") Integer teacherId) {
+        logger.debug("Execute Method deleteTeacher...");
+
+//        boolean valid = teacherService.updateTeacher(teacherId);
+
+//        return new ResponseData(valid);
+
+        return null;
+    }
 }

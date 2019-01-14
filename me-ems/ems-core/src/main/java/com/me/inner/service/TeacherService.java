@@ -15,4 +15,6 @@ public interface TeacherService {
     TeacherDTO getTeacherById(Integer teacherId);
 
     boolean updateTeacher(TeacherDTO teacher);
+
+    boolean deleteTeacherById(Integer teacherId);
 }

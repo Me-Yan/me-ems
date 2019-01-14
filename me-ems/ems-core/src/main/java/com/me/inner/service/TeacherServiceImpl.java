@@ -5,6 +5,7 @@ import com.me.inner.constant.CommonConstant;
 import com.me.inner.constant.Constants;
 import com.me.inner.dto.*;
 import com.me.inner.mapper.CodeMapper;
+import com.me.inner.mapper.CurriculumMapper;
 import com.me.inner.mapper.SecurityMapper;
 import com.me.inner.mapper.TeacherMapper;
 import com.me.inner.util.CommonUtil;
@@ -34,6 +35,8 @@ public class TeacherServiceImpl implements TeacherService {
     private CodeMapper codeMapper;
     @Autowired
     private SecurityMapper securityMapper;
+    @Autowired
+    private CurriculumMapper curriculumMapper;
 
     public PaginationDTO listTeacherByCondition(Integer facultyId, PaginationDTO pagination) {
         logger.debug("Execute Method listTeacherByCondition...");
@@ -103,6 +106,7 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     public boolean updateTeacher(TeacherDTO teacher) {
+        logger.debug("Execute Method updateTeacher...");
 
         try {
             teacher.setBirthDate(DateUtil.parseDate(teacher.getBirthDateStr(), CommonConstant.Pattern.YYYY_MM_DD));
@@ -114,6 +118,22 @@ public class TeacherServiceImpl implements TeacherService {
             return true;
         } catch (Exception e) {
             logger.error("修改老师发生错误", e);
+            return false;
+        }
+    }
+
+    public boolean deleteTeacherById(Integer teacherId) {
+        logger.debug("Execute Method deleteTeacherById...");
+
+        try {
+            // 删除老师
+            // 删除课程表
+            // 删除用户表
+            teacherMapper.deleteTeacherById(teacherId);
+
+            return true;
+        } catch (Exception e) {
+            logger.error("删除老师发生错误。", e);
             return false;
         }
     }
