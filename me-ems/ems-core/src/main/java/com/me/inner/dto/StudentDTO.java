@@ -13,11 +13,13 @@ public class StudentDTO implements Serializable {
     private Integer studentId;  // 学生id
     private String number;  //  学号
     private String name;    //  姓名
+    private String professionId;    // 专业id
     private Integer clazzId;    // 班级id
     private String from;    //  出生地
     private Integer age;    //  年龄
     private Integer sex;    //  性别
     private Date birthDate; // 出生日期
+    private String active;     // 作废、有效
     private Date createDate;    //  创建时间
     private String createBy;    //  创建人
     private Date updateDate;    //  修改时间
@@ -45,6 +47,22 @@ public class StudentDTO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getProfessionId() {
+        return professionId;
+    }
+
+    public void setProfessionId(String professionId) {
+        this.professionId = professionId;
+    }
+
+    public String getActive() {
+        return active;
+    }
+
+    public void setActive(String active) {
+        this.active = active;
     }
 
     public Integer getClazzId() {

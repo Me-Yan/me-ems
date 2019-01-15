@@ -13,6 +13,7 @@ public class Profession2SubjectDTO implements Serializable {
     private Integer id; // id
     private Integer professionId;   // 专业id
     private Integer subjectId;  //  课程id
+    private String type;        // 选修、必修
     private String active;  //  状态：存在  废除
     private Date createDate;    // 创建时间
     private String createBy;    //  创建人
@@ -39,6 +40,14 @@ public class Profession2SubjectDTO implements Serializable {
 
     public void setSubjectId(Integer subjectId) {
         this.subjectId = subjectId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getActive() {

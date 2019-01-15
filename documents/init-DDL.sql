@@ -2,10 +2,11 @@ DROP TABLE IF EXISTS ems_faculty;
 CREATE TABLE ems_faculty (
 	facultyId_n		INT			AUTO_INCREMENT		NOT NULL,
 	name_m			VARCHAR(20)	NOT NULL,
+	active_c 		CHAR(1)		NOT NULL,
 	create_dt		DATETIME	NOT	NULL,
 	create_m		VARCHAR(20)	NOT NULL,
 	update_dt		DATETIME	NULL,
-	update_m		VARCHAR(20)	NULL,
+	update_m		VARCHAR(20)	NULL,	
 	PRIMARY KEY(facultyId_n)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -14,6 +15,7 @@ CREATE TABLE ems_profession (
 	professionId_n	INT			AUTO_INCREMENT		NOT NULL,
 	facultyId_n		INT 		NOT NULL,
 	name_m			VARCHAR(20)	NOT NULL,
+	active_c 		CHAR(1)		NOT NULL,
 	create_dt		DATETIME	NOT	NULL,
 	create_m		VARCHAR(20)	NOT NULL,
 	update_dt		DATETIME	NULL,
@@ -25,8 +27,6 @@ DROP TABLE IF EXISTS ems_subject;
 CREATE TABLE ems_subject (
 	subjectId_n		INT 		AUTO_INCREMENT		NOT NULL,
 	name_m			VARCHAR(20)	NOT NULL,
-	semester_n		INT			NOT NULL,
-	type_c			CHAR(1)		NOT NULL,
 	active_c 		CHAR(1)		NOT NULL,
 	create_dt		DATETIME	NOT	NULL,
 	create_m		VARCHAR(20)	NOT NULL,
@@ -38,26 +38,18 @@ CREATE TABLE ems_profession2subject (
 	id_n			INT 		AUTO_INCREMENT		NOT NULL,
 	professionId_n	INT			NOT	NULL,
 	subjectId_n		INT			NOT NULL,
+	type_c			CHAR(1)		NOT NULL,
 	active_c		CHAR(1)		NOT	NULL,
 	create_dt		DATETIME	NOT	NULL,
 	create_m		VARCHAR(20)	NOT NULL,
 	PRIMARY KEY(id_n)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS ems_grade;
-CREATE TABLE ems_grade (
-	gradeId_n		INT 		AUTO_INCREMENT		NOT NULL,
-	grade_m			VARCHAR(4)	NOT NULL,
-	create_dt		DATETIME	NOT	NULL,
-	create_m		VARCHAR(20)	NOT NULL,
-	PRIMARY KEY(gradeId_n)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 DROP TABLE IF EXISTS ems_class;
 CREATE TABLE ems_class (
 	classId_n		INT 		AUTO_INCREMENT		NOT NULL,
+	grade_m			VARCHAR(4)	NOT NULL,
 	class_m			VARCHAR(2)	NOT NULL,
-	gradeId_n		INT 		NOT NULL,
 	professionId_n	INT 		NOT NULL,
 	create_dt		DATETIME	NOT	NULL,
 	create_m		VARCHAR(20)	NOT NULL,

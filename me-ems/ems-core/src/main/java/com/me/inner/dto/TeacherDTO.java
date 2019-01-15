@@ -17,6 +17,7 @@ public class TeacherDTO implements Serializable {
     private Integer age;    //  年龄
     private Integer sex;    //  性别
     private Date birthDate; //  出生日期
+    private String active;  // 作废、有效
     private Date createDate;    //  创建时间
     private String createBy;    //  创建人
     private Date updateDate;    //  修改时间
@@ -96,6 +97,14 @@ public class TeacherDTO implements Serializable {
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public String getActive() {
+        return active;
+    }
+
+    public void setActive(String active) {
+        this.active = active;
     }
 
     public Date getCreateDate() {

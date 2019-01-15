@@ -12,7 +12,6 @@ public class SubjectDTO implements Serializable {
 
     private Integer subjectId;  //  课程id
     private String name;    //  课程名
-    private String type;    //  课程类型： 选修  必修
     private String active;  //  状态：作废  有效
     private Date createDate;    // 创建时间
     private String createBy;    //  创建人
@@ -31,14 +30,6 @@ public class SubjectDTO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getActive() {
