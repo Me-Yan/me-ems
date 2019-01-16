@@ -18,6 +18,7 @@
             p.professionId_n AS professionId,
             p.facultyId_n AS facultyId,
             p.name_m AS name,
+            p.active_c AS active,
             p.create_dt AS createDate,
             p.create_m AS createBy,
             p.update_dt AS updateDate,
@@ -31,10 +32,6 @@
         LIMIT #{pagination.begin}, #{pagination.limit}
     </select>
 
-    <delete id="deleteProfessionByFacultyId" parameterType="java.lang.Integer">
-        DELETE FROM ems_profession WHERE facultyId_n = #{facultyId, jdbcType=INTEGER}
-    </delete>
-
     <select id="countProfessionByCondition" parameterType="com.me.inner.dto.ProfessionDTO" resultType="int">
         SELECT COUNT(1) FROM ems_profession
         WHERE facultyId_n = #{facultyId, jdbcType=INTEGER} AND name_m = #{name, jdbcType=VARCHAR}
@@ -45,6 +42,7 @@
         (
             facultyId_n,
             name_m,
+            active_c,
             create_dt,
             create_m
         )
@@ -52,16 +50,18 @@
         (
             #{facultyId, jdbcType=INTEGER},
             #{name, jdbcType=VARCHAR},
+            #{active, jdbcType=CHAR},
             #{createDate, jdbcType=TIMESTAMP},
             #{createBy, jdbcType=VARCHAR}
         )
     </insert>
 
-    <select id="getProfessionById" parameterType="java.lang.Integer" resultType="com.me.inner.dto.ProfessionDTO">
+    <select id="getByProfessionId" parameterType="java.lang.Integer" resultType="com.me.inner.dto.ProfessionDTO">
         SELECT
             professionId_n AS professionId,
             facultyId_n AS facultyId,
             name_m AS name,
+            active_c AS active,
             create_dt AS createDate,
             create_m AS createBy,
             update_dt AS updateDate,
@@ -78,8 +78,20 @@
         WHERE professionId_n = #{professionId, jdbcType=INTEGER}
     </update>
 
-    <delete id="deleteProfessionById" parameterType="java.lang.Integer">
-        DELETE FROM ems_profession WHERE professionId_n = #{professionId, jdbcType=INTEGER}
-    </delete>
+    <update id="deleteByFacultyId" parameterType="java.lang.Integer">
+        UPDATE ems_profession SET active_c = 'I' WHERE facultyId_n = #{facultyId, jdbcType=INTEGER}
+    </update>
+
+    <update id="deleteByProfessionId" parameterType="java.lang.Integer">
+        UPDATE ems_profession SET active_c = 'I' WHERE professionId_n = #{professionId, jdbcType=INTEGER}
+    </update>
+
+    <update id="restoreByFacultyId" parameterType="java.lang.Integer">
+        UPDATE ems_profession SET active_c = 'A' WHERE facultyId_n = #{facultyId, jdbcType=INTEGER}
+    </update>
+
+    <update id="restoreByProfessionId" parameterType="java.lang.Integer">
+        UPDATE ems_profession SET active_c = 'A' WHERE professionId_n = #{professionId, jdbcType=INTEGER}
+    </update>
 
 </mapper>

@@ -11,8 +11,6 @@ import java.util.List;
  */
 public interface TeacherMapper {
 
-    void deleteTeacherByFacultyId(Integer facultyId);
-
     int countTeacherByCondition(@Param("facultyId") Integer facultyId);
 
     List<TeacherDTO> listTeacherByCondition(@Param("facultyId") Integer facultyId, @Param("pagination")PaginationDTO pagination);

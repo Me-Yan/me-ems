@@ -74,7 +74,7 @@ public class ProfessionController {
     public ProfessionDTO getProfession(@RequestParam(name = "professionId") Integer professionId) {
         logger.debug("Execute Method getProfession...");
 
-        return professionService.getProfessionById(professionId);
+        return professionService.getByProfessionId(professionId);
     }
 
     @RequestMapping("updateProfession")
@@ -92,15 +92,18 @@ public class ProfessionController {
     public ResponseData deleteProfession(@RequestParam("professionId") Integer professionId) {
         logger.debug("Execute Method deleteProfession...");
 
-        try {
+        boolean valid = professionService.deleteProfessionById(professionId);
 
-            professionService.deleteProfessionById(professionId);
+        return new ResponseData(valid);
+    }
 
-            return new ResponseData(true);
-        } catch (Exception e) {
-            logger.error("删除专业时，发生异常。", e);
+    @RequestMapping("restoreProfession")
+    @ResponseBody
+    public ResponseData restoreProfession(@RequestParam("professionId") Integer professionId) {
+        logger.debug("Execute Method restoreProfession...");
 
-            return new ResponseData(false);
-        }
+        boolean valid = professionService.restoreByProfessionId(professionId);
+
+        return new ResponseData(valid);
     }
 }

@@ -17,4 +17,35 @@
         WHERE p1.professionId_n = #{professionId, jdbcType=INTEGER}
     </delete>
 
+    <select id="listCurriculumByFacultyId" parameterType="java.lang.Integer" resultType="com.me.inner.dto.CurriculumDTO">
+        SELECT
+            c.curriculumId_n AS curriculumId,
+            c.subjectId_n AS subjectId,
+            c.classId_n AS clazzId,
+            c.professionId_n AS professionId,
+            c.teacherId_n AS teacherId,
+            c.semester_n AS semester,
+            c.create_dt AS createDate,
+            c.create_m AS createBy
+        FROM ems_curriculum c
+        LEFT JOIN ems_profession p ON c.professionId_n = p.professionId_n
+        LEFT JOIN ems_faculty f ON p.facultyId_n = f.facultyId_n
+        WHERE f.facultyId_n = #{facultyId, jdbcType=INTEGER}
+    </select>
+
+    <select id="listCurriculumByProfessionId" parameterType="java.lang.Integer" resultType="com.me.inner.dto.CurriculumDTO">
+        SELECT
+        c.curriculumId_n AS curriculumId,
+        c.subjectId_n AS subjectId,
+        c.classId_n AS clazzId,
+        c.professionId_n AS professionId,
+        c.teacherId_n AS teacherId,
+        c.semester_n AS semester,
+        c.create_dt AS createDate,
+        c.create_m AS createBy
+        FROM ems_curriculum c
+        LEFT JOIN ems_profession p ON c.professionId_n = p.professionId_n
+        WHERE p.professionId_n = #{professionId, jdbcType=INTEGER}
+    </select>
+
 </mapper>

@@ -15,7 +15,6 @@ public class CurriculumDTO implements Serializable {
     private Integer professionId;   //  专业id
     private Integer teacherId;      //  老师id
     private Integer semester;       //  学期
-    private String status;          //  课程状态：进行中，取消
     private String createDate;      //  创建时间
     private String createBy;        //  创建人
 
@@ -65,14 +64,6 @@ public class CurriculumDTO implements Serializable {
 
     public void setSemester(Integer semester) {
         this.semester = semester;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getCreateBy() {

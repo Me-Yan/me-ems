@@ -4,15 +4,17 @@
 
 <mapper namespace="com.me.inner.mapper.FacultyMapper">
 
-    <select id="listAllFaculty" resultType="com.me.inner.dto.FacultyDTO">
+    <select id="listAllActiveFaculty" resultType="com.me.inner.dto.FacultyDTO">
         SELECT
             facultyId_n AS facultyId,
             name_m AS name,
+            active_c AS active,
             create_dt AS createDate,
             create_m AS createBy,
             update_dt AS updateDate,
             update_m AS updateBy
         FROM ems_faculty
+        WHERE active_c = 'A'
     </select>
 
     <select id="countFaculty" resultType="int">
@@ -27,6 +29,7 @@
         SELECT
             facultyId_n AS facultyId,
             name_m AS name,
+            active_c AS active,
             create_dt AS createDate,
             create_m AS createBy,
             update_dt AS updateDate,
@@ -47,25 +50,24 @@
         INSERT INTO ems_faculty
         (
             name_m,
+            active_c,
             create_dt,
             create_m
         )
         VALUES
         (
             #{name, jdbcType=VARCHAR},
+            #{active, jdbcType=CHAR},
             #{createDate, jdbcType=TIMESTAMP},
             #{createBy, jdbcType=VARCHAR}
         )
     </insert>
 
-    <delete id="deleteFacultyById" parameterType="java.lang.Integer">
-        DELETE FROM ems_faculty WHERE facultyId_n = #{facultyId, jdbcType=INTEGER}
-    </delete>
-
-    <select id="getFaculty" parameterType="java.lang.Integer" resultType="com.me.inner.dto.FacultyDTO">
+    <select id="getByFacultyId" parameterType="java.lang.Integer" resultType="com.me.inner.dto.FacultyDTO">
         SELECT
             facultyId_n AS facultyId,
             name_m AS name,
+            active_c AS active,
             create_dt AS createDate,
             create_m AS createBy,
             update_dt AS updateDate,
@@ -80,6 +82,14 @@
           update_dt = #{updateDate, jdbcType=TIMESTAMP},
           update_m = #{updateBy, jdbcType=VARCHAR}
         WHERE facultyId_n = #{facultyId, jdbcType=INTEGER}
+    </update>
+
+    <update id="deleteByFacultyId" parameterType="java.lang.Integer">
+        UPDATE ems_faculty SET active_c = 'I' WHERE facultyId_n = #{facultyId, jdbcType=INTEGER}
+    </update>
+
+    <update id="restoreByFacultyId" parameterType="java.lang.Integer">
+        UPDATE ems_faculty SET active_c = 'A' WHERE facultyId_n = #{facultyId, jdbcType=INTEGER}
     </update>
 
 </mapper>

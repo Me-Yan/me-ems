@@ -1,3 +1,4 @@
+<%@ page import="com.me.inner.constant.CommonConstant" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
@@ -186,13 +187,60 @@
         </div>
     </div>
 
+    <%-- 恢复专业 --%>
+    <div class="modal fade" id="restoreModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <p>恢复专业会同时恢复专业所需的课程及班级，请谨慎操作，确认恢复？</p>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-primary" id="btnRestore">提交</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         var deleteId;
         var updateId;
         var facultyId;
+        var restoreId;
         $(function () {
             initSelect();
             initTable();
+        });
+
+        // 恢复专业
+        function restoreModal(professionId) {
+            restoreId = professionId;
+            $("#restoreModal").modal("show");
+        }
+        $("#btnRestore").on("click", function () {
+            $("#restoreModal").modal("hide");
+            $("body").loading("请稍等。。。");
+            $.ajax({
+                url: "${pageContext.request.contextPath}/profession/restoreProfession",
+                type: "post",
+                data: {
+                    professionId: restoreId
+                },
+                success: function (result) {
+                    $("body").loading("hide");
+                    if (result.success) {
+                        $("#tipContent").html("删除成功。");
+                        $("#professionTable").bootstrapTable("refresh");
+                    } else {
+                        $("#tipContent").html("删除失败。");
+                    }
+                    $("#outcomeModal").modal("show");
+                }
+            });
         });
 
         // 删除专业
@@ -398,10 +446,16 @@
                         valign: 'middle',
                         width:'20%',
                         formatter: function (value, row, index) {
-                            return '<div class="btn-group">' +
-                                    '<button type="button" class="btn btn-primary" onclick="editModal('+row.professionId+', '+row.facultyId+')">修改</button>' +
-                                    '<button type="button" class="btn btn-danger" onclick="deleteModal('+row.professionId+')">删除</button>' +
-                                    '</div>';
+                            // TODO 如果学员未恢复，则不可恢复专业
+
+                            var content = '<div class="btn-group"><button type="button" class="btn btn-primary" onclick="editModal('+row.professionId+', '+row.facultyId+')">修改</button>';
+                            if ("<%=CommonConstant.IN_ACTIVE.ACTIVE%>" === row.active) {
+                                content += '<button type="button" class="btn btn-danger" onclick="deleteModal('+row.professionId+')">删除</button>';
+                            } else {
+                                content += '<button type="button" class="btn btn-success" onclick="restoreModal('+row.professionId+')">恢复</button>';
+                            }
+
+                            return  content + '</div>';
                         }
                     }
                 ]

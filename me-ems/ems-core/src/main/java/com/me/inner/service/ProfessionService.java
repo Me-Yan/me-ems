@@ -16,9 +16,11 @@ public interface ProfessionService {
 
     boolean addProfession(ProfessionDTO profession);
 
-    ProfessionDTO getProfessionById(Integer professionId);
+    ProfessionDTO getByProfessionId(Integer professionId);
 
     boolean updateProfession(ProfessionDTO profession);
 
-    void deleteProfessionById(Integer professionId);
+    boolean deleteProfessionById(Integer professionId);
+
+    boolean restoreByProfessionId(Integer professionId);
 }

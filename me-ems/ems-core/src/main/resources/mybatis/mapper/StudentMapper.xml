@@ -4,18 +4,24 @@
 
 <mapper namespace="com.me.inner.mapper.StudentMapper">
 
-    <delete id="deleteStudentByFacultyId" parameterType="java.lang.Integer">
-        DELETE s1 FROM ems_student s1
-        LEFT JOIN ems_profession p1 ON s1.professionId_n = p1.professionId_n
-        LEFT JOIN ems_faculty f1 ON p1.facultyId_n = f1.facultyId_n
-        WHERE f1.facultyId_n = #{facultyId, jdbcType=INTEGER}
-    </delete>
-
-
-    <delete id="deleteStudentByProfessionId" parameterType="java.lang.Integer">
-        DELETE s1 FROM ems_student s1
-        LEFT JOIN ems_profession p1 ON s1.professionId_n = p1.professionId_n
-        WHERE p1.professionId_n = #{professionId, jdbcType=INTEGER}
-    </delete>
+    <select id="listStudentByProfessionId" parameterType="java.lang.Integer" resultType="com.me.inner.dto.StudentDTO">
+        SELECT
+            studentId_n AS studentId,
+            number_x AS number,
+            name_m AS name,
+            professionId_n AS professionId,
+            classId_n AS clazzId,
+            from_x AS from,
+            age_n AS age,
+            sex_n AS sex,
+            birth_dt AS birthDate,
+            active_c AS active,
+            create_dt AS createDate,
+            create_m AS createBy,
+            update_dt AS updateDate,
+            update_m AS updateBy
+        FROM ems_student
+        WHERE active_c = 'A' AND professionId_n = #{professionId, jdbcType=INTEGER}
+    </select>
 
 </mapper>

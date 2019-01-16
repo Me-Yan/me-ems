@@ -5,7 +5,12 @@ package com.me.inner.mapper;
  */
 public interface ClazzMapper {
 
-    void deleteClazzByFacultyId(Integer facultyId);
+    void deleteByFacultyId(Integer facultyId);
 
-    void deleteClazzByProfessionId(Integer professionId);
+    void deleteByProfessionId(Integer professionId);
+
+    void restoreByFacultyId(Integer facultyId);
+
+    void restoreByProfessionId(Integer professionId);
+
 }

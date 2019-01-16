@@ -1,8 +1,10 @@
 package com.me.inner.service;
 
 import com.google.common.collect.Lists;
-import com.me.inner.dto.PaginationDTO;
-import com.me.inner.dto.ProfessionDTO;
+import com.google.common.collect.Maps;
+import com.me.inner.constant.CommonConstant;
+import com.me.inner.constant.Constants;
+import com.me.inner.dto.*;
 import com.me.inner.mapper.*;
 import com.me.inner.util.SecurityUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -10,9 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by yanyanghong on 2018/12/27.
@@ -62,6 +66,7 @@ public class ProfessionServiceImpl implements ProfessionService {
             return false;
         }
 
+        profession.setActive(CommonConstant.IN_ACTIVE.ACTIVE);
         profession.setCreateBy(SecurityUtil.getUserInfo().getUsername());
         profession.setCreateDate(new Date());
 
@@ -70,10 +75,10 @@ public class ProfessionServiceImpl implements ProfessionService {
         return true;
     }
 
-    public ProfessionDTO getProfessionById(Integer professionId) {
+    public ProfessionDTO getByProfessionId(Integer professionId) {
         logger.debug("Execute Method getProfessionById...");
 
-        return professionMapper.getProfessionById(professionId);
+        return professionMapper.getByProfessionId(professionId);
     }
 
     public boolean updateProfession(ProfessionDTO profession) {
@@ -95,20 +100,75 @@ public class ProfessionServiceImpl implements ProfessionService {
         return true;
     }
 
-    public void deleteProfessionById(Integer professionId) {
+    public boolean deleteProfessionById(Integer professionId) {
         logger.debug("Execute Method deleteProfessionById...");
 
-        // 删除学生的成绩
-        scoreMapper.deleteScoreByProfessionId(professionId);
-        // 删除对应专业的学生
-        studentMapper.deleteStudentByProfessionId(professionId);
-        // 删除对应专业的课表
-        curriculumMapper.deleteCurriculumByProfessionId(professionId);
-        // 删除对应专业的课程
-        profession2SubjectMapper.deleteByProfessionId(professionId);
-        // 删除对应专业的班级
-        clazzMapper.deleteClazzByProfessionId(professionId);
-        // 删除专业
-        professionMapper.deleteProfessionById(professionId);
+        boolean valid = false;
+        try {
+            // 生成学生课程的成绩
+            List<CurriculumDTO> curriculumList = curriculumMapper.listCurriculumByProfessionId(professionId);
+            List<ScoreDTO> scoreList = Lists.newArrayList();
+            if (!CollectionUtils.isEmpty(curriculumList)) {
+                Date now = new Date();
+                String username = SecurityUtil.getUserInfo().getUsername();
+                List<StudentDTO> studentList = studentMapper.listStudentByProfessionId(professionId);
+
+                for (CurriculumDTO curriculum : curriculumList) {
+                    if (!CollectionUtils.isEmpty(studentList)) {
+                        for (StudentDTO student : studentList) {
+
+                            ScoreDTO score = new ScoreDTO();
+                            score.setResult(0F);
+                            score.setUsual(0F);
+                            score.setTest(0F);
+                            score.setStatus(Constants.ScoreStatus.CANCEL);
+                            score.setStudentId(student.getStudentId());
+                            score.setSubjectId(curriculum.getSubjectId());
+                            score.setCreateBy(username);
+                            score.setCreateDate(now);
+
+                            scoreList.add(score);
+                        }
+                    }
+                }
+            }
+            if (!CollectionUtils.isEmpty(scoreList)) {
+                scoreMapper.saveScoreList(scoreList);
+            }
+            // 删除课表
+            curriculumMapper.deleteCurriculumByProfessionId(professionId);
+            // 删除专业的课程
+            profession2SubjectMapper.deleteByProfessionId(professionId);
+            // 删除班级
+            clazzMapper.deleteByProfessionId(professionId);
+            // 删除专业
+            professionMapper.deleteByProfessionId(professionId);
+
+            valid = true;
+        } catch (Exception e) {
+            logger.error("删除专业失败。", e);
+        }
+
+        return valid;
+    }
+
+    public boolean restoreByProfessionId(Integer professionId) {
+        logger.debug("Execute Method restoreByProfessionId...");
+
+        boolean valid = false;
+        try {
+            // 恢复专业
+            professionMapper.restoreByProfessionId(professionId);
+            // 恢复专业的课程
+            profession2SubjectMapper.restoreByProfessionId(professionId);
+            // 恢复班级
+            clazzMapper.restoreByProfessionId(professionId);
+
+            valid = true;
+        } catch (Exception e) {
+            logger.error("恢复专业失败。", e);
+        }
+
+        return valid;
     }
 }

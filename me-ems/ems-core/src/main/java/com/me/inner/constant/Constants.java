@@ -24,4 +24,11 @@ public class Constants {
         String FEMALE = "女";
         String MALE = "男";
     }
+
+    public interface ScoreStatus {
+        String CANCEL = "CANCEL";
+        String INVALID = "INVALID";
+        String VALID = "VALID";
+    }
+
 }

@@ -19,11 +19,13 @@ public interface FacultyMapper {
 
     void saveFaculty(FacultyDTO faculty);
 
-    void deleteFacultyById(Integer facultyId);
-
-    FacultyDTO getFaculty(Integer facultyId);
+    FacultyDTO getByFacultyId(Integer facultyId);
 
     void updateFaculty(FacultyDTO faculty);
 
-    List<FacultyDTO> listAllFaculty();
+    List<FacultyDTO> listAllActiveFaculty();
+
+    void deleteByFacultyId(Integer facultyId);
+
+    void restoreByFacultyId(Integer facultyId);
 }

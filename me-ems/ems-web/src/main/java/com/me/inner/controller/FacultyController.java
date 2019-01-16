@@ -62,13 +62,9 @@ public class FacultyController extends BaseController {
     public ResponseData deleteFaculty(@RequestParam("facultyId") Integer facultyId) {
         logger.debug("Execute Method deleteFaculty...");
 
-        try {
-            facultyService.deleteFaculty(facultyId);
-            return new ResponseData(true);
-        } catch (Exception e) {
-            logger.error("删除学院时，发生异常.", e);
-            return new ResponseData(false);
-        }
+        boolean valid = facultyService.deleteByFacultyId(facultyId);
+
+        return new ResponseData(valid);
     }
 
     @RequestMapping("getFaculty")
@@ -76,7 +72,7 @@ public class FacultyController extends BaseController {
     public FacultyDTO getFaculty(@RequestParam("facultyId") Integer facultyId) {
         logger.debug("Execute Method getFaculty...");
 
-        return facultyService.getFaculty(facultyId);
+        return facultyService.getByFacultyId(facultyId);
     }
 
     @RequestMapping("updateFaculty")
@@ -85,6 +81,16 @@ public class FacultyController extends BaseController {
         logger.debug("Execute Method updateFaculty...");
 
         boolean valid = facultyService.updateFaculty(facultyForm);
+
+        return new ResponseData(valid);
+    }
+
+    @RequestMapping("restoreFaculty")
+    @ResponseBody
+    public ResponseData restoreFaculty(@RequestParam("facultyId") Integer facultyId) {
+        logger.debug("Execute Method restoreFaculty...");
+
+        boolean valid = facultyService.restoreByFacultyId(facultyId);
 
         return new ResponseData(valid);
     }

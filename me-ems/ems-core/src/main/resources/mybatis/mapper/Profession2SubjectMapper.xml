@@ -4,17 +4,24 @@
 
 <mapper namespace="com.me.inner.mapper.Profession2SubjectMapper">
 
-    <delete id="deleteByFacultyId" parameterType="java.lang.Integer">
-        DELETE ps1 FROM ems_profession2subject ps1
-        LEFT JOIN ems_profession p1 ON ps1.professionId_n = p1.professionId_n
-        LEFT JOIN ems_faculty f1 ON p1.facultyId_n = f1.facultyId_n
-        WHERE f1.facultyId_n = #{facultyId, jdbcType=INTEGER}
-    </delete>
+    <update id="deleteByFacultyId" parameterType="java.lang.Integer">
+        UPDATE ems_profession2subject ps LEFT JOIN ems_profession p ON ps.professionId_n = p.professionId_n
+        SET ps.active_c = 'I'
+        WHERE p.facultyId_n = #{facultyId, jdbcType=INTEGER}
+    </update>
 
-    <delete id="deleteByProfessionId" parameterType="java.lang.Integer">
-        DELETE ps1 FROM ems_profession2subject ps1
-        LEFT JOIN ems_profession p1 ON ps1.professionId_n = p1.professionId_n
-        WHERE p1.professionId_n = #{professionId, jdbcType=INTEGER}
-    </delete>
+    <update id="deleteByProfessionId" parameterType="java.lang.Integer">
+        UPDATE ems_profession2subject SET active_c = 'I' WHERE professionId_n = #{professionId, jdbcType=INTEGER}
+    </update>
+
+    <update id="restoreByFacultyId" parameterType="java.lang.Integer">
+        UPDATE ems_profession2subject ps LEFT JOIN ems_profession p ON ps.professionId_n = p.professionId_n
+        SET ps.active_c = 'A'
+        WHERE p.facultyId_n = #{facultyId, jdbcType=INTEGER}
+    </update>
+
+    <update id="restoreByProfessionId" parameterType="java.lang.Integer">
+        UPDATE ems_profession2subject SET active_c = 'A' WHERE professionId_n = #{professionId, jdbcType=INTEGER}
+    </update>
 
 </mapper>

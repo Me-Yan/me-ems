@@ -14,11 +14,13 @@ public interface FacultyService {
 
     boolean addFaculty(FacultyDTO faculty);
 
-    void deleteFaculty(Integer facultyId);
+    boolean deleteByFacultyId(Integer facultyId);
 
-    FacultyDTO getFaculty(Integer facultyId);
+    FacultyDTO getByFacultyId(Integer facultyId);
 
     boolean updateFaculty(FacultyDTO faculty);
 
     List<FacultyDTO> listAllFaculty();
+
+    boolean restoreByFacultyId(Integer facultyId);
 }

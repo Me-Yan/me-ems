@@ -4,19 +4,22 @@
 
 <mapper namespace="com.me.inner.mapper.ScoreMapper">
 
-    <delete id="deleteScoreByFacultyId" parameterType="java.lang.Integer">
-        DELETE score FROM ems_score score
-        LEFT JOIN ems_student s1 ON score.studentId_n = s1.studentId_n
-        LEFT JOIN ems_profession p1 ON s1.professionId_n = p1.professionId_n
-        LEFT JOIN ems_faculty f1 ON p1.facultyId_n = f1.facultyId_n
-        WHERE f1.facultyId_n = #{facultyId, jdbcType=INTEGER}
-    </delete>
-
-    <delete id="deleteScoreByProfessionId" parameterType="java.lang.Integer">
-        DELETE score FROM ems_score score
-        LEFT JOIN ems_student s1 ON score.studentId_n = s1.studentId_n
-        LEFT JOIN ems_profession p1 ON s1.professionId_n = p1.professionId_n
-        WHERE p1.professionId_n = #{professionId, jdbcType=INTEGER}
-    </delete>
+    <insert id="saveScoreList">
+        <if test="null!=scoreList and scoreList.size>0">
+            INSERT INTO ems_score VALUES
+            <foreach collection="scoreList" item="score" separator=",">
+                (
+                    #{result, jdbcType=FLOAT},
+                    #{usual, jdbcType=FLOAT},
+                    #{test, jdbcType=FLOAT},
+                    #{status, jdbcType=VARCHAR},
+                    #{studentId, jdbcType=INTEGER},
+                    #{subjectId, jdbcType=INTEGER},
+                    #{createDate, jdbcType=TIMESTAMP},
+                    #{createBy, jdbcType=VARCHAR}
+                )
+            </foreach>
+        </if>
+    </insert>
 
 </mapper>

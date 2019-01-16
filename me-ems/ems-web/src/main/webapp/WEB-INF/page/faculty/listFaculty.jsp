@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.me.inner.constant.CommonConstant" %><%--
   Created by IntelliJ IDEA.
   User: yanyanghong
   Date: 2018/12/25
@@ -160,7 +160,7 @@
                     <h4 class="modal-title">提示</h4>
                 </div>
                 <div class="modal-body text-center">
-                    <p>删除该学院，同时会删除所有与该学院相关的所有信息，比如学生信息、老师信息、课程信息等，请谨慎操作，确定删除？</p>
+                    <p>删除该学院，同时会删除所有与该学院相关的所有信息，请谨慎操作，确定删除？</p>
                 </div>
                 <div class="modal-footer" style="text-align: center;">
                     <button type="button" class="btn btn-primary" id="btnDelete">提交</button>
@@ -170,13 +170,60 @@
         </div>
     </div>
 
+    <%-- 恢复学院 --%>
+    <div class="modal fade" id="restoreModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <p>恢复学院会同时恢复该学院下的专业及其专业对应的课程和所有的班级，但需要重新安排班级课程，请谨慎操作，确认恢复？</p>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-primary" id="btnRestore">提交</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         var deleteId;
         var updateId;
+        var restoreId;
         $(function () {
             initTable();
         });
+        
+        function restoreModal(facultyId) {
+            restoreId = facultyId;
+            $("#restoreModal").modal("show");
+        }
+        $("#btnRestore").on("click", function () {
+            $("#restoreModal").modal("hide");
+            $("body").loading("请稍等。。。");
+            $.ajax({
+                url: "${pageContext.request.contextPath}/faculty/restoreFaculty",
+                type: "post",
+                data: {
+                    facultyId: restoreId
+                },
+                success: function (result) {
+                    $("body").loading("hide");
+                    if (result.success) {
+                        $("#tipContent").html("恢复成功。");
+                        $("#facultyTable").bootstrapTable("refresh");
+                    } else {
+                        $("#tipContent").html("恢复失败。");
+                    }
+                    $("#outcomeModal").modal("show");
+                }
+            });
+        });
 
+        // 删除学院
         function deleteModal(facultyId) {
             deleteId = facultyId;
             $("#deleteModal").modal("show");
@@ -203,6 +250,7 @@
             });
         });
 
+        // 修改学院
         function editModal(facultyId) {
             updateId = facultyId;
             $.ajax({
@@ -368,10 +416,15 @@
                         valign: 'middle',
                         width:'20%',
                         formatter: function (value, row, index) {
-                            return '<div class="btn-group">' +
-                                    '<button type="button" class="btn btn-primary" onclick="editModal('+row.facultyId+')">修改</button>' +
-                                    '<button type="button" class="btn btn-danger" onclick="deleteModal('+row.facultyId+')">删除</button>' +
-                                    '</div>';
+
+                            var content = '<div class="btn-group"><button type="button" class="btn btn-primary" onclick="editModal('+row.facultyId+')">修改</button>';
+                            if ("<%=CommonConstant.IN_ACTIVE.ACTIVE%>" === row.active) {
+                                content += '<button type="button" class="btn btn-danger" onclick="deleteModal('+row.facultyId+')">删除</button>';
+                            } else {
+                                content += '<button type="button" class="btn btn-success" onclick="restoreModal('+row.facultyId+')">激活</button>';
+                            }
+
+                            return content + '</div>';
                         }
                     }
                 ]
