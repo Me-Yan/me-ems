@@ -131,4 +131,12 @@
         )
     </insert>
 
+    <update id="deleteUserByUsername" parameterType="java.lang.String">
+        UPDATE ems_user SET enabled_c = 'I' WHERE username_m = #{username, jdbcType=VARCHAR}
+    </update>
+
+    <update id="resetPasswordByUsername">
+        UPDATE ems_user SET password_x = #{password, jdbcType=VARCHAR} WHERE username_m = #{username, jdbcType=VARCHAR}
+    </update>
+
 </mapper>

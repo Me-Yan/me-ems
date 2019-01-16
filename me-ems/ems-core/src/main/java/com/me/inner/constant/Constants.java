@@ -5,6 +5,15 @@ package com.me.inner.constant;
  */
 public class Constants {
 
+    public interface InvalidStatus {
+        String DELETE_ITSELF = "I";
+        String DELETE_FACULTY = "F";
+        String DELETE_PROFESSION = "P";
+        String DELETE_SUBJECT = "S";
+        String DELETE_CLAZZ = "C";
+        String DELETE_PROFESSION_SUBJECT = "B";
+    }
+
     public interface Role {
         String STUDENT = "ROLE_STUDENT";    // 学生 00
         String TEACHER = "ROLE_TEACHER";    // 老师 01

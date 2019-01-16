@@ -20,6 +20,7 @@
             t.age_n AS age,
             t.sex_n AS sex,
             t.birth_dt AS birthDate,
+            t.active_c AS active,
             t.create_dt AS createDate,
             t.create_m AS createBy,
             t.update_dt AS updateDate,
@@ -44,6 +45,7 @@
             age_n,
             sex_n,
             birth_dt,
+            active_c,
             create_dt,
             create_m
         )
@@ -55,12 +57,13 @@
             #{age, jdbcType=INTEGER},
             #{sex, jdbcType=INTEGER},
             #{birthDate, jdbcType=TIMESTAMP},
+            #{active, jdbcType=CHAR},
             #{createDate, jdbcType=TIMESTAMP},
             #{createBy, jdbcType=VARCHAR}
         )
     </insert>
 
-    <select id="getTeacherById" parameterType="java.lang.Integer" resultType="com.me.inner.dto.TeacherDTO">
+    <select id="getByTeacherId" parameterType="java.lang.Integer" resultType="com.me.inner.dto.TeacherDTO">
         SELECT
             t.teacherId_n AS teacherId,
             t.number_x AS number,
@@ -69,6 +72,7 @@
             t.age_n AS age,
             t.sex_n AS sex,
             t.birth_dt AS birthDate,
+            t.active_c AS active,
             t.create_dt AS createDate,
             t.create_m AS createBy,
             t.update_dt AS updateDate,
@@ -90,9 +94,31 @@
             update_m = #{updateBy, jdbcType=VARCHAR}
         WHERE teacherId_n = #{teacherId, jdbcType=INTEGER}
     </update>
+    
+    <update id="deleteByFacultyId" parameterType="java.lang.Integer">
+        UPDATE ems_teacher SET active_c = 'F' WHERE facultyId_n = #{facultyId, jdbcType=INTEGER} AND active_c = 'A'
+    </update>
 
-    <update id="deleteTeacherById" parameterType="java.lang.Integer">
+    <update id="deleteByTeacherId" parameterType="java.lang.Integer">
         UPDATE ems_teacher SET active_c = 'I' WHERE teacherId_n = #{teacherId, jdbcType=INTEGER}
+    </update>
+    
+    <update id="deleteLoginByFacultyId" parameterType="java.lang.Integer">
+        UPDATE ems_user u
+        LEFT JOIN ems_teacher t ON u.username_m = t.number_x
+        SET u.enabled_c = 'N'
+        WHERE t.facultyId_n = #{facultyId, jdbcType=INTEGER} AND t.active_c = 'A'
+    </update>
+
+    <update id="restoreLoginByFacultyId" parameterType="java.lang.Integer">
+        UPDATE ems_user u
+        LEFT JOIN ems_teacher t ON u.username_m = t.number_x
+        SET u.enabled_c = 'Y'
+        WHERE t.facultyId_n = #{facultyId, jdbcType=INTEGER} AND t.active_c = 'F'
+    </update>
+    
+    <update id="restoreByFacultyId" parameterType="java.lang.Integer">
+        UPDATE ems_teacher SET active_c = 'A' WHERE facultyId_n = #{facultyId, jdbcType=INTEGER} AND active_c = 'F'
     </update>
 
 </mapper>

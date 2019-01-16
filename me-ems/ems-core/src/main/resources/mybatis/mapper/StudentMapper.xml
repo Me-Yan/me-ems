@@ -4,7 +4,7 @@
 
 <mapper namespace="com.me.inner.mapper.StudentMapper">
 
-    <select id="listStudentByProfessionId" parameterType="java.lang.Integer" resultType="com.me.inner.dto.StudentDTO">
+    <select id="listStudentByClazzId" parameterType="java.lang.Integer" resultType="com.me.inner.dto.StudentDTO">
         SELECT
             studentId_n AS studentId,
             number_x AS number,
@@ -21,7 +21,47 @@
             update_dt AS updateDate,
             update_m AS updateBy
         FROM ems_student
-        WHERE active_c = 'A' AND professionId_n = #{professionId, jdbcType=INTEGER}
+        WHERE active_c = 'A' AND classId_n = #{clazzId, jdbcType=INTEGER}
     </select>
+
+    <update id="deleteByFacultyId" parameterType="java.lang.Integer">
+        UPDATE ems_student s
+        LEFT JOIN ems_profession p ON s.professionId_n = p.professionId_n
+        SET s.active_c = 'F'
+        WHERE p.facultyId_n = #{facultyId, jdbcType=INTEGER} AND s.active_c = 'A'
+    </update>
+
+    <update id="deleteLoginByFacultyId" parameterType="java.lang.Integer">
+        UPDATE ems_user u
+        LEFT JOIN ems_student s ON u.username_m = s.number_x
+        LEFT JOIN ems_profession p ON s.professionId_n = p.professionId_n
+        SET u.enabled_c = 'N'
+        WHERE p.facultyId_n = #{facultyId, jdbcType=INTEGER} AND s.active_c = 'A'
+    </update>
+
+    <update id="deleteLoginByProfessionId" parameterType="java.lang.Integer">
+        UPDATE ems_user u
+        LEFT JOIN ems_student s ON u.username_m = s.number_x
+        SET u.enabled_c = 'N'
+        WHERE s.professionId_n = #{professionId, jdbcType=INTEGER} AND s.active_c = 'A'
+    </update>
+
+    <update id="deleteByProfessionId" parameterType="java.lang.Integer">
+        UPDATE ems_student SET active_c = 'P' WHERE professionId_n = #{professionId, jdbcType=INTEGER} AND (active_c = 'A' OR active_c = 'F')
+    </update>
+
+    <update id="restoreLoginByFacultyId" parameterType="java.lang.Integer">
+        UPDATE ems_user u
+        LEFT JOIN ems_student s ON u.username_m = s.number_x
+        SET u.enabled_c = 'Y'
+        WHERE s.professionId_n = #{professionId, jdbcType=INTEGER} AND s.active_c = 'F'
+    </update>
+
+    <update id="restoreByFacultyId" parameterType="java.lang.Integer">
+        UPDATE ems_student s
+        LEFT JOIN ems_profession p ON s.professionId_n = p.professionId_n
+        SET s.active_c = 'A'
+        WHERE p.facultyId_n = #{facultyId, jdbcType=INTEGER} AND s.active_c = 'F'
+    </update>
 
 </mapper>

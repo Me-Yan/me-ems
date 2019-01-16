@@ -9,6 +9,10 @@ public interface Profession2SubjectMapper {
 
     void deleteByProfessionId(Integer professionId);
 
+    void deleteByProfessionIdIfActiveSubject(Integer professionId);
+
+    void deleteByProfessionIdIfInactiveSubject(Integer professionId);
+
     void restoreByFacultyId(Integer facultyId);
 
     void restoreByProfessionId(Integer professionId);

@@ -105,40 +105,15 @@ public class ProfessionServiceImpl implements ProfessionService {
 
         boolean valid = false;
         try {
-            // 生成学生课程的成绩
-            List<CurriculumDTO> curriculumList = curriculumMapper.listCurriculumByProfessionId(professionId);
-            List<ScoreDTO> scoreList = Lists.newArrayList();
-            if (!CollectionUtils.isEmpty(curriculumList)) {
-                Date now = new Date();
-                String username = SecurityUtil.getUserInfo().getUsername();
-                List<StudentDTO> studentList = studentMapper.listStudentByProfessionId(professionId);
-
-                for (CurriculumDTO curriculum : curriculumList) {
-                    if (!CollectionUtils.isEmpty(studentList)) {
-                        for (StudentDTO student : studentList) {
-
-                            ScoreDTO score = new ScoreDTO();
-                            score.setResult(0F);
-                            score.setUsual(0F);
-                            score.setTest(0F);
-                            score.setStatus(Constants.ScoreStatus.CANCEL);
-                            score.setStudentId(student.getStudentId());
-                            score.setSubjectId(curriculum.getSubjectId());
-                            score.setCreateBy(username);
-                            score.setCreateDate(now);
-
-                            scoreList.add(score);
-                        }
-                    }
-                }
-            }
-            if (!CollectionUtils.isEmpty(scoreList)) {
-                scoreMapper.saveScoreList(scoreList);
-            }
+            // 删除在线的学生登录信息
+            studentMapper.deleteLoginByProfessionId(professionId);
+            // 删除在线的学生
+            studentMapper.deleteByProfessionId(professionId);
             // 删除课表
             curriculumMapper.deleteCurriculumByProfessionId(professionId);
             // 删除专业的课程
-            profession2SubjectMapper.deleteByProfessionId(professionId);
+            profession2SubjectMapper.deleteByProfessionIdIfActiveSubject(professionId);
+            profession2SubjectMapper.deleteByProfessionIdIfInactiveSubject(professionId);
             // 删除班级
             clazzMapper.deleteByProfessionId(professionId);
             // 删除专业

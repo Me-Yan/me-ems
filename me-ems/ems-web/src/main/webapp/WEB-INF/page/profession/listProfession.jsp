@@ -446,16 +446,19 @@
                         valign: 'middle',
                         width:'20%',
                         formatter: function (value, row, index) {
-                            // TODO 如果学员未恢复，则不可恢复专业
 
-                            var content = '<div class="btn-group"><button type="button" class="btn btn-primary" onclick="editModal('+row.professionId+', '+row.facultyId+')">修改</button>';
-                            if ("<%=CommonConstant.IN_ACTIVE.ACTIVE%>" === row.active) {
-                                content += '<button type="button" class="btn btn-danger" onclick="deleteModal('+row.professionId+')">删除</button>';
-                            } else {
-                                content += '<button type="button" class="btn btn-success" onclick="restoreModal('+row.professionId+')">恢复</button>';
+                            if ("<%=CommonConstant.IN_ACTIVE.ACTIVE%>" === row.facultyActive) {
+                                var content = '<div class="btn-group"><button type="button" class="btn btn-primary" onclick="editModal('+row.professionId+', '+row.facultyId+')">修改</button>';
+                                if ("<%=CommonConstant.IN_ACTIVE.ACTIVE%>" === row.active) {
+                                    content += '<button type="button" class="btn btn-danger" onclick="deleteModal('+row.professionId+')">删除</button>';
+                                } else {
+                                    content += '<button type="button" class="btn btn-success" onclick="restoreModal('+row.professionId+')">恢复</button>';
+                                }
+
+                                return  content + '</div>';
                             }
 
-                            return  content + '</div>';
+                            return "所属学院被删除";
                         }
                     }
                 ]

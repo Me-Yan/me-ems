@@ -2,6 +2,7 @@ package com.me.inner.mapper;
 
 
 import com.me.inner.dto.*;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -27,4 +28,8 @@ public interface SecurityMapper {
     void saveUser(UserSecDTO user);
 
     void saveUser2Role(User2RoleSecDTO user2Role);
+
+    void deleteUserByUsername(String username);
+
+    void resetPasswordByUsername(@Param("username") String username, @Param("password") String password);
 }

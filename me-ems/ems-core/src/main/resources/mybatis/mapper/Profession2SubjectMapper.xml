@@ -6,18 +6,26 @@
 
     <update id="deleteByFacultyId" parameterType="java.lang.Integer">
         UPDATE ems_profession2subject ps LEFT JOIN ems_profession p ON ps.professionId_n = p.professionId_n
-        SET ps.active_c = 'I'
-        WHERE p.facultyId_n = #{facultyId, jdbcType=INTEGER}
+        SET ps.active_c = 'F'
+        WHERE p.facultyId_n = #{facultyId, jdbcType=INTEGER} AND ps.active_c = 'A'
     </update>
 
-    <update id="deleteByProfessionId" parameterType="java.lang.Integer">
-        UPDATE ems_profession2subject SET active_c = 'I' WHERE professionId_n = #{professionId, jdbcType=INTEGER}
+    <update id="deleteByProfessionIdIfActiveSubject" parameterType="java.lang.Integer">
+        UPDATE ems_profession2subject ps LEFT JOIN ems_subject s ON ps.subjectId_n = s.subjectId_n
+        SET ps.active_c = 'P'
+        WHERE ps.professionId_n = #{professionId, jdbcType=INTEGER} AND (ps.active_c = 'A' OR ps.active_c = 'F')
+    </update>
+
+    <update id="deleteByProfessionIdIfInactiveSubject" parameterType="java.lang.Integer">
+        UPDATE ems_profession2subject ps LEFT JOIN ems_subject s ON ps.subjectId_n = s.subjectId_n
+        SET ps.active_c = 'B'
+        WHERE ps.professionId_n = #{professionId, jdbcType=INTEGER} AND ps.active_c = 'S'
     </update>
 
     <update id="restoreByFacultyId" parameterType="java.lang.Integer">
         UPDATE ems_profession2subject ps LEFT JOIN ems_profession p ON ps.professionId_n = p.professionId_n
         SET ps.active_c = 'A'
-        WHERE p.facultyId_n = #{facultyId, jdbcType=INTEGER}
+        WHERE p.facultyId_n = #{facultyId, jdbcType=INTEGER} AND ps.active_c = 'F'
     </update>
 
     <update id="restoreByProfessionId" parameterType="java.lang.Integer">

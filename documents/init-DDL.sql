@@ -115,6 +115,7 @@ CREATE TABLE ems_score (
 	status_c		VARCHAR(10)	NOT NULL,
 	studentId_n		INT			NOT NULL,
 	subjectId_n		INT			NOT NULL,
+	teacherId_n		INT			NOT NULL,
 	create_dt		DATETIME	NOT	NULL,
 	create_m		VARCHAR(20)	NOT NULL,
 	update_dt		DATETIME	NULL,

@@ -81,42 +81,14 @@ public class FacultyServiceImpl implements FacultyService {
 
         boolean valid = false;
         try {
-            // 学生相应的课程成绩取消
-            Map<Integer, List<StudentDTO>> studentMap = Maps.newHashMap(); // professionId, student list
-            List<CurriculumDTO> curriculumList = curriculumMapper.listCurriculumByFacultyId(facultyId);
-            List<ScoreDTO> scoreList = Lists.newArrayList();
-            if (!CollectionUtils.isEmpty(curriculumList)) {
-                Date now = new Date();
-                String username = SecurityUtil.getUserInfo().getUsername();
-
-                for (CurriculumDTO curriculum : curriculumList) {
-
-                    List<StudentDTO> studentList = studentMap.get(curriculum.getProfessionId());
-                    if (!CollectionUtils.isEmpty(studentList)) {
-                        studentList = studentMapper.listStudentByProfessionId(curriculum.getProfessionId());
-                    }
-                    if (!CollectionUtils.isEmpty(studentList)) {
-
-                        studentMap.put(curriculum.getProfessionId(), studentList);
-                        for (StudentDTO student : studentList) {
-                            ScoreDTO score = new ScoreDTO();
-                            score.setResult(0F);
-                            score.setUsual(0F);
-                            score.setTest(0F);
-                            score.setStatus(Constants.ScoreStatus.CANCEL);
-                            score.setStudentId(student.getStudentId());
-                            score.setSubjectId(curriculum.getSubjectId());
-                            score.setCreateBy(username);
-                            score.setCreateDate(now);
-
-                            scoreList.add(score);
-                        }
-                    }
-                }
-            }
-            if (!CollectionUtils.isEmpty(scoreList)) {
-                scoreMapper.saveScoreList(scoreList);
-            }
+            // 逻辑删除教师登录信息
+            teacherMapper.deleteLoginByFacultyId(facultyId);
+            // 逻辑删除教师
+            teacherMapper.deleteByFacultyId(facultyId);
+            // 逻辑删除学生登录信息
+            studentMapper.deleteLoginByFacultyId(facultyId);
+            // 逻辑删除学生
+            studentMapper.deleteByFacultyId(facultyId);
             // 删除相应学院的课表
             curriculumMapper.deleteCurriculumByFacultyId(facultyId);
             // 删除专业对应的课程
@@ -179,6 +151,14 @@ public class FacultyServiceImpl implements FacultyService {
             profession2SubjectMapper.restoreByFacultyId(facultyId);
             // 恢复班级
             clazzMapper.restoreByFacultyId(facultyId);
+            // 恢复教师登录信息
+            teacherMapper.restoreLoginByFacultyId(facultyId);
+            // 恢复教师信息
+            teacherMapper.restoreByFacultyId(facultyId);
+            // 恢复学生登录信息
+            studentMapper.restoreLoginByFacultyId(facultyId);
+            // 恢复学生信息
+            studentMapper.restoreByFacultyId(facultyId);
 
             valid = true;
         } catch (Exception e) {

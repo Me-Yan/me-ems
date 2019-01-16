@@ -9,6 +9,18 @@ import java.util.List;
  */
 public interface StudentMapper {
 
-    List<StudentDTO> listStudentByProfessionId(Integer professionId);
+    List<StudentDTO> listStudentByClazzId(Integer clazzId);
+
+    void deleteByFacultyId(Integer facultyId);
+
+    void deleteLoginByFacultyId(Integer facultyId);
+
+    void deleteLoginByProfessionId(Integer professionId);
+
+    void deleteByProfessionId(Integer professionId);
+
+    void restoreLoginByFacultyId(Integer facultyId);
+
+    void restoreByFacultyId(Integer facultyId);
 
 }

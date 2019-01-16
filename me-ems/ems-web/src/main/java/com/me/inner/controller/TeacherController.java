@@ -85,7 +85,7 @@ public class TeacherController {
     public TeacherDTO getTeacher(@RequestParam("teacherId") Integer teacherId) {
         logger.debug("Execute Method getTeacher...");
 
-        return teacherService.getTeacherById(teacherId);
+        return teacherService.getByTeacherId(teacherId);
     }
 
     @RequestMapping("updateTeacher")
@@ -103,10 +103,8 @@ public class TeacherController {
     public ResponseData deleteTeacher(@RequestParam("teacherId") Integer teacherId) {
         logger.debug("Execute Method deleteTeacher...");
 
-//        boolean valid = teacherService.updateTeacher(teacherId);
+        boolean valid = teacherService.deleteByTeacherId(teacherId);
 
-//        return new ResponseData(valid);
-
-        return null;
+        return new ResponseData(valid);
     }
 }

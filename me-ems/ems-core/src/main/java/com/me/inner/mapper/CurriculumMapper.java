@@ -13,7 +13,7 @@ public interface CurriculumMapper {
 
     void deleteCurriculumByProfessionId(Integer professionId);
 
-    List<CurriculumDTO> listCurriculumByFacultyId(Integer facultyId);
+    List<CurriculumDTO> listCurriculumByTeacherId(Integer teacherId);
 
-    List<CurriculumDTO> listCurriculumByProfessionId(Integer professionId);
+    void deleteCurriculumByTeacherId(Integer teacherId);
 }

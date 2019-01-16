@@ -21,6 +21,15 @@ public class ProfessionDTO implements Serializable {
 
     // operation or view
     private String facultyName;
+    private String facultyActive;
+
+    public String getFacultyActive() {
+        return facultyActive;
+    }
+
+    public void setFacultyActive(String facultyActive) {
+        this.facultyActive = facultyActive;
+    }
 
     public String getFacultyName() {
         return facultyName;

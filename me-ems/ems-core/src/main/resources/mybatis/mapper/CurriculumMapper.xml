@@ -12,40 +12,25 @@
     </delete>
 
     <delete id="deleteCurriculumByProfessionId" parameterType="java.lang.Integer">
-        DELETE c1 FROM ems_curriculum c1
-        LEFT JOIN ems_profession p1 ON c1.professionId_n = p1.professionId_n
-        WHERE p1.professionId_n = #{professionId, jdbcType=INTEGER}
+        DELETE FROM ems_curriculum WHERE professionId_n = #{professionId, jdbcType=INTEGER}
     </delete>
 
-    <select id="listCurriculumByFacultyId" parameterType="java.lang.Integer" resultType="com.me.inner.dto.CurriculumDTO">
+    <select id="listCurriculumByTeacherId" parameterType="java.lang.Integer" resultType="com.me.inner.dto.CurriculumDTO">
         SELECT
-            c.curriculumId_n AS curriculumId,
-            c.subjectId_n AS subjectId,
-            c.classId_n AS clazzId,
-            c.professionId_n AS professionId,
-            c.teacherId_n AS teacherId,
-            c.semester_n AS semester,
-            c.create_dt AS createDate,
-            c.create_m AS createBy
-        FROM ems_curriculum c
-        LEFT JOIN ems_profession p ON c.professionId_n = p.professionId_n
-        LEFT JOIN ems_faculty f ON p.facultyId_n = f.facultyId_n
-        WHERE f.facultyId_n = #{facultyId, jdbcType=INTEGER}
+            curriculumId_n AS curriculumId,
+            subjectId_n AS subjectId,
+            classId_n AS clazzId,
+            professionId_n AS professionId,
+            teacherId_n AS teacherId,
+            semester_n AS semester,
+            create_dt AS createDate,
+            create_m AS createBy
+        FROM ems_curriculum
+        WHERE teacherId_n = #{teacherId, jdbcType=INTEGER}
     </select>
 
-    <select id="listCurriculumByProfessionId" parameterType="java.lang.Integer" resultType="com.me.inner.dto.CurriculumDTO">
-        SELECT
-        c.curriculumId_n AS curriculumId,
-        c.subjectId_n AS subjectId,
-        c.classId_n AS clazzId,
-        c.professionId_n AS professionId,
-        c.teacherId_n AS teacherId,
-        c.semester_n AS semester,
-        c.create_dt AS createDate,
-        c.create_m AS createBy
-        FROM ems_curriculum c
-        LEFT JOIN ems_profession p ON c.professionId_n = p.professionId_n
-        WHERE p.professionId_n = #{professionId, jdbcType=INTEGER}
-    </select>
+    <delete id="deleteCurriculumByTeacherId" parameterType="java.lang.Integer">
+        DELETE  FROM ems_curriculum WHERE teacherId_n = #{teacherId, jdbcType=INTEGER}
+    </delete>
 
 </mapper>

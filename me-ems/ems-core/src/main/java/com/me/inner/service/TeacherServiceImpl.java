@@ -1,13 +1,11 @@
 package com.me.inner.service;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.me.inner.constant.CommonConstant;
 import com.me.inner.constant.Constants;
 import com.me.inner.dto.*;
-import com.me.inner.mapper.CodeMapper;
-import com.me.inner.mapper.CurriculumMapper;
-import com.me.inner.mapper.SecurityMapper;
-import com.me.inner.mapper.TeacherMapper;
+import com.me.inner.mapper.*;
 import com.me.inner.util.CommonUtil;
 import com.me.inner.util.DateUtil;
 import com.me.inner.util.SecurityUtil;
@@ -15,9 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Me on 2019/1/2.
@@ -37,6 +37,10 @@ public class TeacherServiceImpl implements TeacherService {
     private SecurityMapper securityMapper;
     @Autowired
     private CurriculumMapper curriculumMapper;
+    @Autowired
+    private StudentMapper studentMapper;
+    @Autowired
+    private ScoreMapper scoreMapper;
 
     public PaginationDTO listTeacherByCondition(Integer facultyId, PaginationDTO pagination) {
         logger.debug("Execute Method listTeacherByCondition...");
@@ -64,6 +68,7 @@ public class TeacherServiceImpl implements TeacherService {
 
             teacher.setNumber(number);
             teacher.setBirthDate(DateUtil.parseDate(teacher.getBirthDateStr(), CommonConstant.Pattern.YYYY_MM_DD));
+            teacher.setActive(CommonConstant.IN_ACTIVE.ACTIVE);
             teacher.setCreateDate(now);
             teacher.setCreateBy(username);
 
@@ -99,10 +104,10 @@ public class TeacherServiceImpl implements TeacherService {
         }
     }
 
-    public TeacherDTO getTeacherById(Integer teacherId) {
+    public TeacherDTO getByTeacherId(Integer teacherId) {
         logger.debug("Execute Method getTeacherById...");
 
-        return teacherMapper.getTeacherById(teacherId);
+        return teacherMapper.getByTeacherId(teacherId);
     }
 
     public boolean updateTeacher(TeacherDTO teacher) {
@@ -122,19 +127,59 @@ public class TeacherServiceImpl implements TeacherService {
         }
     }
 
-    public boolean deleteTeacherById(Integer teacherId) {
+    public boolean deleteByTeacherId(Integer teacherId) {
         logger.debug("Execute Method deleteTeacherById...");
 
+        boolean valid = false;
         try {
-            // 删除老师
-            // 删除课程表
-            // 删除用户表
-            teacherMapper.deleteTeacherById(teacherId);
+            // 生成学生的成绩
+            Map<Integer, List<StudentDTO>> studentMap = Maps.newHashMap(); // clazzId, student list
+            List<CurriculumDTO> curriculumList = curriculumMapper.listCurriculumByTeacherId(teacherId);
+            List<ScoreDTO> scoreList = Lists.newArrayList();
+            if (!CollectionUtils.isEmpty(curriculumList)) {
+                Date now = new Date();
+                String username = SecurityUtil.getUserInfo().getUsername();
+                for (CurriculumDTO curriculum : curriculumList) {
 
-            return true;
+                    List<StudentDTO> studentList = studentMap.get(curriculum.getClazzId());
+                    if (CollectionUtils.isEmpty(studentList)) {
+                        studentList = studentMapper.listStudentByClazzId(curriculum.getClazzId());
+                    }
+
+                    if (!CollectionUtils.isEmpty(studentList)) {
+                        for (StudentDTO student : studentList) {
+                            ScoreDTO score = new ScoreDTO();
+                            score.setResult(0F);
+                            score.setUsual(0F);
+                            score.setTest(0F);
+                            score.setStatus(Constants.ScoreStatus.CANCEL);
+                            score.setStudentId(student.getStudentId());
+                            score.setSubjectId(curriculum.getSubjectId());
+                            score.setTeacherId(curriculum.getTeacherId());
+                            score.setCreateBy(username);
+                            score.setCreateDate(now);
+
+                            scoreList.add(score);
+                        }
+                    }
+                }
+            }
+            if (!CollectionUtils.isEmpty(scoreList)) {
+                scoreMapper.saveScoreList(scoreList);
+            }
+            // 删除课程表
+            curriculumMapper.deleteCurriculumByTeacherId(teacherId);
+            // 删除老师的登录信息
+            TeacherDTO teacher = teacherMapper.getByTeacherId(teacherId);
+            securityMapper.deleteUserByUsername(teacher.getNumber());
+            // 删除老师
+            teacherMapper.deleteByTeacherId(teacherId);
+
+            valid = true;
         } catch (Exception e) {
             logger.error("删除老师发生错误。", e);
-            return false;
         }
+
+        return valid;
     }
 }

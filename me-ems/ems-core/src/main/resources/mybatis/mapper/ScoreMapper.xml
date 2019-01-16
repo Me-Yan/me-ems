@@ -15,6 +15,7 @@
                     #{status, jdbcType=VARCHAR},
                     #{studentId, jdbcType=INTEGER},
                     #{subjectId, jdbcType=INTEGER},
+                    #{teacherId, jdbcType=INTEGER},
                     #{createDate, jdbcType=TIMESTAMP},
                     #{createBy, jdbcType=VARCHAR}
                 )

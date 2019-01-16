@@ -23,7 +23,8 @@
             p.create_m AS createBy,
             p.update_dt AS updateDate,
             p.update_m AS updateBy,
-            f.name_m AS facultyName
+            f.name_m AS facultyName,
+            f.active_c AS facultyActive
         FROM ems_profession p
         LEFT JOIN ems_faculty f ON p.facultyId_n = f.facultyId_n
         <if test="facultyId!=null and facultyId!=''">
@@ -79,7 +80,7 @@
     </update>
 
     <update id="deleteByFacultyId" parameterType="java.lang.Integer">
-        UPDATE ems_profession SET active_c = 'I' WHERE facultyId_n = #{facultyId, jdbcType=INTEGER}
+        UPDATE ems_profession SET active_c = 'F' WHERE facultyId_n = #{facultyId, jdbcType=INTEGER} AND active_c = 'A'
     </update>
 
     <update id="deleteByProfessionId" parameterType="java.lang.Integer">
@@ -87,7 +88,7 @@
     </update>
 
     <update id="restoreByFacultyId" parameterType="java.lang.Integer">
-        UPDATE ems_profession SET active_c = 'A' WHERE facultyId_n = #{facultyId, jdbcType=INTEGER}
+        UPDATE ems_profession SET active_c = 'A' WHERE facultyId_n = #{facultyId, jdbcType=INTEGER} AND active_c = 'F'
     </update>
 
     <update id="restoreByProfessionId" parameterType="java.lang.Integer">

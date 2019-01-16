@@ -17,10 +17,19 @@ public class ScoreDTO implements Serializable {
     private String status;  //  状态：作废  有效
     private Integer studentId;  // 学生id
     private Integer subjectId;  //  课程id
+    private Integer teacherId;  // 教师id
     private Date createDate;    //  创建时间
     private String createBy;    //  创建人
     private Date updateDate;    //  修改时间
     private String updateBy;    //  修改人
+
+    public Integer getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(Integer teacherId) {
+        this.teacherId = teacherId;
+    }
 
     public Integer getScoreId() {
         return scoreId;

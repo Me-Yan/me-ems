@@ -12,9 +12,9 @@ public interface TeacherService {
 
     boolean saveTeacher(TeacherDTO teacher);
 
-    TeacherDTO getTeacherById(Integer teacherId);
+    TeacherDTO getByTeacherId(Integer teacherId);
 
     boolean updateTeacher(TeacherDTO teacher);
 
-    boolean deleteTeacherById(Integer teacherId);
+    boolean deleteByTeacherId(Integer teacherId);
 }

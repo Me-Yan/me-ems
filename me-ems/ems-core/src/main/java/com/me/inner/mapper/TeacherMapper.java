@@ -17,9 +17,17 @@ public interface TeacherMapper {
 
     boolean saveTeacher(TeacherDTO teacher);
 
-    TeacherDTO getTeacherById(Integer teacherId);
+    TeacherDTO getByTeacherId(Integer teacherId);
 
     void updateTeacher(TeacherDTO teacher);
 
-    void deleteTeacherById(Integer teacherId);
+    void deleteByFacultyId(Integer facultyId);
+
+    void deleteByTeacherId(Integer teacherId);
+
+    void deleteLoginByFacultyId(Integer facultyId);
+
+    void restoreLoginByFacultyId(Integer facultyId);
+
+    void restoreByFacultyId(Integer facultyId);
 }
