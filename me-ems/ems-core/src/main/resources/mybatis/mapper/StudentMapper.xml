@@ -53,8 +53,9 @@
     <update id="restoreLoginByFacultyId" parameterType="java.lang.Integer">
         UPDATE ems_user u
         LEFT JOIN ems_student s ON u.username_m = s.number_x
+        LEFT JOIN ems_profession p ON s.professionId_n = p.professionId_n
         SET u.enabled_c = 'Y'
-        WHERE s.professionId_n = #{professionId, jdbcType=INTEGER} AND s.active_c = 'F'
+        WHERE p.facultyId_n = #{professionId, jdbcType=INTEGER} AND s.active_c = 'F'
     </update>
 
     <update id="restoreByFacultyId" parameterType="java.lang.Integer">
@@ -62,6 +63,17 @@
         LEFT JOIN ems_profession p ON s.professionId_n = p.professionId_n
         SET s.active_c = 'A'
         WHERE p.facultyId_n = #{facultyId, jdbcType=INTEGER} AND s.active_c = 'F'
+    </update>
+    
+    <update id="restoreLoginByProfessionId" parameterType="java.lang.Integer">
+        UPDATE ems_user u
+        LEFT JOIN  ems_student s ON u.username_m = s.number_x
+        SET u.enabled_c = 'Y'
+        WHERE s.professionId_n  = #{professionId, jdbcType=INTEGER} AND s.active_c = 'P'
+    </update>
+
+    <update id="restoreByProfessionId" parameterType="java.lang.Integer">
+        UPDATE ems_student SET active_c = 'A' WHERE professionId_n  = #{professionId, jdbcType=INTEGER} AND active_c = 'P'
     </update>
 
 </mapper>

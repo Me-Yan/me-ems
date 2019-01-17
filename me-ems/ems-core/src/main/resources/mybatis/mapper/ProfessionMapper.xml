@@ -91,8 +91,18 @@
         UPDATE ems_profession SET active_c = 'A' WHERE facultyId_n = #{facultyId, jdbcType=INTEGER} AND active_c = 'F'
     </update>
 
-    <update id="restoreByProfessionId" parameterType="java.lang.Integer">
-        UPDATE ems_profession SET active_c = 'A' WHERE professionId_n = #{professionId, jdbcType=INTEGER}
+    <update id="restoreByProfessionIdIfActiveFaculty" parameterType="java.lang.Integer">
+        UPDATE ems_profession p
+        LEFT JOIN ems_faculty f ON p.facultyId_n = f.facultyId_n
+        SET p.active_c = 'A'
+        WHERE p.professionId_n = #{professionId, jdbcType=INTEGER} AND f.active_c = 'A'
+    </update>
+
+    <update id="restoreByProfessionIdIfInactiveFaculty" parameterType="java.lang.Integer">
+        UPDATE ems_profession p
+        LEFT JOIN ems_faculty f ON p.facultyId_n = f.facultyId_n
+        SET p.active_c = 'F'
+        WHERE p.professionId_n = #{professionId, jdbcType=INTEGER} AND f.active_c = 'F'
     </update>
 
 </mapper>

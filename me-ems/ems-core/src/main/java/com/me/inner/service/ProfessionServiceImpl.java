@@ -133,11 +133,20 @@ public class ProfessionServiceImpl implements ProfessionService {
         boolean valid = false;
         try {
             // 恢复专业
-            professionMapper.restoreByProfessionId(professionId);
+            professionMapper.restoreByProfessionIdIfActiveFaculty(professionId);
+            professionMapper.restoreByProfessionIdIfInactiveFaculty(professionId);
             // 恢复专业的课程
-            profession2SubjectMapper.restoreByProfessionId(professionId);
+            profession2SubjectMapper.restoreByProfessionIdIfActiveSubjectAndActiveFaculty(professionId);
+            profession2SubjectMapper.restoreByProfessionIdIfActiveSubjectAndInactiveFaculty(professionId);
+            profession2SubjectMapper.restoreByProfessionIdIfInactiveSubjectAndActiveFaculty(professionId);
+            profession2SubjectMapper.restoreByProfessionIdIfInactiveSubjectAndInactiveFaculty(professionId);
             // 恢复班级
+            // TODO
             clazzMapper.restoreByProfessionId(professionId);
+            // 恢复学生登录信息
+            studentMapper.restoreLoginByProfessionId(professionId);
+            // 恢复学生
+            studentMapper.restoreByProfessionId(professionId);
 
             valid = true;
         } catch (Exception e) {

@@ -5,9 +5,10 @@
 <mapper namespace="com.me.inner.mapper.ClazzMapper">
 
     <update id="deleteByFacultyId" parameterType="java.lang.Integer">
-        UPDATE ems_class c LEFT JOIN ems_profession p ON c.professionId_n = p.professionId_n
-        SET c.active_c = 'I'
-        WHERE p.facultyId_n = #{facultyId, jdbcType=INTEGER}
+        UPDATE ems_class c
+        LEFT JOIN ems_profession p ON c.professionId_n = p.professionId_n
+        SET c.active_c = 'F'
+        WHERE p.facultyId_n = #{facultyId, jdbcType=INTEGER} AND c.active_c = 'A'
     </update>
 
     <update id="deleteByProfessionId" parameterType="java.lang.Integer">
@@ -15,13 +16,14 @@
     </update>
 
     <update id="restoreByFacultyId" parameterType="java.lang.Integer">
-        UPDATE ems_class c LEFT JOIN ems_profession p ON c.professionId_n = p.professionId_n
+        UPDATE ems_class c
+        LEFT JOIN ems_profession p ON c.professionId_n = p.professionId_n
         SET c.active_c = 'A'
         WHERE p.facultyId_n = #{facultyId, jdbcType=INTEGER} AND c.active_c = 'F'
     </update>
 
     <update id="restoreByProfessionId" parameterType="java.lang.Integer">
-        UPDATE ems_class SET active_c = 'A' WHERE professionId_n = #{professionId, jdbcType=INTEGER}
+        UPDATE ems_class SET active_c = 'A' WHERE professionId_n = #{professionId, jdbcType=INTEGER} AND active_c = 'P'
     </update>
 
 </mapper>

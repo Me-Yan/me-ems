@@ -12,6 +12,7 @@ public class Constants {
         String DELETE_SUBJECT = "S";
         String DELETE_CLAZZ = "C";
         String DELETE_PROFESSION_SUBJECT = "B";
+        String DELETE_FACULTY_PROFESSION_SUBJECT = "T";
     }
 
     public interface Role {

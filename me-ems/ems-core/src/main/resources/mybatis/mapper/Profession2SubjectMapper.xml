@@ -4,14 +4,25 @@
 
 <mapper namespace="com.me.inner.mapper.Profession2SubjectMapper">
 
-    <update id="deleteByFacultyId" parameterType="java.lang.Integer">
-        UPDATE ems_profession2subject ps LEFT JOIN ems_profession p ON ps.professionId_n = p.professionId_n
+    <update id="deleteByFacultyIdIfActiveSubject" parameterType="java.lang.Integer">
+        UPDATE ems_profession2subject ps
+        LEFT JOIN ems_subject s ON ps.subjectId_n = s.subjectId_n
+        LEFT JOIN ems_profession p ON ps.professionId_n = p.professionId_n
         SET ps.active_c = 'F'
         WHERE p.facultyId_n = #{facultyId, jdbcType=INTEGER} AND ps.active_c = 'A'
     </update>
 
+    <update id="deleteByFacultyIdIfInactiveSubject" parameterType="java.lang.Integer">
+        UPDATE ems_profession2subject ps
+        LEFT JOIN ems_subject s ON ps.subjectId_n = s.subjectId_n
+        LEFT JOIN ems_profession p ON ps.professionId_n = p.professionId_n
+        SET ps.active_c = 'T'
+        WHERE p.facultyId_n = #{facultyId, jdbcType=INTEGER} AND ps.active_c = 'S'
+    </update>
+
     <update id="deleteByProfessionIdIfActiveSubject" parameterType="java.lang.Integer">
-        UPDATE ems_profession2subject ps LEFT JOIN ems_subject s ON ps.subjectId_n = s.subjectId_n
+        UPDATE ems_profession2subject ps
+        LEFT JOIN ems_subject s ON ps.subjectId_n = s.subjectId_n
         SET ps.active_c = 'P'
         WHERE ps.professionId_n = #{professionId, jdbcType=INTEGER} AND (ps.active_c = 'A' OR ps.active_c = 'F')
     </update>
@@ -19,17 +30,45 @@
     <update id="deleteByProfessionIdIfInactiveSubject" parameterType="java.lang.Integer">
         UPDATE ems_profession2subject ps LEFT JOIN ems_subject s ON ps.subjectId_n = s.subjectId_n
         SET ps.active_c = 'B'
-        WHERE ps.professionId_n = #{professionId, jdbcType=INTEGER} AND ps.active_c = 'S'
+        WHERE ps.professionId_n = #{professionId, jdbcType=INTEGER} AND (ps.active_c = 'S' OR ps.active_c = 'T')
     </update>
 
-    <update id="restoreByFacultyId" parameterType="java.lang.Integer">
-        UPDATE ems_profession2subject ps LEFT JOIN ems_profession p ON ps.professionId_n = p.professionId_n
+    <update id="restoreByFacultyIdIfActiveSubject" parameterType="java.lang.Integer">
+        UPDATE ems_profession2subject ps
+        LEFT JOIN ems_profession p ON ps.professionId_n = p.professionId_n
         SET ps.active_c = 'A'
         WHERE p.facultyId_n = #{facultyId, jdbcType=INTEGER} AND ps.active_c = 'F'
     </update>
 
-    <update id="restoreByProfessionId" parameterType="java.lang.Integer">
-        UPDATE ems_profession2subject SET active_c = 'A' WHERE professionId_n = #{professionId, jdbcType=INTEGER}
+    <update id="restoreByFacultyIdIfInactiveSubject" parameterType="java.lang.Integer">
+        UPDATE ems_profession2subject ps
+        LEFT JOIN ems_profession p ON ps.professionId_n = p.professionId_n
+        SET ps.active_c = 'S'
+        WHERE p.facultyId_n = #{facultyId, jdbcType=INTEGER} AND ps.active_c = 'T'
+    </update>
+    
+    <update id="restoreByProfessionIdIfActiveSubjectAndActiveFaculty" parameterType="java.lang.Integer">
+        UPDATE ems_profession2subject SET active_c = 'A' WHERE professionId_n = #{professionId, jdbcType=INTEGER} AND active_c = 'P'
+    </update>
+
+    <update id="restoreByProfessionIdIfActiveSubjectAndInactiveFaculty" parameterType="java.lang.Integer">
+        UPDATE ems_profession2subject ps
+        LEFT JOIN ems_profession p ON ps.professionId_n = p.professionId_n
+        LEFT JOIN ems_faculty f ON f.facultyId_n = p.facultyId_n
+        SET ps.active_c = 'F'
+        WHERE ps.professionId_n = #{professionId, jdbcType=INTEGER} AND ps.active_c = 'P' AND f.active_c = 'I'
+    </update>
+
+    <update id="restoreByProfessionIdIfInactiveSubjectAndActiveFaculty" parameterType="java.lang.Integer">
+        UPDATE ems_profession2subject SET active_c = 'S' WHERE professionId_n = #{professionId, jdbcType=INTEGER} AND active_c = 'B'
+    </update>
+
+    <update id="restoreByProfessionIdIfInactiveSubjectAndInactiveFaculty" parameterType="java.lang.Integer">
+        UPDATE ems_profession2subject ps
+        LEFT JOIN ems_profession p ON ps.professionId_n = p.professionId_n
+        LEFT JOIN ems_faculty f ON f.facultyId_n = p.facultyId_n
+        SET ps.active_c = 'T'
+        WHERE ps.professionId_n = #{professionId, jdbcType=INTEGER} AND ps.active_c = 'B' AND f.active_c = 'I'
     </update>
 
 </mapper>

@@ -92,7 +92,8 @@ public class FacultyServiceImpl implements FacultyService {
             // 删除相应学院的课表
             curriculumMapper.deleteCurriculumByFacultyId(facultyId);
             // 删除专业对应的课程
-            profession2SubjectMapper.deleteByFacultyId(facultyId);
+            profession2SubjectMapper.deleteByFacultyIdIfActiveSubject(facultyId);
+            profession2SubjectMapper.deleteByFacultyIdIfInactiveSubject(facultyId);
             // 删除班级
             clazzMapper.deleteByFacultyId(facultyId);
             // 删除相关专业
@@ -148,7 +149,8 @@ public class FacultyServiceImpl implements FacultyService {
             // 恢复专业
             professionMapper.restoreByFacultyId(facultyId);
             // 恢复专业的课程
-            profession2SubjectMapper.restoreByFacultyId(facultyId);
+            profession2SubjectMapper.restoreByFacultyIdIfActiveSubject(facultyId);
+            profession2SubjectMapper.restoreByFacultyIdIfInactiveSubject(facultyId);
             // 恢复班级
             clazzMapper.restoreByFacultyId(facultyId);
             // 恢复教师登录信息

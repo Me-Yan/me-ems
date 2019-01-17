@@ -5,15 +5,24 @@ package com.me.inner.mapper;
  */
 public interface Profession2SubjectMapper {
 
-    void deleteByFacultyId(Integer facultyId);
+    void deleteByFacultyIdIfActiveSubject(Integer facultyId);
 
-    void deleteByProfessionId(Integer professionId);
+    void deleteByFacultyIdIfInactiveSubject(Integer facultyId);
 
     void deleteByProfessionIdIfActiveSubject(Integer professionId);
 
     void deleteByProfessionIdIfInactiveSubject(Integer professionId);
 
-    void restoreByFacultyId(Integer facultyId);
+    void restoreByFacultyIdIfActiveSubject(Integer facultyId);
 
-    void restoreByProfessionId(Integer professionId);
+    void restoreByFacultyIdIfInactiveSubject(Integer facultyId);
+
+    void restoreByProfessionIdIfActiveSubjectAndActiveFaculty(Integer professionId);
+
+    void restoreByProfessionIdIfActiveSubjectAndInactiveFaculty(Integer professionId);
+
+    void restoreByProfessionIdIfInactiveSubjectAndActiveFaculty(Integer professionId);
+
+    void restoreByProfessionIdIfInactiveSubjectAndInactiveFaculty(Integer professionId);
+
 }

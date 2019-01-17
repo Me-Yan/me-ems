@@ -23,4 +23,8 @@ public interface StudentMapper {
 
     void restoreByFacultyId(Integer facultyId);
 
+    void restoreLoginByProfessionId(Integer professionId);
+
+    void restoreByProfessionId(Integer professionId);
+
 }
