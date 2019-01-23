@@ -161,7 +161,7 @@
                     <p>确认修改该专业？</p>
                 </div>
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" class="btn btn-primary" id="btnEditConfirm">提交</button>
+                    <button type="button" class="btn btn-primary" id="btnEditConfirm">确认</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>
@@ -180,7 +180,7 @@
                     <p>删除该专业，同时会删除所有与该专业相关的所有信息，比如学生信息、课程信息等，请谨慎操作，确定删除？</p>
                 </div>
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" class="btn btn-primary" id="btnDelete">提交</button>
+                    <button type="button" class="btn btn-primary" id="btnDelete">确认</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>
@@ -199,7 +199,7 @@
                     <p>恢复专业会同时恢复专业所需的课程及班级，请谨慎操作，确认恢复？</p>
                 </div>
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" class="btn btn-primary" id="btnRestore">提交</button>
+                    <button type="button" class="btn btn-primary" id="btnRestore">确认</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>
@@ -233,10 +233,10 @@
                 success: function (result) {
                     $("body").loading("hide");
                     if (result.success) {
-                        $("#tipContent").html("删除成功。");
+                        $("#tipContent").html(result.message);
                         $("#professionTable").bootstrapTable("refresh");
                     } else {
-                        $("#tipContent").html("删除失败。");
+                        $("#tipContent").html(result.message);
                     }
                     $("#outcomeModal").modal("show");
                 }
@@ -272,8 +272,8 @@
 
         // 修改专业
         function editModal(professionId, facultyId) {
-            this.updateId = professionId;
-            this.facultyId = facultyId;
+            updateId = professionId;
+            facultyId = facultyId;
             $.ajax({
                 url: "${pageContext.request.contextPath}/profession/getProfession",
                 type: "post",

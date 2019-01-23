@@ -30,4 +30,10 @@ public interface TeacherMapper {
     void restoreLoginByFacultyId(Integer facultyId);
 
     void restoreByFacultyId(Integer facultyId);
+
+    void restoreLoginByTeacherId(Integer teacherId);
+
+    void restoreByTeacherId(Integer teacherId);
+
+    void resetPassword(@Param("teacherId") Integer teacherId, @Param("password") String password);
 }

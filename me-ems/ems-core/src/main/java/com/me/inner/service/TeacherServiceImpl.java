@@ -182,4 +182,56 @@ public class TeacherServiceImpl implements TeacherService {
 
         return valid;
     }
+
+    public ResponseData restoreTeacher(Integer teacherId) {
+        logger.debug("Execute Method restoreTeacher...");
+
+        boolean valid = false;
+        String message = "";
+
+        try {
+            TeacherDTO teacher = teacherMapper.getByTeacherId(teacherId);
+            if (CommonConstant.IN_ACTIVE.ACTIVE.equals(teacher.getFacultyActive())) {
+                // 恢复老师登录信息
+                teacherMapper.restoreLoginByTeacherId(teacherId);
+                // 恢复老师信息
+                teacherMapper.restoreByTeacherId(teacherId);
+
+                valid = true;
+                message = "恢复成功。";
+            } else {
+                valid = false;
+                message = "学院已被删除，无法恢复。";
+            }
+
+        } catch (Exception e) {
+            logger.error("恢复老师发生异常.", e);
+            message = "恢复异常，请重新操作。";
+        }
+
+        return new ResponseData(valid, message);
+    }
+
+    public ResponseData resetPassword(Integer teacherId) {
+        logger.debug("Execute Method resetPassword...");
+
+        boolean valid = false;
+        String message = "";
+
+        try {
+
+            CodeDTO code = codeMapper.getCodeByTypeAndName(Constants.CodeType.INIT_PASSWORD, Constants.CodeName.TEACHER);
+            String encodedPassword = CommonUtil.encodePassword(code.getValue());
+
+            teacherMapper.resetPassword(teacherId, encodedPassword);
+
+            valid = true;
+            message = "重置密码成功，初始密码为" + code.getValue();
+        } catch (Exception e) {
+            logger.error("重置密码异常。", e);
+            message = "重置密码异常，请重新操作。";
+        }
+
+        return new ResponseData(valid, message);
+    }
 }

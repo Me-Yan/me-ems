@@ -59,16 +59,19 @@
 
     <select id="getByProfessionId" parameterType="java.lang.Integer" resultType="com.me.inner.dto.ProfessionDTO">
         SELECT
-            professionId_n AS professionId,
-            facultyId_n AS facultyId,
-            name_m AS name,
-            active_c AS active,
-            create_dt AS createDate,
-            create_m AS createBy,
-            update_dt AS updateDate,
-            update_m AS updateBy
-        FROM ems_profession
-        WHERE professionId_n = #{professionId, jdbcType=INTEGER}
+            p.professionId_n AS professionId,
+            p.facultyId_n AS facultyId,
+            p.name_m AS name,
+            p.active_c AS active,
+            p.create_dt AS createDate,
+            p.create_m AS createBy,
+            p.update_dt AS updateDate,
+            p.update_m AS updateBy,
+            f.name_m AS facultyName,
+            f.active_c AS facultyActive
+        FROM ems_profession p
+        LEFT JOIN ems_faculty f ON p.facultyId_n = f.facultyId_n
+        WHERE p.professionId_n = #{professionId, jdbcType=INTEGER}
     </select>
 
     <update id="updateProfession" parameterType="com.me.inner.dto.ProfessionDTO">
@@ -91,18 +94,11 @@
         UPDATE ems_profession SET active_c = 'A' WHERE facultyId_n = #{facultyId, jdbcType=INTEGER} AND active_c = 'F'
     </update>
 
-    <update id="restoreByProfessionIdIfActiveFaculty" parameterType="java.lang.Integer">
+    <update id="restoreByProfessionId" parameterType="java.lang.Integer">
         UPDATE ems_profession p
         LEFT JOIN ems_faculty f ON p.facultyId_n = f.facultyId_n
         SET p.active_c = 'A'
         WHERE p.professionId_n = #{professionId, jdbcType=INTEGER} AND f.active_c = 'A'
-    </update>
-
-    <update id="restoreByProfessionIdIfInactiveFaculty" parameterType="java.lang.Integer">
-        UPDATE ems_profession p
-        LEFT JOIN ems_faculty f ON p.facultyId_n = f.facultyId_n
-        SET p.active_c = 'F'
-        WHERE p.professionId_n = #{professionId, jdbcType=INTEGER} AND f.active_c = 'F'
     </update>
 
 </mapper>

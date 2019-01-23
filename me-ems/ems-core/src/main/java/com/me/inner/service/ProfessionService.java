@@ -2,6 +2,7 @@ package com.me.inner.service;
 
 import com.me.inner.dto.PaginationDTO;
 import com.me.inner.dto.ProfessionDTO;
+import com.me.inner.dto.ResponseData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,5 +23,5 @@ public interface ProfessionService {
 
     boolean deleteProfessionById(Integer professionId);
 
-    boolean restoreByProfessionId(Integer professionId);
+    ResponseData restoreByProfessionId(Integer professionId);
 }

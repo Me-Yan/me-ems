@@ -127,32 +127,38 @@ public class ProfessionServiceImpl implements ProfessionService {
         return valid;
     }
 
-    public boolean restoreByProfessionId(Integer professionId) {
+    public ResponseData restoreByProfessionId(Integer professionId) {
         logger.debug("Execute Method restoreByProfessionId...");
 
         boolean valid = false;
+        String message = "";
         try {
-            // 恢复专业
-            professionMapper.restoreByProfessionIdIfActiveFaculty(professionId);
-            professionMapper.restoreByProfessionIdIfInactiveFaculty(professionId);
-            // 恢复专业的课程
-            profession2SubjectMapper.restoreByProfessionIdIfActiveSubjectAndActiveFaculty(professionId);
-            profession2SubjectMapper.restoreByProfessionIdIfActiveSubjectAndInactiveFaculty(professionId);
-            profession2SubjectMapper.restoreByProfessionIdIfInactiveSubjectAndActiveFaculty(professionId);
-            profession2SubjectMapper.restoreByProfessionIdIfInactiveSubjectAndInactiveFaculty(professionId);
-            // 恢复班级
-            // TODO
-            clazzMapper.restoreByProfessionId(professionId);
-            // 恢复学生登录信息
-            studentMapper.restoreLoginByProfessionId(professionId);
-            // 恢复学生
-            studentMapper.restoreByProfessionId(professionId);
 
-            valid = true;
+            ProfessionDTO profession = professionMapper.getByProfessionId(professionId);
+            if (CommonConstant.IN_ACTIVE.ACTIVE.equals(profession.getFacultyActive())) {
+                // 恢复专业
+                professionMapper.restoreByProfessionId(professionId);
+                // 恢复专业的课程
+                profession2SubjectMapper.restoreByProfessionIdIfActiveSubject(professionId);
+                profession2SubjectMapper.restoreByProfessionIdIfInactiveSubject(professionId);
+                // 恢复班级
+                clazzMapper.restoreByProfessionId(professionId);
+                // 恢复学生登录信息
+                studentMapper.restoreLoginByProfessionId(professionId);
+                // 恢复学生
+                studentMapper.restoreByProfessionId(professionId);
+
+                valid = true;
+                message = "恢复成功。";
+            } else {
+                valid = false;
+                message = "学院已被删除，无法恢复。";
+            }
         } catch (Exception e) {
             logger.error("恢复专业失败。", e);
+            message = "恢复异常，请重新操作。";
         }
 
-        return valid;
+        return new ResponseData(valid, message);
     }
 }

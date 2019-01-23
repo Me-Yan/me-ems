@@ -17,12 +17,8 @@ public interface Profession2SubjectMapper {
 
     void restoreByFacultyIdIfInactiveSubject(Integer facultyId);
 
-    void restoreByProfessionIdIfActiveSubjectAndActiveFaculty(Integer professionId);
+    void restoreByProfessionIdIfActiveSubject(Integer professionId);
 
-    void restoreByProfessionIdIfActiveSubjectAndInactiveFaculty(Integer professionId);
-
-    void restoreByProfessionIdIfInactiveSubjectAndActiveFaculty(Integer professionId);
-
-    void restoreByProfessionIdIfInactiveSubjectAndInactiveFaculty(Integer professionId);
+    void restoreByProfessionIdIfInactiveSubject(Integer professionId);
 
 }

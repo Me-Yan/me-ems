@@ -1,4 +1,5 @@
-<%@ page import="com.me.inner.constant.Constants" %><%--
+<%@ page import="com.me.inner.constant.Constants" %>
+<%@ page import="com.me.inner.constant.CommonConstant" %><%--
   Created by IntelliJ IDEA.
   User: yanyanghong
   Date: 2019/1/2
@@ -16,7 +17,7 @@
 
     <div class="page-content">
         <div class="page-content-section">
-            <div class="page-section-title"><span>专业列表</span></div>
+            <div class="page-section-title"><span>教师列表</span></div>
             <div class="line-dashed"></div>
             <div class="page-section-body">
                 <div class="row">
@@ -249,7 +250,64 @@
                     <p>确认修改该老师？</p>
                 </div>
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" class="btn btn-primary" id="btnEditConfirm">提交</button>
+                    <button type="button" class="btn btn-primary" id="btnEditConfirm">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%-- 删除专业 --%>
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <p>删除教师会同时删除相关的课程，学生的成绩作废，确认操作？</p>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-primary" id="btnDelete">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%-- 恢复专业 --%>
+    <div class="modal fade" id="restoreModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <p>确认恢复该老师的信息？</p>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-primary" id="btnRestore">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%-- 重置密码 --%>
+    <div class="modal fade" id="resetModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <p>确认重置密码？</p>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-primary" id="btnReset">确认</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>
@@ -259,6 +317,8 @@
     <script>
         var editBirthDate;
         var deleteId;
+        var restoreId;
+        var resetId;
         $(function () {
             initSelect();
             initTable();
@@ -272,6 +332,60 @@
                 maxDate: new Date(),
                 onChange: function (dateObj, dateStr, instance) {
                     $("#editTeacherForm").data("formValidation").revalidateField("birthDateStr");
+                }
+            });
+        });
+
+        // 重置密码
+        function resetModal(teacherId) {
+            resetId = teacherId;
+            $("#resetModal").modal("show");
+        }
+        $("#btnReset").on("click", function () {
+            $("#resetModal").modal("hide");
+            $("body").loading("请稍等。。。");
+            $.ajax({
+                url: "${pageContext.request.contextPath}/teacher/resetPassword",
+                type: "post",
+                data: {
+                    teacherId: resetId
+                },
+                success: function (result) {
+                    $("body").loading("hide");
+                    if (result.success) {
+                        $("#tipContent").html(result.message);
+                        $("#teacherTable").bootstrapTable("refresh");
+                    } else {
+                        $("#tipContent").html(result.message);
+                    }
+                    $("#outcomeModal").modal("show");
+                }
+            });
+        });
+
+        // 恢复专业
+        function restoreModal(teacherId) {
+            restoreId = teacherId;
+            $("#restoreModal").modal("show");resetModal
+        }
+        $("#btnRestore").on("click", function () {
+            $("#restoreModal").modal("hide");
+            $("body").loading("请稍等。。。");
+            $.ajax({
+                url: "${pageContext.request.contextPath}/teacher/restoreTeacher",
+                type: "post",
+                data: {
+                    teacherId: restoreId
+                },
+                success: function (result) {
+                    $("body").loading("hide");
+                    if (result.success) {
+                        $("#tipContent").html(result.message);
+                        $("#teacherTable").bootstrapTable("refresh");
+                    } else {
+                        $("#tipContent").html(result.message);
+                    }
+                    $("#outcomeModal").modal("show");
                 }
             });
         });
@@ -764,10 +878,19 @@
                         valign: 'middle',
                         width:'20%',
                         formatter: function (value, row, index) {
-                            return '<div class="btn-group">' +
-                                '<button type="button" class="btn btn-primary" onclick="editModal('+row.teacherId+')">修改</button>' +
-                                '<button type="button" class="btn btn-danger" onclick="deleteModal('+row.teacherId+')">删除</button>' +
-                                '</div>';
+                            if ("<%=CommonConstant.IN_ACTIVE.ACTIVE%>" === row.facultyActive) {
+                                var content = '<div class="btn-group"><button type="button" class="btn btn-primary" onclick="editModal('+row.teacherId+')">修改</button>';
+                                if ("<%=CommonConstant.IN_ACTIVE.ACTIVE%>" === row.active) {
+                                    content += '<button type="button" class="btn btn-danger" onclick="deleteModal('+row.teacherId+')">删除</button>' +
+                                        '<button type="button" class="btn btn-primary" onclick="resetModal('+row.teacherId+')">重置密码</button>';
+                                } else {
+                                    content += '<button type="button" class="btn btn-success" onclick="restoreModal('+row.teacherId+')">恢复</button>';
+                                }
+
+                                return  content + '</div>';
+                            }
+
+                            return "所属学院被删除";
                         }
                     }
                 ]

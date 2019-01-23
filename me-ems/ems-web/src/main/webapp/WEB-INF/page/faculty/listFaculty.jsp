@@ -421,7 +421,7 @@
                             if ("<%=CommonConstant.IN_ACTIVE.ACTIVE%>" === row.active) {
                                 content += '<button type="button" class="btn btn-danger" onclick="deleteModal('+row.facultyId+')">删除</button>';
                             } else {
-                                content += '<button type="button" class="btn btn-success" onclick="restoreModal('+row.facultyId+')">激活</button>';
+                                content += '<button type="button" class="btn btn-success" onclick="restoreModal('+row.facultyId+')">恢复</button>';
                             }
 
                             return content + '</div>';

@@ -102,8 +102,6 @@ public class ProfessionController {
     public ResponseData restoreProfession(@RequestParam("professionId") Integer professionId) {
         logger.debug("Execute Method restoreProfession...");
 
-        boolean valid = professionService.restoreByProfessionId(professionId);
-
-        return new ResponseData(valid);
+        return professionService.restoreByProfessionId(professionId);
     }
 }

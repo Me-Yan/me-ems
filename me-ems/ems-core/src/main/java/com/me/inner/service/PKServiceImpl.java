@@ -60,7 +60,7 @@ public class PKServiceImpl implements PKService {
             String nextNumber = year + typeCode + suffix;
 
             lastNumber = sequenceObj.getNextNumber();
-            sequenceObj = new SequenceDTO(typeCode, lastNumber, nextNumber, index, new Date());
+            sequenceObj = new SequenceDTO(roleName, lastNumber, nextNumber, index, new Date());
 
             sequenceMapper.updateSequence(sequenceObj);
         }

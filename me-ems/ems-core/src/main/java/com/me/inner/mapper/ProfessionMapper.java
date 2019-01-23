@@ -29,7 +29,6 @@ public interface ProfessionMapper {
 
     void restoreByFacultyId(Integer facultyId);
 
-    void restoreByProfessionIdIfActiveFaculty(Integer professionId);
+    void restoreByProfessionId(Integer professionId);
 
-    void restoreByProfessionIdIfInactiveFaculty(Integer professionId);
 }

@@ -107,4 +107,21 @@ public class TeacherController {
 
         return new ResponseData(valid);
     }
+
+    @RequestMapping("restoreTeacher")
+    @ResponseBody
+    public ResponseData restoreTeacher(@RequestParam("teacherId") Integer teacherId) {
+        logger.debug("Execute Method restoreTeacher...");
+
+        return teacherService.restoreTeacher(teacherId);
+    }
+
+    @RequestMapping("resetPassword")
+    @ResponseBody
+    public ResponseData resetPassword(@RequestParam("teacherId") Integer teacherId) {
+        logger.debug("Execute Method resetPassword...");
+
+        return teacherService.restoreTeacher(teacherId);
+    }
+
 }

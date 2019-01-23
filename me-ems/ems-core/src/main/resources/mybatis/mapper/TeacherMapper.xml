@@ -26,7 +26,8 @@
             t.update_dt AS updateDate,
             t.update_m AS updateBy,
             f.name_m AS facultyName,
-            DATE_FORMAT(t.birth_dt, '%Y-%m-%d') AS birthDateStr
+            DATE_FORMAT(t.birth_dt, '%Y-%m-%d') AS birthDateStr,
+            f.active_c AS facultyActive
         FROM ems_teacher t
         LEFT JOIN ems_faculty f ON t.facultyId_n = f.facultyId_n
         WHERE 1=1
@@ -78,7 +79,8 @@
             t.update_dt AS updateDate,
             t.update_m AS updateBy,
             f.name_m AS facultyName,
-            DATE_FORMAT(t.birth_dt, '%Y-%m-%d') AS birthDateStr
+            DATE_FORMAT(t.birth_dt, '%Y-%m-%d') AS birthDateStr,
+            f.active_c AS facultyActive
         FROM ems_teacher t
         LEFT JOIN ems_faculty f ON t.facultyId_n = f.facultyId_n
         WHERE t.teacherId_n = #{teacherId, jdbcType=INTEGER}
@@ -119,6 +121,24 @@
     
     <update id="restoreByFacultyId" parameterType="java.lang.Integer">
         UPDATE ems_teacher SET active_c = 'A' WHERE facultyId_n = #{facultyId, jdbcType=INTEGER} AND active_c = 'F'
+    </update>
+    
+    <select id="restoreLoginByTeacherId" parameterType="java.lang.Integer">
+        UPDATE ems_user u
+        LEFT JOIN ems_teacher t ON u.username_m = t.number_x
+        SET u.enabled_c = 'Y'
+        WHERE t.teacherId_n = #{teacherId, jdbcType=INTEGER} AND t.active_c = 'I'
+    </select>
+
+    <select id="restoreByTeacherId" parameterType="java.lang.Integer">
+        UPDATE ems_teacher SET active_c = 'A' WHERE teacherId_n = #{teacherId, jdbcType=INTEGER} AND active_c = 'I'
+    </select>
+
+    <update id="resetPassword">
+        UPDATE ems_user u
+        LEFT JOIN ems_teacher t ON u.username_m = t.number_x
+        SET u.password_x = #{password, jdbcType=VARCHAR}
+        WHERE t.teacherId_n = #{teacherId, jdbcType=INTEGER}
     </update>
 
 </mapper>

@@ -47,28 +47,12 @@
         WHERE p.facultyId_n = #{facultyId, jdbcType=INTEGER} AND ps.active_c = 'T'
     </update>
     
-    <update id="restoreByProfessionIdIfActiveSubjectAndActiveFaculty" parameterType="java.lang.Integer">
+    <update id="restoreByProfessionIdIfActiveSubject" parameterType="java.lang.Integer">
         UPDATE ems_profession2subject SET active_c = 'A' WHERE professionId_n = #{professionId, jdbcType=INTEGER} AND active_c = 'P'
     </update>
 
-    <update id="restoreByProfessionIdIfActiveSubjectAndInactiveFaculty" parameterType="java.lang.Integer">
-        UPDATE ems_profession2subject ps
-        LEFT JOIN ems_profession p ON ps.professionId_n = p.professionId_n
-        LEFT JOIN ems_faculty f ON f.facultyId_n = p.facultyId_n
-        SET ps.active_c = 'F'
-        WHERE ps.professionId_n = #{professionId, jdbcType=INTEGER} AND ps.active_c = 'P' AND f.active_c = 'I'
-    </update>
-
-    <update id="restoreByProfessionIdIfInactiveSubjectAndActiveFaculty" parameterType="java.lang.Integer">
+    <update id="restoreByProfessionIdIfInactiveSubject" parameterType="java.lang.Integer">
         UPDATE ems_profession2subject SET active_c = 'S' WHERE professionId_n = #{professionId, jdbcType=INTEGER} AND active_c = 'B'
-    </update>
-
-    <update id="restoreByProfessionIdIfInactiveSubjectAndInactiveFaculty" parameterType="java.lang.Integer">
-        UPDATE ems_profession2subject ps
-        LEFT JOIN ems_profession p ON ps.professionId_n = p.professionId_n
-        LEFT JOIN ems_faculty f ON f.facultyId_n = p.facultyId_n
-        SET ps.active_c = 'T'
-        WHERE ps.professionId_n = #{professionId, jdbcType=INTEGER} AND ps.active_c = 'B' AND f.active_c = 'I'
     </update>
 
 </mapper>
