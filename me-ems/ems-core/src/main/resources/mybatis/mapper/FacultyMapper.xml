@@ -37,7 +37,7 @@
         FROM ems_faculty
         WHERE 1=1
         <if test="facultyName!=null and facultyName!=''">
-            AND name_m LIKE CONCAT('%', #{facultyName, jdbcType=VARCHAR}, '%')
+            AND UPPER(name_m) LIKE UPPER(CONCAT('%', #{facultyName, jdbcType=VARCHAR}, '%'))
         </if>
         LIMIT #{pagination.begin}, #{pagination.limit}
     </select>

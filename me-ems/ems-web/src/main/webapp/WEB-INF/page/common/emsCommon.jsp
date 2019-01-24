@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/plugins/loading/loading.css">
 <script src="${pageContext.request.contextPath}/resources/plugins/loading/loading.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles/base.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles/custom-table.css">
 <style>
     .select2-container--default .select2-selection--single {
         border-radius: 0px;

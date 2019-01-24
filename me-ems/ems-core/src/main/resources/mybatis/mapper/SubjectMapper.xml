@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.me.inner.mapper.SubjectMapper">
+
+    <insert id="saveSubject" parameterType="com.me.inner.dto.SubjectDTO">
+        INSERT INTO ems_subject
+        (
+            name_m,
+            active_c,
+            create_dt,
+            create_m
+        )
+        VALUES
+        (
+            #{name, jdbcType=VARCHAR},
+            #{active, jdbcType=CHAR},
+            #{createDate, jdbcType=TIMESTAMP},
+            #{createBy, jdbcType=VARCHAR}
+        )
+    </insert>
+    
+    <select id="countSubjectByName" resultType="int">
+        SELECT COUNT(1) FROM ems_subject
+        WHERE 1 =1
+        <if test="subjectName!=null and subjectName!=''">
+            AND UPPER(name_m) LIKE UPPER(CONCAT('%', #{subjectName, jdbcType=VARCHAR}, '%'))
+        </if>
+    </select>
+
+    <select id="listSubjectData" resultType="com.me.inner.dto.SubjectDTO">
+        SELECT
+            subjectId_n AS subjectId,
+            name_m AS name,
+            active_c AS active,
+            create_dt AS createDate,
+            create_m AS createBy,
+            DATE_FORMAT(create_dt, '%Y-%m-%d') AS createDateStr
+        FROM ems_subject
+        WHERE 1 =1 
+        <if test="subjectName!=null and subjectName!=''">
+            AND UPPER(name_m) LIKE UPPER(CONCAT('%', #{subjectName, jdbcType=VARCHAR}, '%'))
+        </if>
+        LIMIT #{pagination.begin}, #{pagination.limit}
+    </select>
+
+</mapper>

@@ -29,8 +29,6 @@ public class FacultyServiceImpl implements FacultyService {
     @Autowired
     private FacultyMapper facultyMapper;
     @Autowired
-    private ScoreMapper scoreMapper;
-    @Autowired
     private StudentMapper studentMapper;
     @Autowired
     private CurriculumMapper curriculumMapper;
@@ -45,6 +43,8 @@ public class FacultyServiceImpl implements FacultyService {
 
     public PaginationDTO listFacultyData(String facultyName, PaginationDTO pagination) {
         logger.debug("Execute Method listFacultyData...");
+
+        facultyName = StringUtils.trim(facultyName);
 
         int total = facultyMapper.countFaculty(facultyName);
 

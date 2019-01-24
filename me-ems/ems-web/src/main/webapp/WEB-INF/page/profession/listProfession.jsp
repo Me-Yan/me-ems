@@ -11,7 +11,6 @@
 <html>
 <head>
     <title>专业列表</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles/custom-table.css">
 </head>
 <body>
 

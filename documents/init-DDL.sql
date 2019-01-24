@@ -30,6 +30,8 @@ CREATE TABLE ems_subject (
 	active_c 		CHAR(1)		NOT NULL,
 	create_dt		DATETIME	NOT	NULL,
 	create_m		VARCHAR(20)	NOT NULL,
+	update_dt		DATETIME	NULL,
+	update_m		VARCHAR(20)	NULL,
 	PRIMARY KEY(subjectId_n)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -121,7 +121,7 @@ public class TeacherController {
     public ResponseData resetPassword(@RequestParam("teacherId") Integer teacherId) {
         logger.debug("Execute Method resetPassword...");
 
-        return teacherService.restoreTeacher(teacherId);
+        return teacherService.resetPassword(teacherId);
     }
 
 }

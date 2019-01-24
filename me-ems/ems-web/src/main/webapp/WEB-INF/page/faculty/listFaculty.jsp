@@ -9,7 +9,6 @@
 <html>
 <head>
     <title>学院列表</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles/custom-table.css">
     <style>
         .icon-search {
             cursor: pointer;
@@ -29,7 +28,7 @@
                 <div class="row">
                     <div class="col-xs-6 col-sm-4 col-md-4" style="margin-bottom: 10px;">
                         <div class="input-group">
-                            <input name="facultyName" id="facultyName" maxlength="50" class="form-control field-input" />
+                            <input name="facultyName" id="facultyName" maxlength="50" class="form-control field-input" placeholder="学院名称" />
                             <div class="input-group-addon icon-search"><i class="fa fa-search"></i></div>
                         </div>
                     </div>
@@ -364,6 +363,7 @@
             $("#facultyForm").data("formValidation").destroy();
         });
 
+        // 查询
         $(".icon-search").on("click", function () {
             $("#facultyTable").bootstrapTable("refresh");
         });
