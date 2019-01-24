@@ -92,4 +92,19 @@
         UPDATE ems_faculty SET active_c = 'A' WHERE facultyId_n = #{facultyId, jdbcType=INTEGER}
     </update>
 
+    <select id="getBySubjectId" parameterType="java.lang.Integer" resultType="com.me.inner.dto.FacultyDTO">
+        SELECT
+            f.facultyId_n AS facultyId,
+            f.name_m AS name,
+            f.active_c AS active,
+            f.create_dt AS createDate,
+            f.create_m AS createBy,
+            f.update_dt AS updateDate,
+            f.update_m AS updateBy
+        FROM ems_profession2subject ps
+        LEFT JOIN ems_profession p ON ps.professionId_n = p.professionId_n
+        LEFT JOIN ems_faculty f ON p.facultyId_n = f.facultyId_n
+        WHERE ps.subjectId_n = #{subjectId, jdbcType=INTEGER}
+    </select>
+
 </mapper>

@@ -96,13 +96,20 @@
             update_m = #{updateBy, jdbcType=VARCHAR}
         WHERE teacherId_n = #{teacherId, jdbcType=INTEGER}
     </update>
-    
-    <update id="deleteByFacultyId" parameterType="java.lang.Integer">
-        UPDATE ems_teacher SET active_c = 'F' WHERE facultyId_n = #{facultyId, jdbcType=INTEGER} AND active_c = 'A'
-    </update>
 
     <update id="deleteByTeacherId" parameterType="java.lang.Integer">
         UPDATE ems_teacher SET active_c = 'I' WHERE teacherId_n = #{teacherId, jdbcType=INTEGER}
+    </update>
+
+    <update id="deleteLoginByTeacherId" parameterType="java.lang.Integer">
+        UPDATE ems_user u
+        LEFT JOIN ems_teacher t ON u.username_m = t.number_x
+        SET u.enabled_c = 'N'
+        WHERE t.teacherId_n = #{teacherId, jdbcType=INTEGER} AND t.active_c = 'A'
+    </update>
+    
+    <update id="deleteByFacultyId" parameterType="java.lang.Integer">
+        UPDATE ems_teacher SET active_c = 'F' WHERE facultyId_n = #{facultyId, jdbcType=INTEGER} AND active_c = 'A'
     </update>
     
     <update id="deleteLoginByFacultyId" parameterType="java.lang.Integer">

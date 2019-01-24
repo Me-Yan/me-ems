@@ -15,13 +15,13 @@ public interface ProfessionService {
 
     PaginationDTO listProfessionByFacultyId(Integer facultyId, PaginationDTO pagination);
 
-    boolean addProfession(ProfessionDTO profession);
+    ResponseData addProfession(ProfessionDTO profession);
 
     ProfessionDTO getByProfessionId(Integer professionId);
 
-    boolean updateProfession(ProfessionDTO profession);
+    ResponseData updateProfession(ProfessionDTO profession);
 
-    boolean deleteProfessionById(Integer professionId);
+    ResponseData deleteProfessionById(Integer professionId);
 
     ResponseData restoreByProfessionId(Integer professionId);
 }

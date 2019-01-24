@@ -52,9 +52,7 @@ public class FacultyController extends BaseController {
     public ResponseData addFaculty(@ModelAttribute("facultyForm") FacultyDTO facultyForm) {
         logger.debug("Execute Method addFaculty...");
 
-        boolean valid = facultyService.addFaculty(facultyForm);
-
-        return new ResponseData(valid);
+        return facultyService.addFaculty(facultyForm);
     }
 
     @RequestMapping("deleteFaculty")
@@ -62,9 +60,7 @@ public class FacultyController extends BaseController {
     public ResponseData deleteFaculty(@RequestParam("facultyId") Integer facultyId) {
         logger.debug("Execute Method deleteFaculty...");
 
-        boolean valid = facultyService.deleteByFacultyId(facultyId);
-
-        return new ResponseData(valid);
+        return facultyService.deleteByFacultyId(facultyId);
     }
 
     @RequestMapping("getFaculty")
@@ -80,9 +76,7 @@ public class FacultyController extends BaseController {
     public ResponseData updateFaculty(@ModelAttribute("facultyForm") FacultyDTO facultyForm) {
         logger.debug("Execute Method updateFaculty...");
 
-        boolean valid = facultyService.updateFaculty(facultyForm);
-
-        return new ResponseData(valid);
+        return facultyService.updateFaculty(facultyForm);
     }
 
     @RequestMapping("restoreFaculty")
@@ -90,9 +84,7 @@ public class FacultyController extends BaseController {
     public ResponseData restoreFaculty(@RequestParam("facultyId") Integer facultyId) {
         logger.debug("Execute Method restoreFaculty...");
 
-        boolean valid = facultyService.restoreByFacultyId(facultyId);
-
-        return new ResponseData(valid);
+        return facultyService.restoreByFacultyId(facultyId);
     }
 
 }

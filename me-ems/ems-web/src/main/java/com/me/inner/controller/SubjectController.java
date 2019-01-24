@@ -55,4 +55,36 @@ public class SubjectController {
 
         return subjectService.saveSubject(subjectForm);
     }
+
+    @RequestMapping("getSubject")
+    @ResponseBody
+    public SubjectDTO getSubject(@RequestParam("subjectId") Integer subjectId) {
+        logger.debug("Execute Method getSubject...");
+
+        return subjectService.getSubjectById(subjectId);
+    }
+
+    @RequestMapping("updateSubject")
+    @ResponseBody
+    public ResponseData updateSubject(@ModelAttribute("subjectForm") SubjectDTO subjectForm) {
+        logger.debug("Execute Method updateSubject...");
+
+        return subjectService.updateSubject(subjectForm);
+    }
+
+    @RequestMapping("deleteSubject")
+    @ResponseBody
+    public ResponseData deleteSubject(@RequestParam("subjectId") Integer subjectId) {
+        logger.debug("Execute Method updateSubject...");
+
+        return subjectService.deleteSubject(subjectId);
+    }
+
+    @RequestMapping("restoreSubject")
+    @ResponseBody
+    public ResponseData restoreSubject(@RequestParam("subjectId") Integer subjectId) {
+        logger.debug("Execute Method restoreSubject...");
+
+        return subjectService.restoreSubject(subjectId);
+    }
 }

@@ -28,4 +28,6 @@ public interface FacultyMapper {
     void deleteByFacultyId(Integer facultyId);
 
     void restoreByFacultyId(Integer facultyId);
+
+    FacultyDTO getBySubjectId(Integer subjectId);
 }

@@ -365,7 +365,7 @@
         // 恢复专业
         function restoreModal(teacherId) {
             restoreId = teacherId;
-            $("#restoreModal").modal("show");resetModal
+            $("#restoreModal").modal("show");
         }
         $("#btnRestore").on("click", function () {
             $("#restoreModal").modal("hide");
@@ -406,10 +406,10 @@
                 success: function (result) {
                     $("body").loading("hide");
                     if (result.success) {
-                        $("#tipContent").html("删除成功。");
+                        $("#tipContent").html(result.message);
                         $("#teacherTable").bootstrapTable("refresh");
                     } else {
-                        $("#tipContent").html("删除失败。");
+                        $("#tipContent").html(result.message);
                     }
                     $("#outcomeModal").modal("show");
                 }
@@ -465,10 +465,10 @@
                 success: function (result) {
                     $("body").loading("hide");
                     if (result.success) {
-                        $("#tipContent").html("修改成功。");
+                        $("#tipContent").html(result.message);
                         $("#teacherTable").bootstrapTable("refresh");
                     } else {
-                        $("#tipContent").html("修改失败，请重新操作。");
+                        $("#tipContent").html(result.message);
                     }
                     $("#outcomeModal").modal("show");
                 }
@@ -513,10 +513,10 @@
                 success: function (result) {
                     $("body").loading("hide");
                     if (result.success) {
-                        $("#tipContent").html("添加成功。");
+                        $("#tipContent").html(result.message);
                         $("#teacherTable").bootstrapTable("refresh");
                     } else {
-                        $("#tipContent").html("添加失败，请重新添加。");
+                        $("#tipContent").html(result.message);
                     }
                     $("#outcomeModal").modal("show");
                 }

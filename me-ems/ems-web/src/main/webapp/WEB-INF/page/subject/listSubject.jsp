@@ -92,7 +92,96 @@
                     <p>确认添加该课程？</p>
                 </div>
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" class="btn btn-primary" id="btnConfirm">提交</button>
+                    <button type="button" class="btn btn-primary" id="btnConfirm">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%-- 修改课程Modal --%>
+    <div class="modal fade" id="editFormModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">修改课程</h4>
+                </div>
+                <div class="modal-body">
+                    <br>
+                    <form id="editSubjectForm" method="post">
+                        <div class="row">
+                            <div class="col-xs-12 form-group-field">
+                                <label class="col-sm-3 col-md-3 col-md-offset-1 control-label text-left">课程名称 <span class="colon-label">:</span><span class="field-star">*</span></label>
+                                <div class="col-sm-8 col-md-6">
+                                    <div class="display-table">
+                                        <div class="display-cell colon-cell">:</div>
+                                        <div class="display-cell">
+                                            <input type="text" name="editName" class="form-control field-input" maxlength="20" id="editName" />
+                                            <span class="text-error hide" name="editNameMessage"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-primary" id="btnEditSubmit">提交</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%-- 确认修改提示Modal --%>
+    <div class="modal fade" id="confirmEditFormModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <p>确认修改该课程？</p>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-primary" id="btnEditConfirm">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%-- 删除课程 --%>
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <p>删除课程，会同时取消该课程的正常进行，确认删除？</p>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-primary" id="btnDelete">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%-- 恢复课程 --%>
+    <div class="modal fade" id="restoreModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <p>确认恢复课程？</p>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-primary" id="btnRestore">确认</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>
@@ -100,8 +189,131 @@
     </div>
 
     <script>
+        var updateId;
+        var deleteId;
+        var restoreId;
         $(function () {
             initTable();
+        });
+
+        // 恢复课程
+        function restoreModal(subjectId) {
+            restoreId = subjectId;
+            $("#restoreModal").modal("show");
+        }
+        $("#btnRestore").on("click", function () {
+            $("#restoreModal").modal("hide");
+            $("body").loading("请稍等。。。");
+            $.ajax({
+                url: "${pageContext.request.contextPath}/subject/restoreSubject",
+                type: "post",
+                data: {
+                    subjectId: restoreId
+                },
+                success: function (result) {
+                    $("body").loading("hide");
+                    if (result.success) {
+                        $("#tipContent").html(result.message);
+                        $("#subjectTable").bootstrapTable("refresh");
+                    } else {
+                        $("#tipContent").html(result.message);
+                    }
+                    $("#outcomeModal").modal("show");
+                }
+            });
+        });
+
+        // 删除课程
+        function deleteModal(subjectId) {
+            deleteId = subjectId;
+            $("#deleteModal").modal("show");
+        }
+        $("#btnDelete").on("click", function () {
+            $("#deleteModal").modal("hide");
+            $("body").loading("请稍等。。。");
+            $.ajax({
+                url: "${pageContext.request.contextPath}/subject/deleteSubject",
+                type: "post",
+                data: {
+                    subjectId: deleteId
+                },
+                success: function (result) {
+                    $("body").loading("hide");
+                    if (result.success) {
+                        $("#tipContent").html(result.message);
+                        $("#subjectTable").bootstrapTable("refresh");
+                    } else {
+                        $("#tipContent").html(result.message);
+                    }
+                    $("#outcomeModal").modal("show");
+                }
+            });
+        });
+
+        // 修改课程
+        function editModal(subjectId) {
+            updateId = subjectId;
+            $.ajax({
+                url: "${pageContext.request.contextPath}/subject/getSubject",
+                type: "post",
+                data: {
+                    subjectId: updateId
+                },
+                success: function (result) {
+                    if (result) {
+                        $("#editName").val(result.name);
+                    }
+                }
+            });
+            $("#editFormModal").modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
+        }
+
+        $("#btnEditSubmit").on("click", function () {
+            var validation = $("#editSubjectForm").data("formValidation");
+            validation.validate();
+            if (validation.isValid()) {
+                $("#editFormModal").modal("hide");
+                $("#confirmEditFormModal").modal({
+                    backdrop: 'static',
+                    keyboard: false,
+                    show: true
+                });
+            }
+        });
+
+        $("#btnEditConfirm").on("click", function () {
+            $("#confirmEditFormModal").modal("hide");
+            $("body").loading("请等待。。。");
+            $.ajax({
+                url: "${pageContext.request.contextPath}/subject/updateSubject",
+                type: "post",
+                data: {
+                    subjectId: updateId,
+                    name: $("#editName").val()
+                },
+                success: function (result) {
+                    $("body").loading("hide");
+                    if (result.success) {
+                        $("#tipContent").html(result.message);
+                        $("#subjectTable").bootstrapTable("refresh");
+                    } else {
+                        $("#tipContent").html(result.message);
+                    }
+                    $("#outcomeModal").modal("show");
+                }
+            });
+        });
+
+        $("#editFormModal").on("show.bs.modal", function () {
+            document.getElementById("editSubjectForm").reset();
+            initEditValidation();
+        });
+        $("#editFormModal").on("hidden.bs.modal", function () {
+            $("#editSubjectForm").data("formValidation").destroy();
         });
 
         // 添加课程
@@ -135,10 +347,10 @@
                 success: function (result) {
                     $("body").loading("hide");
                     if (result.success) {
-                        $("#tipContent").html("添加成功。");
+                        $("#tipContent").html(result.message);
                         $("#subjectTable").bootstrapTable("refresh");
                     } else {
-                        $("#tipContent").html("该学院已存在。");
+                        $("#tipContent").html(result.message);
                     }
                     $("#outcomeModal").modal("show");
                 }
@@ -303,6 +515,85 @@
 
                 //remove checkbox feedback icon
                 $("#subjectForm").find("i.form-control-feedback").remove();
+            });
+        }
+
+        function initEditValidation() {
+            $("#editSubjectForm").formValidation({
+                excluded: [':disabled'],
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                err: {
+                    container: function($field, validator) {
+                        var messageName = $($field).attr("name")+"Message";
+                        var messageNode  = $('#editSubjectForm').find($("span[name='"+messageName+"']"));
+                        messageNode.addClass("has-error");
+                        messageNode.removeClass("hide");
+                        return messageNode;
+                    }
+                },
+                row: {
+                    valid: 'has-success',
+                    invalid: 'has-error',
+                    feedback: 'has-feedback'
+                },
+                icon: {
+                    valid: null,
+                    invalid: null,
+                    validating: null
+                },
+                fields: {
+                    editName:{
+                        message: '请填写课程名称。',
+                        validators: {
+                            notEmpty: {
+                                message: '请填写课程名称。'
+                            },
+                            stringLength: {
+                                max: 20,
+                                message: '不能超过20个字符。'
+                            }
+                        }
+                    }
+                }
+            }).on('err.field.fv', function(e, data) {
+                $("#editSubjectForm").find("i.form-control-feedback").remove();
+
+                if($(data.element).is('select')) {
+                    $(data.element).next().addClass("has-error");
+                    $(data.element).next().removeClass("has-success");
+                }
+                else if($(data.element).is('textarea')) {
+                    $(data.element).parent().addClass("has-error");
+                    $(data.element).parent().removeClass("has-success");
+                }
+                else {
+                    $(data.element).addClass("has-error");
+                    $(data.element).removeClass("has-success");
+                }
+            }).on('success.field.fv', function(e, data) {
+//            $("#btnUserSubmit").removeAttr("disabled");
+                if($(data.element).is('select')) {
+                    $(data.element).next().removeClass("has-error");
+                    $(data.element).next().addClass("has-success");
+                }
+                else if($(data.element).is('textarea')) {
+                    $(data.element).parent().removeClass("has-error");
+                    $(data.element).parent().addClass("has-success");
+                }
+                else {
+                    $(data.element).removeClass("has-error");
+                    $(data.element).addClass("has-success");
+                }
+                $("#editSubjectForm").find("."+data.field+"Message").css("display","none");
+                $("#editSubjectForm").find("."+data.field+"Message").addClass("hide");
+
+                //remove checkbox feedback icon
+                $("#editSubjectForm").find("i.form-control-feedback").remove();
             });
         }
     </script>

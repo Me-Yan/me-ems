@@ -30,7 +30,25 @@
     </select>
 
     <delete id="deleteCurriculumByTeacherId" parameterType="java.lang.Integer">
-        DELETE  FROM ems_curriculum WHERE teacherId_n = #{teacherId, jdbcType=INTEGER}
+        DELETE FROM ems_curriculum WHERE teacherId_n = #{teacherId, jdbcType=INTEGER}
+    </delete>
+
+    <select id="listCurriculumBySubjectId" parameterType="java.lang.Integer" resultType="com.me.inner.dto.CurriculumDTO">
+        SELECT
+            curriculumId_n AS curriculumId,
+            subjectId_n AS subjectId,
+            classId_n AS clazzId,
+            professionId_n AS professionId,
+            teacherId_n AS teacherId,
+            semester_n AS semester,
+            create_dt AS createDate,
+            create_m AS createBy
+        FROM ems_curriculum
+        WHERE subjectId_n = #{subjectId, jdbcType=INTEGER}
+    </select>
+    
+    <delete id="deleteCurriculumBySubjectId" parameterType="java.lang.Integer">
+        DELETE FROM ems_curriculum WHERE subjectId_n = #{subjectId, jdbcType=INTEGER}
     </delete>
 
 </mapper>

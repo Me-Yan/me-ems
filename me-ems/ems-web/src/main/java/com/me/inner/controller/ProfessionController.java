@@ -64,9 +64,7 @@ public class ProfessionController {
     public ResponseData addProfession(@ModelAttribute("professionForm") ProfessionDTO professionForm) {
         logger.debug("Execute Method addProfession...");
 
-        boolean valid = professionService.addProfession(professionForm);
-
-        return new ResponseData(valid);
+        return professionService.addProfession(professionForm);
     }
 
     @RequestMapping("getProfession")
@@ -82,9 +80,7 @@ public class ProfessionController {
     public ResponseData updateProfession(@ModelAttribute("professionForm") ProfessionDTO professionForm) {
         logger.debug("Execute Method updateProfession...");
 
-        boolean valid = professionService.updateProfession(professionForm);
-
-        return new ResponseData(valid);
+        return professionService.updateProfession(professionForm);
     }
 
     @RequestMapping("deleteProfession")
@@ -92,9 +88,7 @@ public class ProfessionController {
     public ResponseData deleteProfession(@RequestParam("professionId") Integer professionId) {
         logger.debug("Execute Method deleteProfession...");
 
-        boolean valid = professionService.deleteProfessionById(professionId);
-
-        return new ResponseData(valid);
+        return professionService.deleteProfessionById(professionId);
     }
 
     @RequestMapping("restoreProfession")

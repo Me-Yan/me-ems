@@ -101,4 +101,19 @@
         WHERE p.professionId_n = #{professionId, jdbcType=INTEGER} AND f.active_c = 'A'
     </update>
 
+    <select id="getBySubjectId" parameterType="java.lang.Integer" resultType="com.me.inner.dto.ProfessionDTO">
+        SELECT
+            p.professionId_n AS professionId,
+            p.facultyId_n AS facultyId,
+            p.name_m AS name,
+            p.active_c AS active,
+            p.create_dt AS createDate,
+            p.create_m AS createBy,
+            p.update_dt AS updateDate,
+            p.update_m AS updateBy
+        FROM ems_profession2subject ps
+        LEFT JOIN ems_profession p ON ps.professionId_n = p.professionId_n
+        WHERE ps.subjectId_n = #{subjectId, jdbcType=INTEGER}
+    </select>
+
 </mapper>

@@ -59,27 +59,42 @@ public class FacultyServiceImpl implements FacultyService {
         return pagination;
     }
 
-    public boolean addFaculty(FacultyDTO faculty) {
+    public ResponseData addFaculty(FacultyDTO faculty) {
         logger.debug("Execute Method addFaculty...");
 
-        int count = facultyMapper.countFacultyByName(StringUtils.trim(faculty.getName()));
-        if (count>0) {
-            return false;
+        boolean valid = false;
+        String message = "";
+
+        try {
+            int count = facultyMapper.countFacultyByName(StringUtils.trim(faculty.getName()));
+            if (count>0) {
+                valid = false;
+                message = "该学院已存在，请勿重新添加。";
+            } else {
+                faculty.setActive(CommonConstant.IN_ACTIVE.ACTIVE);
+                faculty.setCreateDate(new Date());
+                faculty.setCreateBy(SecurityUtil.getUserInfo().getUsername());
+
+                facultyMapper.saveFaculty(faculty);
+
+                valid = true;
+                message = "添加成功。";
+            }
+        } catch (Exception e) {
+            logger.error("添加异常。", e);
+            valid = false;
+            message = "恢复异常，请重新操作。";
         }
 
-        faculty.setActive(CommonConstant.IN_ACTIVE.ACTIVE);
-        faculty.setCreateDate(new Date());
-        faculty.setCreateBy(SecurityUtil.getUserInfo().getUsername());
+        return new ResponseData(valid, message);
 
-        facultyMapper.saveFaculty(faculty);
-
-        return true;
     }
 
-    public boolean deleteByFacultyId(Integer facultyId) {
+    public ResponseData deleteByFacultyId(Integer facultyId) {
         logger.debug("Execute Method deleteFaculty...");
 
         boolean valid = false;
+        String message = "";
         try {
             // 逻辑删除教师登录信息
             teacherMapper.deleteLoginByFacultyId(facultyId);
@@ -102,11 +117,13 @@ public class FacultyServiceImpl implements FacultyService {
             facultyMapper.deleteByFacultyId(facultyId);
 
             valid = true;
+            message = "删除成功。";
         } catch (Exception e) {
             logger.error("删除学院失败。", e);
+            message = "删除异常，请重新操作。";
         }
 
-        return valid;
+        return new ResponseData(valid, message);
     }
 
     public FacultyDTO getByFacultyId(Integer facultyId) {
@@ -115,20 +132,32 @@ public class FacultyServiceImpl implements FacultyService {
         return facultyMapper.getByFacultyId(facultyId);
     }
 
-    public boolean updateFaculty(FacultyDTO faculty) {
+    public ResponseData updateFaculty(FacultyDTO faculty) {
         logger.debug("Execute Method updateFaculty...");
 
-        int total = facultyMapper.countFacultyByName(StringUtils.trim(faculty.getName()));
-        if (total>0) {
-            return false;
+        boolean valid = false;
+        String message = "";
+
+        try {
+            int total = facultyMapper.countFacultyByName(StringUtils.trim(faculty.getName()));
+            if (total>0) {
+                valid = false;
+                message = "已存在该学院。";
+            } else {
+                faculty.setUpdateDate(new Date());
+                faculty.setUpdateBy(SecurityUtil.getUserInfo().getUsername());
+
+                facultyMapper.updateFaculty(faculty);
+
+                valid = true;
+                message = "修改成功。";
+            }
+        } catch (Exception e) {
+            logger.error("修改异常。", e);
+            message = "修改异常，请重新操作。";
         }
 
-        faculty.setUpdateDate(new Date());
-        faculty.setUpdateBy(SecurityUtil.getUserInfo().getUsername());
-
-        facultyMapper.updateFaculty(faculty);
-
-        return true;
+        return new ResponseData(valid, message);
     }
 
     public List<FacultyDTO> listAllFaculty() {
@@ -137,13 +166,13 @@ public class FacultyServiceImpl implements FacultyService {
         return facultyMapper.listAllActiveFaculty();
     }
 
-    public boolean restoreByFacultyId(Integer facultyId) {
+    public ResponseData restoreByFacultyId(Integer facultyId) {
         logger.debug("Execute Method restoreByFacultyId...");
 
         boolean valid = false;
+        String message = "";
 
         try {
-
             // 恢复学院
             facultyMapper.restoreByFacultyId(facultyId);
             // 恢复专业
@@ -163,10 +192,12 @@ public class FacultyServiceImpl implements FacultyService {
             studentMapper.restoreByFacultyId(facultyId);
 
             valid = true;
+            message = "恢复成功。";
         } catch (Exception e) {
             logger.error("恢复学院失败。", e);
+            message = "恢复异常，请重新操作。";
         }
 
-        return  valid;
+        return  new ResponseData(valid, message);
     }
 }

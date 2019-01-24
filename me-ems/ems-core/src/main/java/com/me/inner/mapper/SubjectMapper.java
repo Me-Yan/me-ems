@@ -16,4 +16,13 @@ public interface SubjectMapper {
     List<SubjectDTO> listSubjectData(@Param("subjectName") String subjectName, @Param("pagination") PaginationDTO pagination);
 
     void saveSubject(SubjectDTO subject);
+
+    SubjectDTO getSubjectById(Integer subjectId);
+
+    void updateSubject(SubjectDTO subject);
+
+    void deleteBySubjectId(Integer subjectId);
+
+    void restoreBySubjectId(Integer subjectId);
+
 }

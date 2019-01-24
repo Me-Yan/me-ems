@@ -31,4 +31,6 @@ public interface ProfessionMapper {
 
     void restoreByProfessionId(Integer professionId);
 
+    ProfessionDTO getBySubjectId(Integer subjectId);
+
 }

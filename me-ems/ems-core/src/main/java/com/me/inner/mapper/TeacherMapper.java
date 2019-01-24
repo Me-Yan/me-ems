@@ -25,6 +25,8 @@ public interface TeacherMapper {
 
     void deleteByTeacherId(Integer teacherId);
 
+    void deleteLoginByTeacherId(Integer teacherId);
+
     void deleteLoginByFacultyId(Integer facultyId);
 
     void restoreLoginByFacultyId(Integer facultyId);

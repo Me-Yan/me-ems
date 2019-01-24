@@ -29,8 +29,6 @@ public class ProfessionServiceImpl implements ProfessionService {
     @Autowired
     private ProfessionMapper professionMapper;
     @Autowired
-    private ScoreMapper scoreMapper;
-    @Autowired
     private StudentMapper studentMapper;
     @Autowired
     private CurriculumMapper curriculumMapper;
@@ -55,24 +53,36 @@ public class ProfessionServiceImpl implements ProfessionService {
         return pagination;
     }
 
-    public boolean addProfession(ProfessionDTO profession) {
+    public ResponseData addProfession(ProfessionDTO profession) {
         logger.debug("Execute Method addProfession...");
 
-        profession.setName(StringUtils.trim(profession.getName()));
+        boolean valid = false;
+        String message = "";
 
-        int total = professionMapper.countProfessionByCondition(profession);
+        try {
+            profession.setName(StringUtils.trim(profession.getName()));
 
-        if (total>0) {
-            return false;
+            int total = professionMapper.countProfessionByCondition(profession);
+
+            if (total>0) {
+                valid = false;
+                message = "该专业已存在。";
+            } else {
+                profession.setActive(CommonConstant.IN_ACTIVE.ACTIVE);
+                profession.setCreateBy(SecurityUtil.getUserInfo().getUsername());
+                profession.setCreateDate(new Date());
+
+                professionMapper.saveProfession(profession);
+
+                valid = true;
+                message = "添加成功。";
+            }
+        } catch (Exception e) {
+            logger.error("添加异常", e);
+            message = "添加异常，请重新操作。";
         }
 
-        profession.setActive(CommonConstant.IN_ACTIVE.ACTIVE);
-        profession.setCreateBy(SecurityUtil.getUserInfo().getUsername());
-        profession.setCreateDate(new Date());
-
-        professionMapper.saveProfession(profession);
-
-        return true;
+        return new ResponseData(valid, message);
     }
 
     public ProfessionDTO getByProfessionId(Integer professionId) {
@@ -81,29 +91,42 @@ public class ProfessionServiceImpl implements ProfessionService {
         return professionMapper.getByProfessionId(professionId);
     }
 
-    public boolean updateProfession(ProfessionDTO profession) {
+    public ResponseData updateProfession(ProfessionDTO profession) {
         logger.debug("Execute Method updateProfession...");
 
-        profession.setName(StringUtils.trim(profession.getName()));
+        boolean valid = false;
+        String message = "";
 
-        int total = professionMapper.countProfessionByCondition(profession);
+        try {
+            profession.setName(StringUtils.trim(profession.getName()));
 
-        if (total>0) {
-            return false;
+            int total = professionMapper.countProfessionByCondition(profession);
+
+            if (total>0) {
+                valid = false;
+                message = "该专业已存在。";
+            } else {
+                profession.setUpdateDate(new Date());
+                profession.setUpdateBy(SecurityUtil.getUserInfo().getUsername());
+
+                professionMapper.updateProfession(profession);
+
+                valid = true;
+                message = "修改成功。";
+            }
+        } catch (Exception e) {
+            logger.error("修改异常", e);
+            message = "修改异常，请重新操作。";
         }
 
-        profession.setUpdateDate(new Date());
-        profession.setUpdateBy(SecurityUtil.getUserInfo().getUsername());
-
-        professionMapper.updateProfession(profession);
-
-        return true;
+        return new ResponseData(valid, message);
     }
 
-    public boolean deleteProfessionById(Integer professionId) {
+    public ResponseData deleteProfessionById(Integer professionId) {
         logger.debug("Execute Method deleteProfessionById...");
 
         boolean valid = false;
+        String message = "";
         try {
             // 删除在线的学生登录信息
             studentMapper.deleteLoginByProfessionId(professionId);
@@ -120,11 +143,13 @@ public class ProfessionServiceImpl implements ProfessionService {
             professionMapper.deleteByProfessionId(professionId);
 
             valid = true;
+            message = "删除成功。";
         } catch (Exception e) {
             logger.error("删除专业失败。", e);
+            message = "删除异常，请重新操作。";
         }
 
-        return valid;
+        return new ResponseData(valid, message);
     }
 
     public ResponseData restoreByProfessionId(Integer professionId) {

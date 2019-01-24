@@ -16,4 +16,8 @@ public interface CurriculumMapper {
     List<CurriculumDTO> listCurriculumByTeacherId(Integer teacherId);
 
     void deleteCurriculumByTeacherId(Integer teacherId);
+
+    List<CurriculumDTO> listCurriculumBySubjectId(Integer subjectId);
+
+    void deleteCurriculumBySubjectId(Integer subjectId);
 }

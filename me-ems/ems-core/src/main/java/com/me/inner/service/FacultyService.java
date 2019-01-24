@@ -2,6 +2,7 @@ package com.me.inner.service;
 
 import com.me.inner.dto.FacultyDTO;
 import com.me.inner.dto.PaginationDTO;
+import com.me.inner.dto.ResponseData;
 
 import java.util.List;
 
@@ -12,15 +13,15 @@ public interface FacultyService {
 
     PaginationDTO listFacultyData(String facultyName, PaginationDTO pagination);
 
-    boolean addFaculty(FacultyDTO faculty);
+    ResponseData addFaculty(FacultyDTO faculty);
 
-    boolean deleteByFacultyId(Integer facultyId);
+    ResponseData deleteByFacultyId(Integer facultyId);
 
     FacultyDTO getByFacultyId(Integer facultyId);
 
-    boolean updateFaculty(FacultyDTO faculty);
+    ResponseData updateFaculty(FacultyDTO faculty);
 
     List<FacultyDTO> listAllFaculty();
 
-    boolean restoreByFacultyId(Integer facultyId);
+    ResponseData restoreByFacultyId(Integer facultyId);
 }

@@ -21,4 +21,16 @@ public interface Profession2SubjectMapper {
 
     void restoreByProfessionIdIfInactiveSubject(Integer professionId);
 
+    void deleteBySubjectIdIfActiveProfessionAndActiveFaculty(Integer subjectId);
+
+    void deleteBySubjectIdIfActiveProfessionAndInactiveFaculty(Integer subjectId);
+
+    void deleteBySubjectIdIfInactiveProfession(Integer subjectId);
+
+    void restoreBySubjectIdIfActiveProfessionAndActiveFaculty(Integer subjectId);
+
+    void restoreBySubjectIdIfActiveProfessionAndInactiveFaculty(Integer subjectId);
+
+    void restoreBySubjectIdIfInactiveProfession(Integer subjectId);
+
 }

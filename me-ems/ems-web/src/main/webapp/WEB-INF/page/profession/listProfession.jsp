@@ -259,10 +259,10 @@
                 success: function (result) {
                     $("body").loading("hide");
                     if (result.success) {
-                        $("#tipContent").html("删除成功。");
+                        $("#tipContent").html(result.message);
                         $("#professionTable").bootstrapTable("refresh");
                     } else {
-                        $("#tipContent").html("删除失败。");
+                        $("#tipContent").html(result.message);
                     }
                     $("#outcomeModal").modal("show");
                 }
@@ -319,10 +319,10 @@
                 success: function (result) {
                     $("body").loading("hide");
                     if (result.success) {
-                        $("#tipContent").html("修改成功。");
+                        $("#tipContent").html(result.message);
                         $("#professionTable").bootstrapTable("refresh");
                     } else {
-                        $("#tipContent").html("该学院已存在此专业。");
+                        $("#tipContent").html(result.message);
                     }
                     $("#outcomeModal").modal("show");
                 }
@@ -368,10 +368,10 @@
                 success: function (result) {
                     $("body").loading("hide");
                     if (result.success) {
-                        $("#tipContent").html("添加成功。");
+                        $("#tipContent").html(result.message);
                         $("#professionTable").bootstrapTable("refresh");
                     } else {
-                        $("#tipContent").html("该学院中已存在此专业。");
+                        $("#tipContent").html(result.message);
                     }
                     $("#outcomeModal").modal("show");
                 }

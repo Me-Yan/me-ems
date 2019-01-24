@@ -45,4 +45,30 @@
         LIMIT #{pagination.begin}, #{pagination.limit}
     </select>
 
+    <select id="getSubjectById" parameterType="java.lang.Integer" resultType="com.me.inner.dto.SubjectDTO">
+        SELECT
+            subjectId_n AS subjectId,
+            name_m AS name,
+            active_c AS active,
+            create_dt AS createDate,
+            create_m AS createBy,
+            DATE_FORMAT(create_dt, '%Y-%m-%d') AS createDateStr
+        FROM ems_subject
+        WHERE subjectId_n = #{subjectId, jdbcType=INTEGER}
+    </select>
+
+    <update id="updateSubject" parameterType="com.me.inner.dto.SubjectDTO">
+        UPDATE ems_subject
+        SET name_m = #{name, jdbcType=VARCHAR},update_dt = #{updateDate, jdbcType=TIMESTAMP}, update_m = #{updateBy, jdbcType=VARCHAR}
+        WHERE subjectId_n = #{subjectId, jdbcType=INTEGER}
+    </update>
+
+    <update id="deleteBySubjectId" parameterType="com.me.inner.dto.SubjectDTO">
+        UPDATE ems_subject SET active_c = 'I' WHERE subjectId_n = #{subjectId, jdbcType=INTEGER}
+    </update>
+
+    <update id="restoreBySubjectId" parameterType="java.lang.Integer">
+        UPDATE ems_subject SET active_c = 'A' WHERE subjectId_n = #{subjectId, jdbcType=INTEGER}
+    </update>
+
 </mapper>

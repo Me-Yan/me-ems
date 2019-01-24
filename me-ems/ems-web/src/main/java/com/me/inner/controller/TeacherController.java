@@ -65,9 +65,7 @@ public class TeacherController {
 
         PaginationDTO pagination = CommonUtil.packagePagination(request);
 
-        teacherService.listTeacherByCondition(facultyId, pagination);
-
-        return pagination;
+        return teacherService.listTeacherByCondition(facultyId, pagination);
     }
 
     @RequestMapping("addTeacher")
@@ -75,9 +73,7 @@ public class TeacherController {
     public ResponseData addTeacher(@ModelAttribute("teacherForm") TeacherDTO teacherForm) {
         logger.debug("Execute Method addTeacher...");
 
-        boolean valid = teacherService.saveTeacher(teacherForm);
-
-        return new ResponseData(valid);
+        return teacherService.saveTeacher(teacherForm);
     }
 
     @RequestMapping("getTeacher")
@@ -93,9 +89,7 @@ public class TeacherController {
     public ResponseData updateTeacher(@ModelAttribute("teacherForm") TeacherDTO teacherForm) {
         logger.debug("Execute Method updateTeacher...");
 
-        boolean valid = teacherService.updateTeacher(teacherForm);
-
-        return new ResponseData(valid);
+        return teacherService.updateTeacher(teacherForm);
     }
 
     @RequestMapping("deleteTeacher")
@@ -103,9 +97,7 @@ public class TeacherController {
     public ResponseData deleteTeacher(@RequestParam("teacherId") Integer teacherId) {
         logger.debug("Execute Method deleteTeacher...");
 
-        boolean valid = teacherService.deleteByTeacherId(teacherId);
-
-        return new ResponseData(valid);
+        return teacherService.deleteByTeacherId(teacherId);
     }
 
     @RequestMapping("restoreTeacher")

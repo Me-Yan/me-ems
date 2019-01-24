@@ -14,4 +14,12 @@ public interface SubjectService {
     PaginationDTO listSubjectData(String subjectName, PaginationDTO pagination);
 
     ResponseData saveSubject(SubjectDTO subject);
+
+    SubjectDTO getSubjectById(Integer subjectId);
+
+    ResponseData updateSubject(SubjectDTO subject);
+
+    ResponseData deleteSubject(Integer subjectId);
+
+    ResponseData restoreSubject(Integer subjectId);
 }

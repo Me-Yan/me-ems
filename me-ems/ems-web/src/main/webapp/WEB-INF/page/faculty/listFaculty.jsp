@@ -92,7 +92,7 @@
                     <p>确认添加该学院？</p>
                 </div>
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" class="btn btn-primary" id="btnConfirm">提交</button>
+                    <button type="button" class="btn btn-primary" id="btnConfirm">确认</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>
@@ -143,7 +143,7 @@
                     <p>确认修改该学院？</p>
                 </div>
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" class="btn btn-primary" id="btnEditConfirm">提交</button>
+                    <button type="button" class="btn btn-primary" id="btnEditConfirm">确认</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>
@@ -162,7 +162,7 @@
                     <p>删除该学院，同时会删除所有与该学院相关的所有信息，请谨慎操作，确定删除？</p>
                 </div>
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" class="btn btn-primary" id="btnDelete">提交</button>
+                    <button type="button" class="btn btn-primary" id="btnDelete">确认</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>
@@ -181,7 +181,7 @@
                     <p>恢复学院会同时恢复该学院下的专业及其专业对应的课程和所有的班级，但需要重新安排班级课程，请谨慎操作，确认恢复？</p>
                 </div>
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" class="btn btn-primary" id="btnRestore">提交</button>
+                    <button type="button" class="btn btn-primary" id="btnRestore">确认</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>
@@ -195,7 +195,8 @@
         $(function () {
             initTable();
         });
-        
+
+        // 恢复学院
         function restoreModal(facultyId) {
             restoreId = facultyId;
             $("#restoreModal").modal("show");
@@ -212,10 +213,10 @@
                 success: function (result) {
                     $("body").loading("hide");
                     if (result.success) {
-                        $("#tipContent").html("恢复成功。");
+                        $("#tipContent").html(result.message);
                         $("#facultyTable").bootstrapTable("refresh");
                     } else {
-                        $("#tipContent").html("恢复失败。");
+                        $("#tipContent").html(result.message);
                     }
                     $("#outcomeModal").modal("show");
                 }
@@ -239,10 +240,10 @@
                 success: function (result) {
                     $("body").loading("hide");
                     if (result.success) {
-                        $("#tipContent").html("删除成功。");
+                        $("#tipContent").html(result.message);
                         $("#facultyTable").bootstrapTable("refresh");
                     } else {
-                        $("#tipContent").html("删除失败。");
+                        $("#tipContent").html(result.message);
                     }
                     $("#outcomeModal").modal("show");
                 }
@@ -297,10 +298,10 @@
                 success: function (result) {
                     $("body").loading("hide");
                     if (result.success) {
-                        $("#tipContent").html("修改成功。");
+                        $("#tipContent").html(result.message);
                         $("#facultyTable").bootstrapTable("refresh");
                     } else {
-                        $("#tipContent").html("该学院已存在。");
+                        $("#tipContent").html(result.message);
                     }
                     $("#outcomeModal").modal("show");
                 }
@@ -346,10 +347,10 @@
                 success: function (result) {
                     $("body").loading("hide");
                     if (result.success) {
-                        $("#tipContent").html("添加成功。");
+                        $("#tipContent").html(result.message);
                         $("#facultyTable").bootstrapTable("refresh");
                     } else {
-                        $("#tipContent").html("该学院已存在。");
+                        $("#tipContent").html(result.message);
                     }
                     $("#outcomeModal").modal("show");
                 }

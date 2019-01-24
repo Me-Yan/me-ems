@@ -132,7 +132,7 @@
     </insert>
 
     <update id="deleteUserByUsername" parameterType="java.lang.String">
-        UPDATE ems_user SET enabled_c = 'I' WHERE username_m = #{username, jdbcType=VARCHAR}
+        UPDATE ems_user SET enabled_c = 'N' WHERE username_m = #{username, jdbcType=VARCHAR}
     </update>
 
     <update id="resetPasswordByUsername">

@@ -58,8 +58,11 @@ public class TeacherServiceImpl implements TeacherService {
         return pagination;
     }
 
-    public boolean saveTeacher(TeacherDTO teacher) {
+    public ResponseData saveTeacher(TeacherDTO teacher) {
         logger.debug("Execute Method saveTeacher...");
+
+        boolean valid = false;
+        String message = "";
 
         try {
             Date now = new Date();
@@ -97,11 +100,14 @@ public class TeacherServiceImpl implements TeacherService {
 
             securityMapper.saveUser2Role(user2Role);
 
-            return true;
+            valid = true;
+            message = "添加成功。";
         } catch (Exception e) {
             logger.error("添加老师发生错误", e);
-            return false;
+            message = "添加异常，请重新操作。";
         }
+
+        return new ResponseData(valid, message);
     }
 
     public TeacherDTO getByTeacherId(Integer teacherId) {
@@ -110,8 +116,11 @@ public class TeacherServiceImpl implements TeacherService {
         return teacherMapper.getByTeacherId(teacherId);
     }
 
-    public boolean updateTeacher(TeacherDTO teacher) {
+    public ResponseData updateTeacher(TeacherDTO teacher) {
         logger.debug("Execute Method updateTeacher...");
+
+        boolean valid = false;
+        String message = "";
 
         try {
             teacher.setBirthDate(DateUtil.parseDate(teacher.getBirthDateStr(), CommonConstant.Pattern.YYYY_MM_DD));
@@ -120,17 +129,21 @@ public class TeacherServiceImpl implements TeacherService {
 
             teacherMapper.updateTeacher(teacher);
 
-            return true;
+            valid = true;
+            message = "修改成功。";
         } catch (Exception e) {
             logger.error("修改老师发生错误", e);
-            return false;
+            message = "修改异常，请重新操作。";
         }
+
+        return new ResponseData(valid, message);
     }
 
-    public boolean deleteByTeacherId(Integer teacherId) {
+    public ResponseData deleteByTeacherId(Integer teacherId) {
         logger.debug("Execute Method deleteTeacherById...");
 
         boolean valid = false;
+        String message = "";
         try {
             // 生成学生的成绩
             Map<Integer, List<StudentDTO>> studentMap = Maps.newHashMap(); // clazzId, student list
@@ -170,17 +183,18 @@ public class TeacherServiceImpl implements TeacherService {
             // 删除课程表
             curriculumMapper.deleteCurriculumByTeacherId(teacherId);
             // 删除老师的登录信息
-            TeacherDTO teacher = teacherMapper.getByTeacherId(teacherId);
-            securityMapper.deleteUserByUsername(teacher.getNumber());
+            teacherMapper.deleteLoginByTeacherId(teacherId);
             // 删除老师
             teacherMapper.deleteByTeacherId(teacherId);
 
             valid = true;
+            message = "删除成功。";
         } catch (Exception e) {
             logger.error("删除老师发生错误。", e);
+            message = "删除异常，请重新操作。";
         }
 
-        return valid;
+        return new ResponseData(valid, message);
     }
 
     public ResponseData restoreTeacher(Integer teacherId) {
