@@ -27,7 +27,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("teacher")
-public class TeacherController {
+public class TeacherController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(TeacherController.class);
 

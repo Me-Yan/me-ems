@@ -386,6 +386,11 @@
             $("#professionForm").data("formValidation").destroy();
         });
 
+        // 查询
+        $("#facultyName").on("change", function () {
+            $("#professionTable").bootstrapTable("refresh");
+        });
+
         var serialNo = 1;
         function queryParams(params) {
             serialNo = params.offset;
@@ -395,10 +400,6 @@
                 limit: params.limit
             };
         }
-
-        $("#facultyName").on("change", function () {
-            $("#professionTable").bootstrapTable("refresh");
-        });
 
         function initTable() {
             $("#professionTable").bootstrapTable({

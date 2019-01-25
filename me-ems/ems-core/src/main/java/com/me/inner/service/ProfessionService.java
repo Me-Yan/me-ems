@@ -15,6 +15,8 @@ public interface ProfessionService {
 
     PaginationDTO listProfessionByFacultyId(Integer facultyId, PaginationDTO pagination);
 
+    List<ProfessionDTO> listAllByFacultyId(Integer facultyId);
+
     ResponseData addProfession(ProfessionDTO profession);
 
     ProfessionDTO getByProfessionId(Integer professionId);

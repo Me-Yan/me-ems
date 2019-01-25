@@ -53,6 +53,12 @@ public class ProfessionServiceImpl implements ProfessionService {
         return pagination;
     }
 
+    public List<ProfessionDTO> listAllByFacultyId(Integer facultyId) {
+        logger.debug("Execute Method listAllByFacultyId...");
+
+        return professionMapper.listAllByFacultyId(facultyId);
+    }
+
     public ResponseData addProfession(ProfessionDTO profession) {
         logger.debug("Execute Method addProfession...");
 

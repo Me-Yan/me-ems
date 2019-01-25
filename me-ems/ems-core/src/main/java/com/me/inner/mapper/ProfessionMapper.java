@@ -15,6 +15,8 @@ public interface ProfessionMapper {
 
     List<ProfessionDTO> listProfessionByFacultyId(@Param("facultyId") Integer facultyId, @Param("pagination") PaginationDTO pagination);
 
+    List<ProfessionDTO> listAllByFacultyId(@Param("facultyId") Integer facultyId);
+
     int countProfessionByCondition(ProfessionDTO profession);
 
     void saveProfession(ProfessionDTO profession);

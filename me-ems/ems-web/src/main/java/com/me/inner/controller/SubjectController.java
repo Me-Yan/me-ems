@@ -16,14 +16,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * Created by yanyanghong on 2019/1/24.
  */
 @Controller
 @RequestMapping("subject")
-public class SubjectController {
+public class SubjectController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(SubjectController.class);
 

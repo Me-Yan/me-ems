@@ -33,6 +33,25 @@
         LIMIT #{pagination.begin}, #{pagination.limit}
     </select>
 
+    <select id="listAllByFacultyId" resultType="com.me.inner.dto.ProfessionDTO">
+        SELECT
+            p.professionId_n AS professionId,
+            p.facultyId_n AS facultyId,
+            p.name_m AS name,
+            p.active_c AS active,
+            p.create_dt AS createDate,
+            p.create_m AS createBy,
+            p.update_dt AS updateDate,
+            p.update_m AS updateBy,
+            f.name_m AS facultyName,
+            f.active_c AS facultyActive
+        FROM ems_profession p
+        LEFT JOIN ems_faculty f ON p.facultyId_n = f.facultyId_n
+        <if test="facultyId!=null and facultyId!=''">
+            WHERE f.facultyId_n= #{facultyId, jdbcType=INTEGER}
+        </if>
+    </select>
+
     <select id="countProfessionByCondition" parameterType="com.me.inner.dto.ProfessionDTO" resultType="int">
         SELECT COUNT(1) FROM ems_profession
         WHERE facultyId_n = #{facultyId, jdbcType=INTEGER} AND name_m = #{name, jdbcType=VARCHAR}

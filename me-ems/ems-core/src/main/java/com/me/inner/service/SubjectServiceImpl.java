@@ -39,12 +39,6 @@ public class SubjectServiceImpl implements SubjectService {
     @Autowired
     private Profession2SubjectMapper profession2SubjectMapper;
 
-    @Autowired
-    private ProfessionMapper professionMapper;
-
-    @Autowired
-    private FacultyMapper facultyMapper;
-
     private Logger logger = LoggerFactory.getLogger(SubjectServiceImpl.class);
 
     public PaginationDTO listSubjectData(String subjectName, PaginationDTO pagination) {
@@ -110,13 +104,20 @@ public class SubjectServiceImpl implements SubjectService {
 
         try {
             subject.setName(StringUtils.trim(subject.getName()));
-            subject.setUpdateDate(new Date());
-            subject.setUpdateBy(SecurityUtil.getUserInfo().getUsername());
 
-            subjectMapper.updateSubject(subject);
 
-            valid = true;
-            message = "修改成功。";
+            int total = subjectMapper.countSubjectByName(subject.getName());
+            if (total>0) {
+                valid = false;
+                message = "课程已存在。";
+            } else {
+                subject.setUpdateDate(new Date());
+                subject.setUpdateBy(SecurityUtil.getUserInfo().getUsername());
+                subjectMapper.updateSubject(subject);
+
+                valid = true;
+                message = "修改成功。";
+            }
         } catch (Exception e) {
             logger.error("修改异常。", e);
             message = "修改异常，请重新操作。";

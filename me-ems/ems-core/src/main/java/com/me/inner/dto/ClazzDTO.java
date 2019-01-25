@@ -15,8 +15,64 @@ public class ClazzDTO implements Serializable {
     private Integer gradeName;    //  年级
     private String clazzName;   //  班级名
     private Integer professionId;   // 专业id
+    private String active;      // 作废, 有效
     private Date createDate;    //  创建时间
     private String createBy;    //  创建人
+
+    // for view or operation
+    private Integer facultyId;
+    private String facultyName;
+    private String facultyActive;
+    private String professionName;
+    private String professionActive;
+
+    public Integer getFacultyId() {
+        return facultyId;
+    }
+
+    public void setFacultyId(Integer facultyId) {
+        this.facultyId = facultyId;
+    }
+
+    public String getFacultyName() {
+        return facultyName;
+    }
+
+    public void setFacultyName(String facultyName) {
+        this.facultyName = facultyName;
+    }
+
+    public String getFacultyActive() {
+        return facultyActive;
+    }
+
+    public void setFacultyActive(String facultyActive) {
+        this.facultyActive = facultyActive;
+    }
+
+    public String getProfessionName() {
+        return professionName;
+    }
+
+    public void setProfessionName(String professionName) {
+        this.professionName = professionName;
+    }
+
+    public String getProfessionActive() {
+        return professionActive;
+    }
+
+    public void setProfessionActive(String professionActive) {
+        this.professionActive = professionActive;
+    }
+
+    public String getActive() {
+        return active;
+    }
+
+    public void setActive(String active) {
+        this.active = active;
+    }
 
     public Integer getClazzId() {
         return clazzId;
