@@ -31,4 +31,10 @@ public interface ClazzMapper {
     int countClazzByCondition(@Param("professionId") Integer professionId, @Param("gradeName") String gradeName, @Param("clazzName") String clazzName);
 
     void deleteByClazzId(Integer clazzId);
+
+    void restoreByClazzId(Integer clazzId);
+
+    ClazzDTO getByClazzId(Integer clazzId);
+
+    List<ClazzDTO> listByProfessionId(Integer professionId);
 }

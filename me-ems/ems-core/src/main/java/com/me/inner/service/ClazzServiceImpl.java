@@ -120,4 +120,44 @@ public class ClazzServiceImpl implements ClazzService {
 
         return new ResponseData(valid, message);
     }
+
+    public ResponseData restoreClazz(Integer clazzId) {
+        logger.debug("Execute Method restoreClazz...");
+
+        boolean valid = false;
+        String message = "";
+
+        try {
+            ClazzDTO clazz = clazzMapper.getByClazzId(clazzId);
+            if (CommonConstant.IN_ACTIVE.ACTIVE.equals(clazz.getFacultyActive())) {
+                if (CommonConstant.IN_ACTIVE.ACTIVE.equals(clazz.getProfessionActive())) {
+                    // 恢复学生登录信息
+                    studentMapper.restoreLoginByClazzId(clazzId);
+                    // 恢复学生信息
+                    studentMapper.restoreByClazzId(clazzId);
+                    // 恢复班级
+                    clazzMapper.restoreByClazzId(clazzId);
+
+                    valid = true;
+                    message = "恢复成功。";
+                } else {
+                    message = "所属专业被删除。";
+                }
+            } else {
+                message = "所属学院被删除。";
+            }
+
+        } catch (Exception e) {
+            logger.error("恢复班级异常", e);
+            message = "恢复班级异常，请重新操作。";
+        }
+
+        return new ResponseData(valid, message);
+    }
+
+    public List<ClazzDTO> listByProfessionId(Integer professionId) {
+        logger.debug("Execute Method listByProfessionId...");
+
+        return clazzMapper.listByProfessionId(professionId);
+    }
 }

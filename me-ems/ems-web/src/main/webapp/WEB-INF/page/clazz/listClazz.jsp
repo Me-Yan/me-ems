@@ -1,6 +1,7 @@
-<%@ page import="com.me.inner.constant.CommonConstant" %><%--
+<%@ page import="com.me.inner.constant.CommonConstant" %>
+<%--
   Created by IntelliJ IDEA.
-  User: YanYanghong
+  User: Me
   Date: 2019/1/25
   Time: 10:24
   To change this template use File | Settings | File Templates.
@@ -195,11 +196,58 @@
         </div>
     </div>
 
+    <%-- 恢复班级 --%>
+    <div class="modal fade" id="restoreModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <p>恢复班级会同时恢复之前有效的学生，确认恢复？</p>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-primary" id="btnRestore">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         var deleteId;
+        var restoreId;
         $(function () {
             initSelect();
             initTable();
+        });
+
+        // 恢复班级
+        function restoreModal(professionId) {
+            restoreId = professionId;
+            $("#restoreModal").modal("show");
+        }
+        $("#btnRestore").on("click", function () {
+            $("#restoreModal").modal("hide");
+            $("body").loading("请稍等。。。");
+            $.ajax({
+                url: "${pageContext.request.contextPath}/clazz/restoreClazz",
+                type: "post",
+                data: {
+                    clazzId: restoreId
+                },
+                success: function (result) {
+                    $("body").loading("hide");
+                    if (result.success) {
+                        $("#tipContent").html(result.message);
+                        $("#clazzTable").bootstrapTable("refresh");
+                    } else {
+                        $("#tipContent").html(result.message);
+                    }
+                    $("#outcomeModal").modal("show");
+                }
+            });
         });
 
         // 删除班级
@@ -423,13 +471,14 @@
                                 if ("<%=CommonConstant.IN_ACTIVE.ACTIVE%>" === row.professionActive) {
                                     var content = '<div class="btn-group">';
                                     if ("<%=CommonConstant.IN_ACTIVE.ACTIVE%>" === row.active) {
-                                        content += '<button type="button" class="btn btn-danger" onclick="deleteModal('+row.professionId+')">删除</button>';
+                                        content += '<button type="button" class="btn btn-danger" onclick="deleteModal('+row.clazzId+')">删除</button>';
                                     } else {
-                                        content += '<button type="button" class="btn btn-success" onclick="restoreModal('+row.professionId+')">恢复</button>';
+                                        content += '<button type="button" class="btn btn-success" onclick="restoreModal('+row.clazzId+')">恢复</button>';
                                     }
 
                                     return  content + '</div>';
                                 }
+                                return "所属专业被删除";
                             }
 
                             return "所属学院被删除";

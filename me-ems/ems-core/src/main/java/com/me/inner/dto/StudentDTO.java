@@ -13,7 +13,7 @@ public class StudentDTO implements Serializable {
     private Integer studentId;  // 学生id
     private String number;  //  学号
     private String name;    //  姓名
-    private String professionId;    // 专业id
+    private Integer professionId;    // 专业id
     private Integer clazzId;    // 班级id
     private String from;    //  出生地
     private Integer age;    //  年龄
@@ -24,6 +24,84 @@ public class StudentDTO implements Serializable {
     private String createBy;    //  创建人
     private Date updateDate;    //  修改时间
     private String updateBy;    //  修改人
+
+    // view or operation
+    private Integer facultyId;
+    private String facultyName;
+    private String facultyActive;
+    private String professionName;
+    private String professionActive;
+    private String clazzName;
+    private String clazzActive;
+    private String gradeName;
+
+    public String getGradeName() {
+        return gradeName;
+    }
+
+    public void setGradeName(String gradeName) {
+        this.gradeName = gradeName;
+    }
+
+    public String getFacultyActive() {
+        return facultyActive;
+    }
+
+    public void setFacultyActive(String facultyActive) {
+        this.facultyActive = facultyActive;
+    }
+
+    public String getProfessionActive() {
+        return professionActive;
+    }
+
+    public void setProfessionActive(String professionActive) {
+        this.professionActive = professionActive;
+    }
+
+    public String getClazzActive() {
+        return clazzActive;
+    }
+
+    public void setClazzActive(String clazzActive) {
+        this.clazzActive = clazzActive;
+    }
+
+    public Integer getFacultyId() {
+        return facultyId;
+    }
+
+    public void setFacultyId(Integer facultyId) {
+        this.facultyId = facultyId;
+    }
+
+    public String getFacultyName() {
+        return facultyName;
+    }
+
+    public void setFacultyName(String facultyName) {
+        this.facultyName = facultyName;
+    }
+
+    public void setProfessionId(Integer professionId) {
+        this.professionId = professionId;
+    }
+
+    public String getProfessionName() {
+        return professionName;
+    }
+
+    public void setProfessionName(String professionName) {
+        this.professionName = professionName;
+    }
+
+    public String getClazzName() {
+        return clazzName;
+    }
+
+    public void setClazzName(String clazzName) {
+        this.clazzName = clazzName;
+    }
 
     public Integer getStudentId() {
         return studentId;
@@ -49,12 +127,8 @@ public class StudentDTO implements Serializable {
         this.name = name;
     }
 
-    public String getProfessionId() {
+    public Integer getProfessionId() {
         return professionId;
-    }
-
-    public void setProfessionId(String professionId) {
-        this.professionId = professionId;
     }
 
     public String getActive() {

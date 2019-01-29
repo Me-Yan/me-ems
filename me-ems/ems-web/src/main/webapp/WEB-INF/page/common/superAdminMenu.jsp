@@ -5,6 +5,7 @@
 <script>
     $(function () {
         $(".downlist-content").maps();
+        $(".venus-menu .showhide .title").html("菜单");
     });
 </script>
 
@@ -26,11 +27,7 @@
             <a href="${pageContext.request.contextPath}/clazz/listClazz">班级列表</a>
         </li>
         <li>
-            <a href="javascript:void(0);">学生管理</a>
-            <ul>
-                <li><a href="#">学生列表</a></li>
-                <li><a href="#">添加学生</a></li>
-            </ul>
+            <a href="${pageContext.request.contextPath}/student/listStudent">学生管理</a>
         </li>
         <li>
             <a href="javascript:void(0);">成绩管理</a>

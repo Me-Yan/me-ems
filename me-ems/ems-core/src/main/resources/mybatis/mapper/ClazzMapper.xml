@@ -117,4 +117,44 @@
         UPDATE ems_class SET active_c = 'I' WHERE classId_n = #{clazzId, jdbcType=INTEGER}
     </update>
 
+    <update id="restoreByClazzId" parameterType="java.lang.Integer">
+        UPDATE ems_class SET active_c = 'A' WHERE classId_n = #{clazzId, jdbcType=INTEGER}
+    </update>
+
+    <select id="getByClazzId" parameterType="java.lang.Integer" resultType="com.me.inner.dto.ClazzDTO">
+        SELECT
+            c.classId_n AS clazzId,
+            c.grade_m AS gradeName,
+            c.class_m AS clazzName,
+            c.professionId_n AS professionId,
+            c.active_c AS active,
+            c.create_dt AS createDate,
+            c.create_m AS createBy,
+            f.name_m AS facultyName,
+            f.active_c AS facultyActive,
+            p.name_m AS professionName,
+            p.active_c AS professionActive
+        FROM ems_class c
+        LEFT JOIN ems_profession p ON c.professionId_n = p.professionId_n
+        LEFT JOIN ems_faculty f ON p.facultyId_n = f.facultyId_n
+        WHERE c.classId_n = #{clazzId, jdbcType=INTEGER}
+    </select>
+
+    <select id="listByProfessionId" parameterType="java.lang.Integer" resultType="com.me.inner.dto.ClazzDTO">
+        SELECT
+            c.classId_n AS clazzId,
+            c.grade_m AS gradeName,
+            c.class_m AS clazzName,
+            c.professionId_n AS professionId,
+            c.active_c AS active,
+            c.create_dt AS createDate,
+            c.create_m AS createBy,
+            f.name_m AS facultyName,
+            f.active_c AS facultyActive,
+            p.name_m AS professionName,
+            p.active_c AS professionActive
+        FROM ems_class c
+        WHERE c.professionId_n = #{professionId}
+    </select>
+
 </mapper>

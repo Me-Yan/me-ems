@@ -78,13 +78,89 @@
 
     <update id="deleteLoginByClazzId" parameterType="java.lang.Integer">
         UPDATE ems_user u
-        LEFT JOIN  ems_student s ON u.username_m = s.number_x
-        SET u.enabled_c = 'Y'
+        LEFT JOIN ems_student s ON u.username_m = s.number_x
+        SET u.enabled_c = 'N'
         WHERE s.classId_n = #{classId, jdbcType=INTEGER} AND s.active_c = 'A'
     </update>
 
     <update id="deleteByClazzId" parameterType="java.lang.Integer">
-        UPDATE ems_student SET active_c = 'I' WHERE classId_n = #{classId, jdbcType=INTEGER} AND active_c = 'A'
+        UPDATE ems_student SET active_c = 'C' WHERE classId_n = #{classId, jdbcType=INTEGER} AND (active_c = 'A' OR active_c = 'P' OR active_c = 'F')
     </update>
+
+    <update id="restoreLoginByClazzId" parameterType="java.lang.Integer">
+        UPDATE ems_user u
+        LEFT JOIN ems_student s ON u.username_m = s.number_x
+        SET u.enabled_c = 'Y'
+        WHERE s.classId_n = #{classId, jdbcType=INTEGER} AND s.active_c = 'C'
+    </update>
+
+    <update id="restoreByClazzId" parameterType="java.lang.Integer">
+        UPDATE ems_student SET active_c = 'A' WHERE classId_n = #{classId, jdbcType=INTEGER} AND active_c = 'C'
+    </update>
+
+    <select id="countByCondition" resultType="int">
+        SELECT COUNT(1) FROM ems_student s
+        LEFT JOIN ems_class c ON s.classId_n = c.classId_n
+        LEFT JOIN ems_profession p ON c.professionId_n = p.professionId_n
+        LEFT JOIN ems_faculty f ON p.facultyId_n = f.facultyId_n
+        WHERE 1 = 1
+        <if test="gradeName!=null and gradeName!=''">
+            AND c.grade_m = #{gradeName}
+        </if>
+        <if test="facultyId!=null and facultyId!=''">
+            AND f.facultyId_n = #{facultyId}
+        </if>
+        <if test="professionId!=null and professionId!=''">
+            AND p.professionId_n = #{professionId}
+        </if>
+        <if test="clazzId!=null and clazzId!=''">
+            AND c.classId_n = #{classId_n}
+        </if>
+    </select>
+
+    <select id="listByCondition" resultType="com.me.inner.dto.StudentDTO">
+        SELECT
+            s.studentId_n AS studentId,
+            s.number_x AS number,
+            s.name_m AS name,
+            s.professionId_n AS professionId,
+            s.classId_n AS clazzId,
+            s.from_x AS from,
+            s.age_n AS age,
+            s.sex_n AS sex,
+            s.birth_dt AS birthDate,
+            s.active_c AS active,
+            s.create_dt AS createDate,
+            s.create_m AS createBy,
+            s.update_dt AS updateDate,
+            s.update_m AS updateBy,
+            f.facultyId_n AS facultyId,
+            f.name_m AS facultyName,
+            f.active_c AS facultyActive,
+            p.name_m AS professionName,
+            p.active_c AS professionActive,
+            c.grade_m AS gradeName,
+            c.class_m AS clazzName,
+            c.active_c AS clazzActive
+        FROM ems_student s
+        LEFT JOIN ems_class c ON s.classId_n = c.classId_n
+        LEFT JOIN ems_profession p ON c.professionId_n = p.professionId_n
+        LEFT JOIN ems_faculty f ON p.facultyId_n = f.facultyId_n
+        WHERE 1 = 1
+        <if test="gradeName!=null and gradeName!=''">
+            AND c.grade_m = #{gradeName}
+        </if>
+        <if test="facultyId!=null and facultyId!=''">
+            AND f.facultyId_n = #{facultyId}
+        </if>
+        <if test="professionId!=null and professionId!=''">
+            AND p.professionId_n = #{professionId}
+        </if>
+        <if test="clazzId!=null and clazzId!=''">
+            AND c.classId_n = #{classId_n}
+        </if>
+        LIMIT #{pagination.begin}, #{pagination.limit}
+        ORDER BY s.number_x ASC
+    </select>
 
 </mapper>

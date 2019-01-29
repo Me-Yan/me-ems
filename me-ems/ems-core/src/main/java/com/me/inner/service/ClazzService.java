@@ -18,4 +18,8 @@ public interface ClazzService {
     ResponseData saveClazz(ClazzDTO clazz);
 
     ResponseData deleteByClazzId(Integer clazzId);
+
+    ResponseData restoreClazz(Integer clazzId);
+
+    List<ClazzDTO> listByProfessionId(Integer professionId);
 }

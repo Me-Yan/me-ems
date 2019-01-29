@@ -112,4 +112,12 @@ public class ClazzController extends BaseController {
 
         return clazzService.deleteByClazzId(clazzId);
     }
+
+    @RequestMapping("restoreClazz")
+    @ResponseBody
+    public ResponseData restoreClazz(@ModelAttribute("clazzId") Integer clazzId) {
+        logger.debug("Execute Method restoreClazz...");
+
+        return clazzService.restoreClazz(clazzId);
+    }
 }
