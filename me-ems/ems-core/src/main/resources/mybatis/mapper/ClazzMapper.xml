@@ -74,4 +74,47 @@
         SELECT DISTINCT grade_m FROM ems_class ORDER BY grade_m DESC
     </select>
 
+    <select id="countClazzByCondition" resultType="int">
+        SELECT COUNT(1) FROM ems_class
+        WHERE 1 = 1
+        <if test="professionId!=null and professionId!=''">
+            AND professionId_n = #{professionId}
+        </if>
+        <if test="professionId!=null and professionId!=''">
+            AND grade_m = #{gradeName}
+        </if>
+        <if test="professionId!=null and professionId!=''">
+            AND class_m = #{clazzName}
+        </if>
+    </select>
+
+    <insert id="saveClazz" parameterType="com.me.inner.dto.ClazzDTO">
+        <if test="clazzList!=null and clazzList.size>0">
+            INSERT INTO ems_class
+            (
+                grade_m,
+                class_m,
+                professionId_n,
+                active_c,
+                create_dt,
+                create_m
+            )
+            VALUES
+            <foreach collection="clazzList" item="clazz" separator=",">
+            (
+                #{clazz.gradeName, jdbcType=VARCHAR},
+                #{clazz.clazzName, jdbcType=VARCHAR},
+                #{clazz.professionId, jdbcType=INTEGER},
+                #{clazz.active, jdbcType=CHAR},
+                #{clazz.createDate, jdbcType=TIMESTAMP},
+                #{clazz.createBy, jdbcType=VARCHAR}
+            )
+            </foreach>
+        </if>
+    </insert>
+
+    <update id="deleteByClazzId" parameterType="java.lang.Integer">
+        UPDATE ems_class SET active_c = 'I' WHERE classId_n = #{clazzId, jdbcType=INTEGER}
+    </update>
+
 </mapper>

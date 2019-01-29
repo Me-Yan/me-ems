@@ -27,4 +27,8 @@ public interface StudentMapper {
 
     void restoreByProfessionId(Integer professionId);
 
+    void deleteLoginByClazzId(Integer clazzId);
+
+    void deleteByClazzId(Integer clazzId);
+
 }

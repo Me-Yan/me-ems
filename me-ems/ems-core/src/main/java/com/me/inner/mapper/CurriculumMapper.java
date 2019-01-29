@@ -9,15 +9,17 @@ import java.util.List;
  */
 public interface CurriculumMapper {
 
-    void deleteCurriculumByFacultyId(Integer facultyId);
+    void deleteByFacultyId(Integer facultyId);
 
-    void deleteCurriculumByProfessionId(Integer professionId);
+    void deleteByProfessionId(Integer professionId);
 
-    List<CurriculumDTO> listCurriculumByTeacherId(Integer teacherId);
+    List<CurriculumDTO> listByTeacherId(Integer teacherId);
 
-    void deleteCurriculumByTeacherId(Integer teacherId);
+    void deleteByTeacherId(Integer teacherId);
 
-    List<CurriculumDTO> listCurriculumBySubjectId(Integer subjectId);
+    List<CurriculumDTO> listBySubjectId(Integer subjectId);
 
-    void deleteCurriculumBySubjectId(Integer subjectId);
+    void deleteBySubjectId(Integer subjectId);
+
+    void deleteByClazzId(Integer clazzId);
 }

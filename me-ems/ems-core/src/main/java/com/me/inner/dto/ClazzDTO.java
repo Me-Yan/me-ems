@@ -12,7 +12,7 @@ public class ClazzDTO implements Serializable {
     private static final long serialVersionUID = -2204942443275369743L;
 
     private Integer clazzId;    //  班级id
-    private Integer gradeName;    //  年级
+    private String gradeName;    //  年级
     private String clazzName;   //  班级名
     private Integer professionId;   // 专业id
     private String active;      // 作废, 有效
@@ -25,6 +25,15 @@ public class ClazzDTO implements Serializable {
     private String facultyActive;
     private String professionName;
     private String professionActive;
+    private Integer clazzCount;
+
+    public Integer getClazzCount() {
+        return clazzCount;
+    }
+
+    public void setClazzCount(Integer clazzCount) {
+        this.clazzCount = clazzCount;
+    }
 
     public Integer getFacultyId() {
         return facultyId;
@@ -90,11 +99,11 @@ public class ClazzDTO implements Serializable {
         this.clazzName = clazzName;
     }
 
-    public Integer getGradeName() {
+    public String getGradeName() {
         return gradeName;
     }
 
-    public void setGradeName(Integer gradeName) {
+    public void setGradeName(String gradeName) {
         this.gradeName = gradeName;
     }
 

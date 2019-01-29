@@ -135,7 +135,7 @@ public class SubjectServiceImpl implements SubjectService {
         try {
             // 生成学生的成绩
             Map<Integer, List<StudentDTO>> studentMap = Maps.newHashMap(); // clazzId, student list
-            List<CurriculumDTO> curriculumList = curriculumMapper.listCurriculumBySubjectId(subjectId);
+            List<CurriculumDTO> curriculumList = curriculumMapper.listBySubjectId(subjectId);
             List<ScoreDTO> scoreList = Lists.newArrayList();
             if (!CollectionUtils.isEmpty(curriculumList)) {
                 Date now = new Date();
@@ -169,7 +169,7 @@ public class SubjectServiceImpl implements SubjectService {
                 scoreMapper.saveScoreList(scoreList);
             }
             // 删除课程所在的课表记录
-            curriculumMapper.deleteCurriculumBySubjectId(subjectId);
+            curriculumMapper.deleteBySubjectId(subjectId);
             // 删除专业对应的课程
             profession2SubjectMapper.deleteBySubjectIdIfActiveProfessionAndActiveFaculty(subjectId);
             profession2SubjectMapper.deleteBySubjectIdIfActiveProfessionAndInactiveFaculty(subjectId);

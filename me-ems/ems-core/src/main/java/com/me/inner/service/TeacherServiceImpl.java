@@ -147,7 +147,7 @@ public class TeacherServiceImpl implements TeacherService {
         try {
             // 生成学生的成绩
             Map<Integer, List<StudentDTO>> studentMap = Maps.newHashMap(); // clazzId, student list
-            List<CurriculumDTO> curriculumList = curriculumMapper.listCurriculumByTeacherId(teacherId);
+            List<CurriculumDTO> curriculumList = curriculumMapper.listByTeacherId(teacherId);
             List<ScoreDTO> scoreList = Lists.newArrayList();
             if (!CollectionUtils.isEmpty(curriculumList)) {
                 Date now = new Date();
@@ -181,7 +181,7 @@ public class TeacherServiceImpl implements TeacherService {
                 scoreMapper.saveScoreList(scoreList);
             }
             // 删除课程表
-            curriculumMapper.deleteCurriculumByTeacherId(teacherId);
+            curriculumMapper.deleteByTeacherId(teacherId);
             // 删除老师的登录信息
             teacherMapper.deleteLoginByTeacherId(teacherId);
             // 删除老师

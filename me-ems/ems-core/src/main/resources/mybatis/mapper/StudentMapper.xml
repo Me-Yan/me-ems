@@ -76,4 +76,15 @@
         UPDATE ems_student SET active_c = 'A' WHERE professionId_n  = #{professionId, jdbcType=INTEGER} AND active_c = 'P'
     </update>
 
+    <update id="deleteLoginByClazzId" parameterType="java.lang.Integer">
+        UPDATE ems_user u
+        LEFT JOIN  ems_student s ON u.username_m = s.number_x
+        SET u.enabled_c = 'Y'
+        WHERE s.classId_n = #{classId, jdbcType=INTEGER} AND s.active_c = 'A'
+    </update>
+
+    <update id="deleteByClazzId" parameterType="java.lang.Integer">
+        UPDATE ems_student SET active_c = 'I' WHERE classId_n = #{classId, jdbcType=INTEGER} AND active_c = 'A'
+    </update>
+
 </mapper>

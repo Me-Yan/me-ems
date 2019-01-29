@@ -139,7 +139,7 @@ public class ProfessionServiceImpl implements ProfessionService {
             // 删除在线的学生
             studentMapper.deleteByProfessionId(professionId);
             // 删除课表
-            curriculumMapper.deleteCurriculumByProfessionId(professionId);
+            curriculumMapper.deleteByProfessionId(professionId);
             // 删除专业的课程
             profession2SubjectMapper.deleteByProfessionIdIfActiveSubject(professionId);
             profession2SubjectMapper.deleteByProfessionIdIfInactiveSubject(professionId);

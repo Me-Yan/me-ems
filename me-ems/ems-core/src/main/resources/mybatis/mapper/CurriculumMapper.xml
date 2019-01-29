@@ -4,18 +4,18 @@
 
 <mapper namespace="com.me.inner.mapper.CurriculumMapper">
 
-    <delete id="deleteCurriculumByFacultyId" parameterType="java.lang.Integer">
+    <delete id="deleteByFacultyId" parameterType="java.lang.Integer">
         DELETE c1 FROM ems_curriculum c1
         LEFT JOIN ems_profession p1 ON c1.professionId_n = p1.professionId_n
         LEFT JOIN ems_faculty f1 ON p1.facultyId_n = f1.facultyId_n
         WHERE f1.facultyId_n = #{facultyId, jdbcType=INTEGER}
     </delete>
 
-    <delete id="deleteCurriculumByProfessionId" parameterType="java.lang.Integer">
+    <delete id="deleteByProfessionId" parameterType="java.lang.Integer">
         DELETE FROM ems_curriculum WHERE professionId_n = #{professionId, jdbcType=INTEGER}
     </delete>
 
-    <select id="listCurriculumByTeacherId" parameterType="java.lang.Integer" resultType="com.me.inner.dto.CurriculumDTO">
+    <select id="listByTeacherId" parameterType="java.lang.Integer" resultType="com.me.inner.dto.CurriculumDTO">
         SELECT
             curriculumId_n AS curriculumId,
             subjectId_n AS subjectId,
@@ -29,11 +29,11 @@
         WHERE teacherId_n = #{teacherId, jdbcType=INTEGER}
     </select>
 
-    <delete id="deleteCurriculumByTeacherId" parameterType="java.lang.Integer">
+    <delete id="deleteByTeacherId" parameterType="java.lang.Integer">
         DELETE FROM ems_curriculum WHERE teacherId_n = #{teacherId, jdbcType=INTEGER}
     </delete>
 
-    <select id="listCurriculumBySubjectId" parameterType="java.lang.Integer" resultType="com.me.inner.dto.CurriculumDTO">
+    <select id="listBySubjectId" parameterType="java.lang.Integer" resultType="com.me.inner.dto.CurriculumDTO">
         SELECT
             curriculumId_n AS curriculumId,
             subjectId_n AS subjectId,
@@ -47,8 +47,12 @@
         WHERE subjectId_n = #{subjectId, jdbcType=INTEGER}
     </select>
     
-    <delete id="deleteCurriculumBySubjectId" parameterType="java.lang.Integer">
+    <delete id="deleteBySubjectId" parameterType="java.lang.Integer">
         DELETE FROM ems_curriculum WHERE subjectId_n = #{subjectId, jdbcType=INTEGER}
+    </delete>
+
+    <delete id="deleteByClazzId" parameterType="java.lang.Integer">
+        DELETE FROM ems_curriculum WHERE classId_n = #{classId, jdbcType=INTEGER}
     </delete>
 
 </mapper>

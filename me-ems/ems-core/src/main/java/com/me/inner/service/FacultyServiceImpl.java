@@ -105,7 +105,7 @@ public class FacultyServiceImpl implements FacultyService {
             // 逻辑删除学生
             studentMapper.deleteByFacultyId(facultyId);
             // 删除相应学院的课表
-            curriculumMapper.deleteCurriculumByFacultyId(facultyId);
+            curriculumMapper.deleteByFacultyId(facultyId);
             // 删除专业对应的课程
             profession2SubjectMapper.deleteByFacultyIdIfActiveSubject(facultyId);
             profession2SubjectMapper.deleteByFacultyIdIfInactiveSubject(facultyId);

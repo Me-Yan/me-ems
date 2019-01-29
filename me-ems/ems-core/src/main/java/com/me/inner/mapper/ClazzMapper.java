@@ -26,4 +26,9 @@ public interface ClazzMapper {
 
     List<String> listAllGrade();
 
+    void saveClazz(@Param("clazzList") List<ClazzDTO> clazzList);
+
+    int countClazzByCondition(@Param("professionId") Integer professionId, @Param("gradeName") String gradeName, @Param("clazzName") String clazzName);
+
+    void deleteByClazzId(Integer clazzId);
 }

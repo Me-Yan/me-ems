@@ -1,9 +1,8 @@
 package com.me.inner.controller;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.me.inner.dto.FacultyDTO;
-import com.me.inner.dto.PaginationDTO;
-import com.me.inner.dto.ProfessionDTO;
+import com.me.inner.dto.*;
 import com.me.inner.service.ClazzService;
 import com.me.inner.service.FacultyService;
 import com.me.inner.service.ProfessionService;
@@ -12,12 +11,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -49,8 +51,27 @@ public class ClazzController extends BaseController {
         List<FacultyDTO> facultyList = facultyService.listAllFaculty();
         List<String> gradeList = clazzService.listAllGrade();
 
+        String curYear = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
+        boolean flag = false; // if true, add the current year
+        if (!CollectionUtils.isEmpty(gradeList)) {
+            for (String grade : gradeList) {
+                if (curYear.equals(grade)) {
+                    flag = true;
+                    break;
+                }
+            }
+        }
+
+        List<String> clazzList = Lists.newArrayList();
+        for (int i=1; i<=10; i++) {
+            clazzList.add(Integer.toString(i));
+        }
+
         model.put("facultyList", facultyList);
         model.put("gradeList", gradeList);
+        model.put("curYearFlag", flag);
+        model.put("curYear", curYear);
+        model.put("clazzList", clazzList);
 
         return new ModelAndView("clazz/listClazz", model);
     }
@@ -74,5 +95,21 @@ public class ClazzController extends BaseController {
         logger.debug("Execute Method listProfessionByFacultyId...");
 
         return professionService.listAllByFacultyId(facultyId);
+    }
+
+    @RequestMapping("addClazz")
+    @ResponseBody
+    public ResponseData addClazz(@ModelAttribute("clazzForm") ClazzDTO clazzForm) {
+        logger.debug("Execute Method addClazz...");
+
+        return clazzService.saveClazz(clazzForm);
+    }
+
+    @RequestMapping("deleteClazz")
+    @ResponseBody
+    public ResponseData deleteClazz(@ModelAttribute("clazzId") Integer clazzId) {
+        logger.debug("Execute Method deleteClazz...");
+
+        return clazzService.deleteByClazzId(clazzId);
     }
 }
